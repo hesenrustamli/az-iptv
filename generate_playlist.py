@@ -36,7 +36,7 @@ CONN_ERRORS = (http.client.RemoteDisconnected, ConnectionError,
                TimeoutError, socket.timeout, urllib.error.URLError)
 
 def az_facing(host):
-    return host.endswith(".az") or "mncdn" in host
+    return host.endswith(".az")
 
 def get(name):
     last = None
@@ -58,10 +58,20 @@ for l in get("logos.json"):
         logos[l["channel"]] = l["url"]
 
 BAD_HOSTS = ["raw.githubusercontent.com"]  # dead restream repo
+# Confirmed dead from inside Azerbaijan (not geo-blocking). Excluded both
+# as candidates and from last-known-good retention, so they cannot come
+# back. CBCSport.az/BeyazTV.tr stay in PICKS and rejoin automatically the
+# day iptv-org lists a working stream for them.
+STREAM_BLOCKLIST = {
+    "https://mn-nl.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
+    "https://mn-nl.mncdn.com/blutv_beyaztv2/live.m3u8",
+}
 by = {}
 for s in get("streams.json"):
     cid = s.get("channel")
     if not cid or any(b in s["url"] for b in BAD_HOSTS):
+        continue
+    if s["url"] in STREAM_BLOCKLIST:
         continue
     langs = feed_langs.get((cid, s.get("feed")))
     if langs and not (langs & ALLOWED_LANGS):
@@ -120,7 +130,7 @@ PICKS = {
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","PowerTV.tr","PowerDance.tr","PowerLove.tr","Number1TV.tr","Number1Dance.tr","Number1Damar.tr","MuzTV.ru","RUTV.ru","EuropaPlusTV.ru"],
 "Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","Tastemade.us","TastemadeTravel.us","FashionTVEurope.fr","RealWild.uk","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr"],
-"russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
+"· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
 "Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","ArirangTV.kr","CNA.sg","TVPWorld.pl"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
@@ -174,7 +184,9 @@ def load_previous(path=PLAYLIST):
         elif line.startswith("#EXTVLCOPT"):
             opts.append(line)
         elif line and not line.startswith("#"):
-            if cid:  # first occurrence wins (dual-grouped ids repeat)
+            # first occurrence wins (dual-grouped ids repeat); blocklisted
+            # URLs are never retained
+            if cid and line not in STREAM_BLOCKLIST:
                 prev.setdefault(cid, {"name": name, "opts": opts, "url": line})
             cid, name, opts = None, "", []
     return prev
