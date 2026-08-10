@@ -43,19 +43,20 @@ def rank(s):
     return (any(d in s["url"] for d in OFFICIAL), qscore(s))
 
 PICKS = {
-"Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","AlvinChannelTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az"],
+"Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","IdmanTV.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","AlvinChannelTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az","AzadTV.az","ARB.az"],
 "Ukrayna (rus dilində)": ["FREEDOM.ua"],
 "Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","EuroD.tr","KanalDDrama.tr","DreamTurk.tr","TRT2.tr"],
 "Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
-"İdman": ["ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at"],
+"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","PowerTV.tr","PowerDance.tr","PowerLove.tr","Number1TV.tr","Number1Dance.tr","Number1Damar.tr","MuzTV.ru","RUTV.ru","EuropaPlusTV.ru"],
-"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","Tastemade.us","TastemadeTravel.us","FashionTVEurope.fr"],
+"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","Tastemade.us","TastemadeTravel.us","FashionTVEurope.fr","RealWild.uk","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr"],
 "russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
 "Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","ArirangTV.kr","CNA.sg","TVPWorld.pl"],
 }
-# Note: SpaceTV/ARB24/ARBGunes/StartTV/TRT2 stay in PICKS so they return
-# automatically the day iptv-org gets a working stream for them again.
+# Note: SpaceTV/ARB24/ARBGunes/StartTV/TRT2/IdmanTV/AzadTV/ARB/DMAX stay in
+# PICKS so they return automatically the day iptv-org gets a working stream
+# for them again. CBCSport/IdmanTV appear in two groups on purpose.
 
 RENAME = {"Russia1.ru": "russia 1", "EuronewsRussian.fr": "Euronews russian"}
 
