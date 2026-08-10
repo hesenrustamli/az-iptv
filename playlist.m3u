@@ -1,8 +1,12 @@
 #EXTM3U
 #EXTINF:-1 tvg-id="AzTV.az" tvg-logo="https://i.imgur.com/snBMMeH.png" group-title="Azərbaycan 🇦🇿",Az TV (1080p)
 https://str.yodacdn.net/azertv/index.m3u8
+#EXTINF:-1 tvg-id="IctimaiTV.az" tvg-logo="https://i.imgur.com/HzY4VMo.png" group-title="Azərbaycan 🇦🇿",Ictimai TV
+https://live.itv.az/itv.m3u8
 #EXTINF:-1 tvg-id="XezerTV.az" tvg-logo="https://upload.wikimedia.org/wikipedia/en/9/97/X%C9%99z%C9%99r_TV_Logo.png" group-title="Azərbaycan 🇦🇿",Xezer TV (720p)
 https://www.xezerxeber.az/stream/index.m3u8
+#EXTINF:-1 tvg-id="CBCSport.az" tvg-logo="https://i.imgur.com/3mEdjuq.png" group-title="Azərbaycan 🇦🇿",CBC Sport
+https://mn-nl.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8
 #EXTINF:-1 tvg-id="BakuTV.az" tvg-logo="https://i.imgur.com/r4FzxSg.png" group-title="Azərbaycan 🇦🇿",Baku.TV
 https://rtmp.baku.tv/hls/bakutv.m3u8
 #EXTINF:-1 tvg-id="APATv.az" tvg-logo="https://i.imgur.com/2CSW4V4.png" group-title="Azərbaycan 🇦🇿",APA Tv (1080p)
@@ -39,6 +43,8 @@ https://uycyyuuzyh.turknet.ercdn.net/nphindgytw/nowtv/nowtv.m3u8
 https://tv8.daioncdn.net/tv8/tv8.m3u8?app=7ddc255a-ef47-4e81-ab14-c0e5f2949788&ce=3
 #EXTINF:-1 tvg-id="Kanal7.tr" tvg-logo="https://i.imgur.com/0gq9xOm.png" group-title="Türkiyə – Ümumi",Kanal 7 (1080p)
 https://kanal7-live.daioncdn.net/kanal7/kanal7.m3u8
+#EXTINF:-1 tvg-id="BeyazTV.tr" tvg-logo="https://i.imgur.com/uykIdML.png" group-title="Türkiyə – Ümumi",Beyaz TV (720p)
+https://mn-nl.mncdn.com/blutv_beyaztv2/live.m3u8
 #EXTINF:-1 tvg-id="TRTAvaz.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/TRT_Avaz_logo.svg/960px-TRT_Avaz_logo.svg.png" group-title="Türkiyə – Ümumi",TRT Avaz (720p)
 https://tv-trtavaz.medya.trt.com.tr/master.m3u8
 #EXTINF:-1 tvg-id="TRTTurk.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/TRT_T%C3%BCrk_logo.svg/960px-TRT_T%C3%BCrk_logo.svg.png" group-title="Türkiyə – Ümumi",TRT Turk (720p)
@@ -76,6 +82,8 @@ https://halktv-live.daioncdn.net/halktv/halktv.m3u8
 https://tv.ensonhaber.com/bloomberght/bloomberght.m3u8
 #EXTINF:-1 tvg-id="CNBCe.tr" tvg-logo="https://s.cnbce.com/dist/images/logo-nav.png" group-title="Xəbər – Türkiyə",CNBC-e
 https://hnpsechtsc.turknet.ercdn.net/xpnvudnlsv/cnbc-e/cnbc-e.m3u8
+#EXTINF:-1 tvg-id="CBCSport.az" tvg-logo="https://i.imgur.com/3mEdjuq.png" group-title="İdman",CBC Sport
+https://mn-nl.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8
 #EXTINF:-1 tvg-id="ASpor.tr" tvg-logo="https://i.imgur.com/ZhkZzLf.png" group-title="İdman",A Spor (1080p)
 https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/aspor/aspor.m3u8
 #EXTINF:-1 tvg-id="TRT3.tr" tvg-logo="https://i.imgur.com/JrWFwBd.png" group-title="İdman",TRT 3 (720p)
@@ -117,7 +125,7 @@ https://b01c02nl.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e2aa
 #EXTINF:-1 tvg-id="Number1Damar.tr" tvg-logo="https://i.imgur.com/rYtbAGZ.png" group-title="Musiqi",Number 1 Damar (720p)
 https://b01c02nl.mediatriple.net/videoonlylive/mtkgeuihrlfwlive/u_stream_5c9e198784bdc_1/playlist.m3u8
 #EXTINF:-1 tvg-id="MuzTV.ru" tvg-logo="https://i.imgur.com/BtqrHmz.png" group-title="Musiqi",Muz-TV (576p)
-http://185.71.81.6:8080/20/index.m3u8
+http://hls127.freeott.top:8080/MUZ_TV/video.m3u8
 #EXTINF:-1 tvg-id="RUTV.ru" tvg-logo="https://rutv.by/wp-content/uploads/2020/09/logo.png" group-title="Musiqi",RU.TV (1080p)
 https://bl.rutube.ru/livestream/b1eb8e90d7e636677b3eb73b4fcbb717/index.m3u8?e=2069285076&s=d-E-bxKy2v3EEJ94RQX9CA&scheme=https
 #EXTINF:-1 tvg-id="EuropaPlusTV.ru" tvg-logo="https://i.imgur.com/GLc4qrc.png" group-title="Musiqi",Europa Plus TV (1080p)
@@ -129,11 +137,11 @@ https://b01c02nl.mediatriple.net/videoonlylive/mtsxxkzwwuqtglive/broadcast_5fe46
 #EXTINF:-1 tvg-id="CGTNDocumentary.cn" tvg-logo="https://i.imgur.com/JHv0WxM.png" group-title="Sənədli və Həyat tərzi",CGTN Documentary (1080p)
 https://english-livebkali.cgtn.com/live/doccgtn.m3u8
 #EXTINF:-1 tvg-id="Tastemade.us" tvg-logo="https://i.imgur.com/xP7Ehn8.png" group-title="Sənədli və Həyat tərzi",Tastemade (1080p)
-https://pb-rlo4if9lnjthw.akamaized.net/Tastemade.m3u8
+https://tastemade-tdint-rakuten.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="TastemadeTravel.us" tvg-logo="https://i.imgur.com/8s6aRwv.png" group-title="Sənədli və Həyat tərzi",Tastemade Travel (1080p)
-https://amg00047-tastemade-amg00047c3-cineverse-us-1360.playouts.now.amagi.tv/playlist/amg00047-tastemadefast-tastemadetravel-cineverseus/playlist.m3u8
+https://d6ef3usc6d9cl.cloudfront.net/Tastemade_Travel.m3u8
 #EXTINF:-1 tvg-id="RealWild.uk" tvg-logo="https://i.imgur.com/T9HHmAO.png" group-title="Sənədli və Həyat tərzi",Real Wild (1080p)
-https://lds-realwild-samsungau.amagi.tv/playlist.m3u8
+https://cdn-apse1-prod.tsv2.amagi.tv/linear/amg00426-littledotstudio-realwildnz-samsungnz/playlist.m3u8
 #EXTINF:-1 tvg-id="LoveNature.ca" tvg-logo="https://tv.lovenature.com/wp-content/uploads/2024/10/LoveNature2024_Logo_full_colour-copy.png" group-title="Sənədli və Həyat tərzi",Love Nature (2160p)
 https://pb-ehs1glsha1juy.akamaized.net/Love_Nature_4K.m3u8
 #EXTINF:-1 tvg-id="SmithsonianChannelSelects.us" tvg-logo="https://i.imgur.com/Kt5j8Vr.png" group-title="Sənədli və Həyat tərzi",Smithsonian Channel Selects
