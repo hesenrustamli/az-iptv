@@ -67,11 +67,13 @@ STREAM_BLOCKLIST = {
     "https://mn-nl.mncdn.com/blutv_beyaztv2/live.m3u8",
 }
 by = {}
+blocked_ids = set()  # ids that lost at least one stream to the blocklist
 for s in get("streams.json"):
     cid = s.get("channel")
     if not cid or any(b in s["url"] for b in BAD_HOSTS):
         continue
     if s["url"] in STREAM_BLOCKLIST:
+        blocked_ids.add(cid)
         continue
     langs = feed_langs.get((cid, s.get("feed")))
     if langs and not (langs & ALLOWED_LANGS):
@@ -124,7 +126,7 @@ def probe(stream):
 PICKS = {
 "Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","IdmanTV.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","AlvinChannelTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az","AzadTV.az","ARB.az"],
 "Ukrayna (rus dilində)": ["FREEDOM.ua"],
-"Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","EuroD.tr","KanalDDrama.tr","DreamTurk.tr","TRT2.tr"],
+"Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","EuroD.tr","DreamTurk.tr","TRT2.tr"],
 "Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
 "İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
@@ -235,3 +237,6 @@ def report(label, ids):
 report("Retained last-known-good (no working stream this run)", retained)
 report("Dropped (no working stream and no previous entry)", no_stream)
 report("Skipped (id not in channels.json)", unknown_id)
+# ids left with no candidates at all because STREAM_BLOCKLIST took them
+report("Blocklisted (only stream(s) removed by STREAM_BLOCKLIST)",
+       [cid for cid in all_ids if cid in blocked_ids and cid not in by])
