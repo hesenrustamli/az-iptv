@@ -80,10 +80,21 @@ for s in get("streams.json"):
         continue  # wrong-language feed (e.g. DW Arabic/Espanol)
     by.setdefault(cid, []).append(s)
 
-# Verified TRT 1 stream (TRT's own CDN, used by tabii)
-by["TRT1.tr"] = [{"url": "https://trt.daioncdn.net/trt-1/master.m3u8?app=web",
-                  "quality": "1080p", "user_agent": None, "referrer": None}] \
-                + by.get("TRT1.tr", [])
+# Official stream URLs taken from each broadcaster's own live page and
+# merged ahead of the iptv-org candidates, so ranking prefers them. Each
+# one is verified static (no per-session token) and still health-checked
+# like any other candidate.
+OVERRIDES = {
+    # TRT's own CDN, the one tabii uses
+    "TRT1.tr": {"url": "https://trt.daioncdn.net/trt-1/master.m3u8?app=web",
+                "quality": "1080p", "user_agent": None, "referrer": None},
+    # cbcsport.az/live/ — iptv-org's mn-nl host is stale (see
+    # STREAM_BLOCKLIST); this edge works and needs no Referer/User-Agent
+    "CBCSport.az": {"url": "https://cbcsports-live.lg.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
+                    "quality": "1080p", "user_agent": None, "referrer": None},
+}
+for _cid, _ov in OVERRIDES.items():
+    by[_cid] = [_ov] + by.get(_cid, [])
 
 OFFICIAL = ["trt.com.tr", "daioncdn", "baku.tv", "itv.az", "atv.az",
             "xezerxeber.az", "yodacdn", "mncdn", "akamaized", "trt.com",
