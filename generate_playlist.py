@@ -128,10 +128,10 @@ PICKS = {
 "Ukrayna (rus dilində)": ["FREEDOM.ua"],
 "Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","EuroD.tr","DreamTurk.tr","TRT2.tr"],
 "Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
-"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at"],
+"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
-"Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","PowerTV.tr","PowerDance.tr","PowerLove.tr","Number1TV.tr","Number1Dance.tr","Number1Damar.tr","MuzTV.ru","RUTV.ru","EuropaPlusTV.ru"],
-"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","Tastemade.us","TastemadeTravel.us","FashionTVEurope.fr","RealWild.uk","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr"],
+"Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","PowerTV.tr","PowerDance.tr","PowerLove.tr","Number1TV.tr","Number1Dance.tr","Number1Damar.tr"],
+"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","Tastemade.us","TastemadeTravel.us","FashionTVEurope.fr","RealWild.uk","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","PBSNature.us","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
 "· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
 "Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","ArirangTV.kr","CNA.sg","TVPWorld.pl"],
 }
