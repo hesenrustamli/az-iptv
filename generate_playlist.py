@@ -57,7 +57,11 @@ for l in get("logos.json"):
     if l.get("channel") and l["channel"] not in logos:
         logos[l["channel"]] = l["url"]
 
-BAD_HOSTS = ["raw.githubusercontent.com"]  # dead restream repo
+BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
+             "zabava-htlive.cdn.ngenix.net"]    # Wink CDN: "not available
+             # in your territory" from Azerbaijan (Che, REN TV et al).
+             # Host-level so every stream on it is skipped and the health
+             # check falls through to each channel's alternates.
 # Confirmed dead from inside Azerbaijan (not geo-blocking). Excluded both
 # as candidates and from last-known-good retention, so they cannot come
 # back. CBCSport.az/BeyazTV.tr stay in PICKS and rejoin automatically the
@@ -92,6 +96,10 @@ OVERRIDES = {
     # STREAM_BLOCKLIST); this edge works and needs no Referer/User-Agent
     "CBCSport.az": {"url": "https://cbcsports-live.lg.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
                     "quality": "1080p", "user_agent": None, "referrer": None},
+    # atv.az/live -> Ant Media player on ATV's own server (the same host
+    # that already serves Kanal S). Needs no Referer/User-Agent.
+    "AzadTV.az": {"url": "https://lives.atv.az:5443/ATV_TV_STREAM/streams/atvcanli.m3u8",
+                  "quality": None, "user_agent": None, "referrer": None},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
@@ -136,15 +144,15 @@ def probe(stream):
 
 PICKS = {
 "Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","IdmanTV.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","AlvinChannelTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az","AzadTV.az","ARB.az"],
-"Ukrayna (rus dilində)": ["FREEDOM.ua"],
-"Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","EuroD.tr","DreamTurk.tr","TRT2.tr"],
+"Ukrayna": ["FREEDOM.ua","Pershyi.ua"],
+"Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","DreamTurk.tr","TRT2.tr"],
 "Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
 "İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
-"Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","PowerTV.tr","PowerDance.tr","PowerLove.tr","Number1TV.tr","Number1Dance.tr","Number1Damar.tr"],
-"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","Tastemade.us","TastemadeTravel.us","FashionTVEurope.fr","RealWild.uk","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","PBSNature.us","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
+"Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr"],
+"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVEurope.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","PBSNature.us","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
 "· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
-"Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","ArirangTV.kr","CNA.sg","TVPWorld.pl"],
+"Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
 # StartTV, DMAX, TRT2...) are kept on purpose: they join automatically
