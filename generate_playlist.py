@@ -3,7 +3,7 @@
 
 Every run (daily, on GitHub Actions):
  1. Pulls fresh channel/stream/feed data from the iptv-org public API.
- 2. Drops streams whose FEED language is not az/tr/en/ru (fixes e.g.
+ 2. Drops streams whose FEED language is not az/tr/en/ru/uk (fixes e.g.
     an Arabic DW feed being picked for the DW entry).
  3. HEALTH-CHECKS every candidate stream with a real HTTP probe and
     picks the best WORKING one; broken links are replaced by working
@@ -24,7 +24,7 @@ MIRRORS = ["https://iptv-org.github.io/api/{}",
            "https://raw.githubusercontent.com/iptv-org/api/gh-pages/{}"]
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
-ALLOWED_LANGS = {"aze", "tur", "eng", "rus"}
+ALLOWED_LANGS = {"aze", "tur", "eng", "rus", "ukr"}
 SSL_CTX = ssl.create_default_context()
 SSL_CTX.check_hostname = False
 SSL_CTX.verify_mode = ssl.CERT_NONE  # many IPTV hosts have bad certs
@@ -69,6 +69,10 @@ BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
 STREAM_BLOCKLIST = {
     "https://mn-nl.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
     "https://mn-nl.mncdn.com/blutv_beyaztv2/live.m3u8",
+    # 403 from Azerbaijan (TRT's own CDN geo-blocks it)
+    "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
+    # mediatriple broadcast is gone (404)
+    "https://b01c02nl.mediatriple.net/videoonlylive/mtsxxkzwwuqtglive/broadcast_5fe462afc6a0e.smil/playlist.m3u8",
 }
 by = {}
 blocked_ids = set()  # ids that lost at least one stream to the blocklist
@@ -205,9 +209,11 @@ def load_previous(path=PLAYLIST):
         elif line.startswith("#EXTVLCOPT"):
             opts.append(line)
         elif line and not line.startswith("#"):
-            # first occurrence wins (dual-grouped ids repeat); blocklisted
-            # URLs are never retained
-            if cid and line not in STREAM_BLOCKLIST:
+            # first occurrence wins (dual-grouped ids repeat). Retention
+            # honours BAD_HOSTS and STREAM_BLOCKLIST too, so a banned host
+            # can never be reinstated by last-known-good.
+            if (cid and line not in STREAM_BLOCKLIST
+                    and not any(b in line for b in BAD_HOSTS)):
                 prev.setdefault(cid, {"name": name, "opts": opts, "url": line})
             cid, name, opts = None, "", []
     return prev
