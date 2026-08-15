@@ -40,8 +40,12 @@ PLAYLIST = "playlist.m3u"
 CONN_ERRORS = (http.client.RemoteDisconnected, ConnectionError,
                TimeoutError, socket.timeout, urllib.error.URLError)
 
+# Azerbaijani broadcasters do not all serve from .az hosts, so the TLD
+# alone is not enough to decide who deserves the geo benefit of the doubt.
+AZ_HOSTS = {"rtmp.baku.tv", "cbcsports-live.lg.mncdn.com"}
+
 def az_facing(host):
-    return host.endswith(".az")
+    return host.endswith(".az") or host in AZ_HOSTS
 
 def get(name):
     last = None
@@ -78,6 +82,8 @@ STREAM_BLOCKLIST = {
     "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
     # mediatriple broadcast is gone (404)
     "https://b01c02nl.mediatriple.net/videoonlylive/mtsxxkzwwuqtglive/broadcast_5fe462afc6a0e.smil/playlist.m3u8",
+    # ATV (TR): times out from Azerbaijan; health check picks an alternate
+    "https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/atv/atv_1080p.m3u8",
 }
 by = {}
 blocked_ids = set()  # ids that lost at least one stream to the blocklist
@@ -160,10 +166,10 @@ PICKS = {
 "Ukrayna": ["FREEDOM.ua","Pershyi.ua"],
 "Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","DreamTurk.tr","TRT2.tr"],
 "Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
-"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","CBSSportsHQ.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
+"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr"],
-"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVEurope.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","PBSNature.us","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
+"Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVEurope.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
 "· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
 "Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp"],
 }
@@ -223,6 +229,7 @@ for cid in all_ids:
     candidates.extend(by.get(cid, []))
 candidates.extend(prev_streams.values())
 status = {}
+override_warnings = []
 if not skip_check:
     with ThreadPoolExecutor(max_workers=24) as ex:
         for s, st in zip(candidates, ex.map(probe, candidates)):
@@ -240,6 +247,14 @@ def best_working(cid):
     for s in ordered:  # geo-blocked for the US runner may work in AZ
         if status.get(skey(s)) == "geo":
             return s
+    # Hand-verified overrides are never dropped on a failed probe: they were
+    # checked against the broadcaster's own player, and the runner sits
+    # outside Azerbaijan, so a failure here is more likely to be the runner's
+    # vantage point than a dead stream. Warn instead.
+    ov = OVERRIDES.get(cid)
+    if ov is not None:
+        override_warnings.append(f"{cid} (probe={status.get(skey(ov), 'unprobed')})")
+        return ov
     return None
 
 def retained_usable(cid):
@@ -301,6 +316,7 @@ report("Retained last-known-good (no working stream this run)", retained)
 report("Dropped (last-known-good URL no longer responds)", stale)
 report("Dropped (no working stream and no previous entry)", no_stream)
 report("Skipped (id not in channels.json)", unknown_id)
+report("WARNING: override kept despite failed probe", override_warnings)
 # ids left with no candidates at all because STREAM_BLOCKLIST took them
 report("Blocklisted (only stream(s) removed by STREAM_BLOCKLIST)",
        [cid for cid in all_ids if cid in blocked_ids and cid not in by])
