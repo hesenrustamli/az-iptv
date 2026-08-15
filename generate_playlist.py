@@ -25,6 +25,11 @@ MIRRORS = ["https://iptv-org.github.io/api/{}",
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 ALLOWED_LANGS = {"aze", "tur", "eng", "rus", "ukr"}
+# Sports-only exemption: free-to-air broadcasters that carry EPL/UCL but
+# whose feeds are tagged in local languages. The feed-language filter is
+# skipped for these ids; everything else keeps the rule above.
+LANG_EXEMPT = {"Futbol.tj", "FutbolTV.uz", "UzReportTV.uz", "QazSport.kz",
+               "M4Sport.hu", "Teledeporte.es", "OlympicChannel.es"}
 SSL_CTX = ssl.create_default_context()
 SSL_CTX.check_hostname = False
 SSL_CTX.verify_mode = ssl.CERT_NONE  # many IPTV hosts have bad certs
@@ -84,7 +89,7 @@ for s in get("streams.json"):
         blocked_ids.add(cid)
         continue
     langs = feed_langs.get((cid, s.get("feed")))
-    if langs and not (langs & ALLOWED_LANGS):
+    if cid not in LANG_EXEMPT and langs and not (langs & ALLOWED_LANGS):
         continue  # wrong-language feed (e.g. DW Arabic/Espanol)
     by.setdefault(cid, []).append(s)
 
@@ -139,7 +144,11 @@ def probe(stream):
                 return "ok"
             return "dead"
     except urllib.error.HTTPError as e:
-        return "geo" if e.code in (403, 451) else "dead"
+        # 403/451 only earns the benefit of the doubt on AZ-facing hosts.
+        # Anywhere else (and for 404/5xx) it means unusable from here.
+        if e.code in (403, 451):
+            return "geo" if az_facing(host) else "dead"
+        return "dead"
     except CONN_ERRORS:
         # no HTTP response at all: on AZ-facing CDNs treat as geo-blocked
         return "geo" if az_facing(host) else "dead"
@@ -151,7 +160,7 @@ PICKS = {
 "Ukrayna": ["FREEDOM.ua","Pershyi.ua"],
 "Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","DreamTurk.tr","TRT2.tr"],
 "Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
-"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk"],
+"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","CBSSportsHQ.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr"],
 "Sənədli və Həyat tərzi": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVEurope.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","PBSNature.us","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
@@ -164,32 +173,6 @@ PICKS = {
 # on purpose (Azərbaycan + İdman).
 
 RENAME = {"Russia1.ru": "russia 1", "EuronewsRussian.fr": "Euronews russian"}
-
-# ---- health-check all candidate streams concurrently ----
-skip_check = os.environ.get("SKIP_CHECK") == "1"
-all_ids = {cid for idl in PICKS.values() for cid in idl}
-candidates = []
-for cid in all_ids:
-    candidates.extend(by.get(cid, []))
-status = {}
-if not skip_check:
-    with ThreadPoolExecutor(max_workers=24) as ex:
-        for s, st in zip(candidates, ex.map(probe, candidates)):
-            status[skey(s)] = st
-
-def best_working(cid):
-    ordered = sorted(by.get(cid, []), key=rank, reverse=True)
-    if not ordered:
-        return None
-    if skip_check:
-        return ordered[0]
-    for s in ordered:
-        if status.get(skey(s)) == "ok":
-            return s
-    for s in ordered:  # geo-blocked for the US runner may work in AZ
-        if status.get(skey(s)) == "geo":
-            return s
-    return None
 
 def load_previous(path=PLAYLIST):
     """Map channel id -> last published {name, opts, url} from playlist.m3u."""
@@ -218,11 +201,62 @@ def load_previous(path=PLAYLIST):
             cid, name, opts = None, "", []
     return prev
 
+def opt_value(opts, key):
+    for o in opts:
+        if o.startswith(key):
+            return o.split("=", 1)[1]
+    return None
+
+# ---- health-check every candidate concurrently ----
+skip_check = os.environ.get("SKIP_CHECK") == "1"
+all_ids = {cid for idl in PICKS.values() for cid in idl}
 previous = load_previous()
+# Retained URLs are probed as well: a last-known-good entry must not
+# outlive the stream it points at.
+prev_streams = {
+    cid: {"url": p["url"], "feed": None,
+          "user_agent": opt_value(p["opts"], "#EXTVLCOPT:http-user-agent"),
+          "referrer": opt_value(p["opts"], "#EXTVLCOPT:http-referrer")}
+    for cid, p in previous.items() if cid in all_ids}
+candidates = []
+for cid in all_ids:
+    candidates.extend(by.get(cid, []))
+candidates.extend(prev_streams.values())
+status = {}
+if not skip_check:
+    with ThreadPoolExecutor(max_workers=24) as ex:
+        for s, st in zip(candidates, ex.map(probe, candidates)):
+            status[skey(s)] = st
+
+def best_working(cid):
+    ordered = sorted(by.get(cid, []), key=rank, reverse=True)
+    if not ordered:
+        return None
+    if skip_check:
+        return ordered[0]
+    for s in ordered:
+        if status.get(skey(s)) == "ok":
+            return s
+    for s in ordered:  # geo-blocked for the US runner may work in AZ
+        if status.get(skey(s)) == "geo":
+            return s
+    return None
+
+def retained_usable(cid):
+    """A retained URL survives only if it still probes ok -- unless it sits
+    on an .az host, which keeps the geo benefit of the doubt."""
+    s = prev_streams.get(cid)
+    if s is None:
+        return False
+    if skip_check:
+        return True
+    if az_facing((urllib.parse.urlsplit(s["url"]).hostname or "").lower()):
+        return True
+    return status.get(skey(s)) == "ok"
 
 lines = ["#EXTM3U"]
 count = 0
-retained, no_stream, unknown_id = [], [], []
+retained, stale, no_stream, unknown_id = [], [], [], []
 for group, idl in PICKS.items():
     for cid in idl:
         best = best_working(cid)
@@ -237,9 +271,13 @@ for group, idl in PICKS.items():
             if best.get("referrer"):
                 opts.append(f'#EXTVLCOPT:http-referrer={best["referrer"]}')
             url = best["url"]
-        elif prev:  # last-known-good: keep it rather than lose the channel
+        elif prev and retained_usable(cid):
+            # last-known-good, and it still answers: keep the channel
             disp, opts, url = prev["name"], prev["opts"], prev["url"]
             retained.append(cid)
+        elif prev:
+            stale.append(cid)  # retained URL went dead -> hide it this run
+            continue
         elif cid not in channels:
             unknown_id.append(cid)
             continue
@@ -260,6 +298,7 @@ def report(label, ids):
     if ids:
         print(f"{label}:", ", ".join(sorted(set(ids))))
 report("Retained last-known-good (no working stream this run)", retained)
+report("Dropped (last-known-good URL no longer responds)", stale)
 report("Dropped (no working stream and no previous entry)", no_stream)
 report("Skipped (id not in channels.json)", unknown_id)
 # ids left with no candidates at all because STREAM_BLOCKLIST took them
