@@ -18,9 +18,16 @@ Every run (daily, on GitHub Actions):
  6. Writes playlist.m3u and WAITING.md, plus a commit message hint.
 Set SKIP_CHECK=1 to skip probing and discovery (local testing only).
 """
-import datetime, http.client, json, os, re, socket, ssl, unicodedata
+import datetime, http.client, json, os, re, socket, ssl, sys, unicodedata
 import urllib.error, urllib.parse, urllib.request
 from concurrent.futures import ThreadPoolExecutor
+
+# SINGLE AUTHOR: only the GitHub runner writes the generated files, so a
+# local run can never race the bot or hand it a half-finished playlist.
+# Locally this is a preview: everything is computed and reported, nothing
+# is written. Pass --write to override deliberately.
+IS_CI = os.environ.get("GITHUB_ACTIONS") == "true"
+WRITE = IS_CI or "--write" in sys.argv
 
 MIRRORS = ["https://iptv-org.github.io/api/{}",
            "https://raw.githubusercontent.com/iptv-org/api/gh-pages/{}"]
@@ -42,6 +49,7 @@ SSL_CTX.verify_mode = ssl.CERT_NONE  # many IPTV hosts have bad certs
 PLAYLIST = "playlist.m3u"
 WAITING_FILE = "WAITING.md"
 DISCOVERED_FILE = "discovered.json"
+AUTO_STATE_FILE = "auto_state.json"
 COMMIT_MSG_FILE = ".bot_commit_msg"
 
 # Connection-level failures (no HTTP status at all). On Azerbaijan-facing
@@ -262,9 +270,16 @@ NICHE_SKIP = re.compile(
     r"hunting|cornhole|pickleball", re.I)
 
 # Ceiling on auto-adds per group. PICKS entries never count against a cap
-# and are never displaced -- caps only trim the automatic tail.
-AUTO_CAP = {"İdman": 25, "Sənədli": 15, "Musiqi": 10,
-            "Xəbər – Türkiyə": 8, "Uşaq": 5, "Beynəlxalq Xəbər": 6}
+# and are never displaced -- caps only trim the automatic tail. Groups
+# absent from this dict are uncapped.
+AUTO_CAP = {"İdman": 40, "Sənədli": 25, "Xəbər – Türkiyə": 12,
+            "Beynəlxalq Xəbər": 12, "Musiqi": 12, "Uşaq": 8}
+# Hard ceiling on the whole playlist. Auto-adds are trimmed lowest-rank
+# first to stay under it; PICKS entries and OVERRIDES are never trimmed.
+TOTAL_MAX = 199
+# An incumbent auto-add keeps its slot until it has failed this many runs
+# in a row, so a single bad probe does not churn the playlist.
+STICKY_FAILS = 2
 
 def categories_of(c):
     return {x.lower() for x in (c.get("categories") or [])}
@@ -446,11 +461,13 @@ def load_previous(path=PLAYLIST):
             raw = f.read().splitlines()
     except FileNotFoundError:
         return prev
-    cid, name, opts = None, "", []
+    cid, name, opts, grp = None, "", [], ""
     for line in raw:
         if line.startswith("#EXTINF"):
             m = re.search(r'tvg-id="([^"]*)"', line)
             cid = m.group(1) if m else None
+            g = re.search(r'group-title="([^"]*)"', line)
+            grp = g.group(1) if g else ""
             name = line.split(",", 1)[1] if "," in line else ""
             opts = []
         elif line.startswith("#EXTVLCOPT"):
@@ -460,9 +477,22 @@ def load_previous(path=PLAYLIST):
             # honours BAD_HOSTS and STREAM_BLOCKLIST too, so a banned host
             # can never be reinstated by last-known-good.
             if cid and url_allowed(line):
-                prev.setdefault(cid, {"name": name, "opts": opts, "url": line})
-            cid, name, opts = None, "", []
+                prev.setdefault(cid, {"name": name, "opts": opts,
+                                      "url": line, "group": grp})
+            cid, name, opts, grp = None, "", [], ""
     return prev
+
+def load_auto_state(path=AUTO_STATE_FILE):
+    """{"incumbents": {cid: {"group": str, "fails": int}}}"""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        inc = (data or {}).get("incumbents") or {}
+        return {"incumbents": {c: {"group": (v or {}).get("group", ""),
+                                   "fails": int((v or {}).get("fails", 0) or 0)}
+                               for c, v in inc.items() if isinstance(v, dict)}}
+    except (FileNotFoundError, ValueError):
+        return {"incumbents": {}}
 
 def opt_value(opts, key):
     for o in opts:
@@ -609,28 +639,39 @@ for _cid, _urlmap in discovered.items():
              "referrer": None, "feed": None})
 
 # ---- auto-include candidates (PICKS always wins; these only ever add) ----
-auto_candidates = {}   # cid -> (group, [streams to probe])
 skip_paytv, skip_gate, skip_niche, skip_script = 0, 0, 0, 0
-for _cid, _c in channels.items():
-    if _cid in all_ids or _cid in EXCLUDE:
-        continue
+
+def auto_eligible_group(cid, count=False):
+    """The group this channel would be auto-added to, or None if any gate
+    rejects it. Gates are identical for newcomers and incumbents."""
+    global skip_paytv, skip_gate, skip_niche, skip_script
+    c = channels.get(cid)
+    if c is None or cid in all_ids or cid in EXCLUDE:
+        return None
+    group = auto_group_for(cid, c)
+    if group is None:
+        return None
+    if is_pay_tv(cid, c):
+        if count: skip_paytv += 1
+        return None
+    if not notable(cid, c):
+        if count: skip_gate += 1
+        return None
+    if group == "İdman" and NICHE_SKIP.search(c.get("name") or ""):
+        if count: skip_niche += 1
+        return None
+    if not latin_only(c.get("name") or ""):
+        if count: skip_script += 1
+        return None
+    return group
+
+auto_candidates = {}   # cid -> (group, [streams to probe])
+for _cid in channels:
     _pool = [s for s in by.get(_cid, []) if url_allowed(s["url"])]
     if not _pool:
         continue
-    _group = auto_group_for(_cid, _c)
+    _group = auto_eligible_group(_cid, count=True)
     if _group is None:
-        continue
-    if is_pay_tv(_cid, _c):
-        skip_paytv += 1
-        continue
-    if not notable(_cid, _c):
-        skip_gate += 1
-        continue
-    if _group == "İdman" and NICHE_SKIP.search(_c.get("name") or ""):
-        skip_niche += 1
-        continue
-    if not latin_only(_c.get("name") or ""):
-        skip_script += 1   # no cyrillic (or other non-Latin) display names
         continue
     _pool = sorted(_pool, key=rank, reverse=True)[:AUTO_PROBE_PER_CHANNEL]
     auto_candidates[_cid] = (_group, _pool)
@@ -703,33 +744,89 @@ def retained_usable(cid):
 
 # Resolve auto-adds: a rule match only becomes an entry if one of its
 # streams actually passes the probe.
-auto_add = {}          # cid -> (group, stream)
-auto_by_group = {}
-_eligible = {}
+auto_state = load_auto_state()
+incumbents = auto_state["incumbents"]
+# First ever run: seed incumbency from whatever the published playlist
+# already carries that PICKS does not account for.
+if not incumbents:
+    for _cid, _p in previous.items():
+        if _cid not in all_ids:
+            incumbents[_cid] = {"group": _p.get("group", ""), "fails": 0}
+
+eligible = {}          # cid -> (group, stream) - passed gates AND probe
 for _cid, (_group, _pool) in auto_candidates.items():
     _hit = _pick(_pool) if not skip_check else (_pool[0] if _pool else None)
-    if _hit is None:
-        continue
-    _eligible.setdefault(_group, []).append((_cid, _hit))
+    if _hit is not None:
+        eligible[_cid] = (_group, _hit)
 
-# Apply the per-group ceiling: best reach first, then HD over SD, then name.
+def auto_rank_key(cid, stream=None):
+    return (-reach_score(cid),
+            -max(chan_format.get(cid, 0), qscore(stream) if stream else 0),
+            display_name(cid).lower())
+
+# ---- sticky incumbents: hold the slot unless something really changed ----
+auto_add = {}          # cid -> (group, stream or None => retain previous url)
+vacated = []
+for _cid in sorted(incumbents):
+    _st = incumbents[_cid]
+    _group = auto_eligible_group(_cid)
+    if _group is None:
+        vacated.append((_cid, "no longer matches a rule / excluded"))
+        del incumbents[_cid]
+        continue
+    if _cid in eligible:
+        _st.update(group=_group, fails=0)
+        auto_add[_cid] = (_group, eligible[_cid][1])
+        continue
+    _st["fails"] = int(_st.get("fails", 0)) + 1
+    if _st["fails"] >= STICKY_FAILS:
+        vacated.append((_cid, f"failed {_st['fails']} consecutive runs"))
+        del incumbents[_cid]
+    elif _cid in previous and url_allowed(previous[_cid]["url"]):
+        _st["group"] = _group
+        auto_add[_cid] = (_group, None)   # hold the slot on last-known-good
+    else:
+        vacated.append((_cid, "failed with no previous URL to hold"))
+        del incumbents[_cid]
+
+# ---- newcomers fill whatever room the caps leave ----
 capped_out = 0
-for _group, _rows in _eligible.items():
-    _rows.sort(key=lambda r: (-reach_score(r[0]),
-                              -max(chan_format.get(r[0], 0), qscore(r[1])),
-                              display_name(r[0]).lower()))
+for _group in sorted({g for g, _ in eligible.values()}):
+    _held = [c for c, (g, _s) in auto_add.items() if g == _group]
     _cap = AUTO_CAP.get(_group)
-    if _cap is not None and len(_rows) > _cap:
-        capped_out += len(_rows) - _cap
-        _rows = _rows[:_cap]
-    for _cid, _hit in _rows:
+    if _cap is not None and len(_held) > _cap:      # cap was lowered
+        _held.sort(key=lambda c: auto_rank_key(c, (eligible.get(c) or (None, None))[1]))
+        for _cid in _held[_cap:]:
+            vacated.append((_cid, f"over the {_group} cap of {_cap}"))
+            auto_add.pop(_cid, None)
+            incumbents.pop(_cid, None)
+            capped_out += 1
+        _held = _held[:_cap]
+    _room = None if _cap is None else max(0, _cap - len(_held))
+    _new = [(c, s) for c, (g, s) in eligible.items()
+            if g == _group and c not in auto_add]
+    _new.sort(key=lambda r: auto_rank_key(r[0], r[1]))
+    if _room is not None and len(_new) > _room:
+        capped_out += len(_new) - _room
+        _new = _new[:_room]
+    for _cid, _hit in _new:
         auto_add[_cid] = (_group, _hit)
-        auto_by_group.setdefault(_group, []).append(_cid)
-for _g in auto_by_group:
-    auto_by_group[_g].sort(key=lambda c: display_name(c).lower())
+        incumbents[_cid] = {"group": _group, "fails": 0}
+
+def rebuild_auto_by_group():
+    out = {}
+    for cid, (g, _s) in auto_add.items():
+        out.setdefault(g, []).append(cid)
+    for g in out:
+        out[g].sort(key=lambda c: display_name(c).lower())
+    return out
+
+auto_by_group = rebuild_auto_by_group()
 
 # ---------------- build the playlist ----------------
-lines = ["#EXTM3U"]
+# Pass 1 renders the hand-curated entries so the global ceiling knows how
+# many slots PICKS actually occupies; pass 2 appends the auto-adds.
+picks_lines = {}
 count = 0
 published = set()
 published_urls = set()
@@ -765,6 +862,50 @@ for group, idl in PICKS.items():
             if by.get(cid) or disc_by.get(cid):
                 no_stream.append(cid)
             continue
+        picks_lines.setdefault(group, []).append(
+            f'#EXTINF:-1 tvg-id="{cid}" tvg-logo="{logos.get(cid,"")}" '
+            f'group-title="{group}",{disp}')
+        picks_lines[group].extend(opts)
+        picks_lines[group].append(url)
+        published.add(cid)
+        published_urls.add(url)
+        count += 1
+
+# ---- global ceiling: trim lowest-ranked auto-adds, never PICKS ----
+picks_count = count
+trimmed = []
+if TOTAL_MAX is not None:
+    worst_first = sorted(auto_add, key=lambda c: auto_rank_key(
+        c, (eligible.get(c) or (None, None))[1]), reverse=True)
+    while worst_first and (picks_count + len(auto_add)) > TOTAL_MAX:
+        cid = worst_first.pop(0)
+        trimmed.append(cid)
+        auto_add.pop(cid, None)
+        incumbents.pop(cid, None)
+    auto_by_group = rebuild_auto_by_group()
+
+# ---- pass 2: assemble, auto-adds after the hand-curated entries ----
+lines = ["#EXTM3U"]
+for group in PICKS:
+    lines.extend(picks_lines.get(group, []))
+    for cid in auto_by_group.get(group, []):
+        best = auto_add[cid][1]
+        if best is None:                       # incumbent held on last-known-good
+            p = previous.get(cid)
+            if p is None:
+                continue
+            disp, opts, url = p["name"], p["opts"], p["url"]
+        else:
+            q = best.get("quality")
+            disp = display_name(cid) + (f" ({q})" if q else "")
+            opts = []
+            if best.get("user_agent"):
+                opts.append(f'#EXTVLCOPT:http-user-agent={best["user_agent"]}')
+            if best.get("referrer"):
+                opts.append(f'#EXTVLCOPT:http-referrer={best["referrer"]}')
+            url = best["url"]
+        if url in published_urls:   # dedupe: same stream already carried
+            continue
         lines.append(f'#EXTINF:-1 tvg-id="{cid}" tvg-logo="{logos.get(cid,"")}" '
                      f'group-title="{group}",{disp}')
         lines.extend(opts)
@@ -772,28 +913,14 @@ for group, idl in PICKS.items():
         published.add(cid)
         published_urls.add(url)
         count += 1
-    # auto-added channels come after the hand-curated ones in their group
-    for cid in auto_by_group.get(group, []):
-        best = auto_add[cid][1]
-        url = best["url"]
-        if url in published_urls:   # dedupe: same stream already carried
-            continue
-        q = best.get("quality")
-        disp = display_name(cid) + (f" ({q})" if q else "")
-        lines.append(f'#EXTINF:-1 tvg-id="{cid}" tvg-logo="{logos.get(cid,"")}" '
-                     f'group-title="{group}",{disp}')
-        if best.get("user_agent"):
-            lines.append(f'#EXTVLCOPT:http-user-agent={best["user_agent"]}')
-        if best.get("referrer"):
-            lines.append(f'#EXTVLCOPT:http-referrer={best["referrer"]}')
-        lines.append(url)
-        published.add(cid)
-        published_urls.add(url)
-        count += 1
 
-with open(PLAYLIST, "w", encoding="utf-8") as f:
-    f.write("\n".join(lines) + "\n")
-print(f"OK: {count} channels written")
+if WRITE:
+    with open(PLAYLIST, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    print(f"OK: {count} channels written")
+else:
+    print(f"PREVIEW: {count} channels (nothing written -- only the GitHub "
+          f"runner writes these files; pass --write to override)")
 
 # ---------------- waiting list ----------------
 def candidate_summary(cid):
@@ -864,8 +991,9 @@ def render_report():
     return "\n".join(out) + "\n"
 
 report_text = render_report()
-with open(WAITING_FILE, "w", encoding="utf-8") as f:
-    f.write(report_text)
+if WRITE:
+    with open(WAITING_FILE, "w", encoding="utf-8") as f:
+        f.write(report_text)
 
 # ---------------- prune candidates that have been dead for ages ----------
 pruned = []
@@ -891,12 +1019,17 @@ if not skip_check:
             pruned.append(f"watchlist {display_name(_cid)}: {_u} "
                           f"(now inert; delete the line from WATCHLIST)")
 
-with open(DISCOVERED_FILE, "w", encoding="utf-8") as f:
-    json.dump({"discovered": {c: dict(sorted(m.items()))
-                              for c, m in sorted(discovered.items())},
-               "watchlist": dict(sorted(state["watchlist"].items()))},
-              f, indent=2, ensure_ascii=False)
-    f.write("\n")
+if WRITE:
+    with open(DISCOVERED_FILE, "w", encoding="utf-8") as f:
+        json.dump({"discovered": {c: dict(sorted(m.items()))
+                                  for c, m in sorted(discovered.items())},
+                   "watchlist": dict(sorted(state["watchlist"].items()))},
+                  f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    with open(AUTO_STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump({"incumbents": {c: incumbents[c] for c in sorted(incumbents)}},
+                  f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
 summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
 if summary_path:
@@ -927,11 +1060,14 @@ if pruned:
     parts.append(f"pruned {len(pruned)} dead candidate"
                  f"{'' if len(pruned) == 1 else 's'}")
     detail = ["", "Pruned:"] + [f"  {p}" for p in pruned]
+if trimmed:
+    parts.append(f"trimmed {len(trimmed)} over the {TOTAL_MAX} ceiling")
 headline = "bot: " + ", ".join(parts) if parts else "Auto-update playlist"
-with open(COMMIT_MSG_FILE, "w", encoding="utf-8") as f:
-    f.write(headline + "\n")
-    if detail:
-        f.write("\n".join(detail) + "\n")
+if WRITE:
+    with open(COMMIT_MSG_FILE, "w", encoding="utf-8") as f:
+        f.write(headline + "\n")
+        if detail:
+            f.write("\n".join(detail) + "\n")
 
 # ---------------- console report ----------------
 def report(label, ids):
@@ -964,6 +1100,17 @@ for _n, _g, _i in auto_rows:
 print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
       f"{skip_gate}, niche sports {skip_niche}, non-Latin name {skip_script}, "
       f"over cap {capped_out}")
+print(f"Total {count} / ceiling {TOTAL_MAX} "
+      f"({picks_count} from PICKS, {len(auto_add)} auto)")
+if vacated:
+    print(f"Vacated {len(vacated)} auto-slot(s):")
+    for _cid, _why in vacated:
+        print(f"  - {display_name(_cid)} ({_cid}): {_why}")
+if trimmed:
+    print(f"Trimmed {len(trimmed)} over the {TOTAL_MAX} ceiling "
+          f"(lowest rank first):")
+    for _cid in trimmed:
+        print(f"  - {display_name(_cid)} ({_cid})")
 if pruned:
     print(f"Pruned {len(pruned)} dead candidate(s):")
     for p in pruned:
