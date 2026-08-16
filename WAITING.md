@@ -92,8 +92,10 @@ in `generate_playlist.py`.
 | Love The Planet | Sənədli | `LoveThePlanet.es` |
 | Maincast Cybersport | İdman | `MaincastCybersport.ua` |
 | Maincast Sport | İdman | `MaincastSport.ua` |
+| MBC FM | Musiqi | `MBCFM.ae` |
 | MLB | İdman | `MLB.us` |
 | MMA-TV.com | İdman | `MMATVcom.ru` |
+| MTV Biggest Pop | Musiqi | `MTVBiggestPop.us` |
 | NBA TV | İdman | `NBATV.us` |
 | NBC Sports NOW | İdman | `NBCSportsNOW.us` |
 | News of the World | Beynəlxalq Xəbər | `NewsoftheWorld.us` |

@@ -204,12 +204,20 @@
       "group": "Sənədli",
       "fails": 0
     },
+    "MBCFM.ae": {
+      "group": "Musiqi",
+      "fails": 0
+    },
     "MLB.us": {
       "group": "İdman",
       "fails": 0
     },
     "MMATVcom.ru": {
       "group": "İdman",
+      "fails": 0
+    },
+    "MTVBiggestPop.us": {
+      "group": "Musiqi",
       "fails": 0
     },
     "MaincastCybersport.ua": {
