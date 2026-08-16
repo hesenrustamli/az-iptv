@@ -280,6 +280,11 @@ TOTAL_MAX = 199
 # An incumbent auto-add keeps its slot until it has failed this many runs
 # in a row, so a single bad probe does not churn the playlist.
 STICKY_FAILS = 2
+# Musiqi accepts international (non-AZ/TR) music channels too, but only
+# this many seats at once -- there are hundreds of candidates, and the
+# group is meant to stay mostly Azerbaijani and Turkish. Sticky slots
+# apply: incumbents hold a seat, better-ranked newcomers wait for one.
+INTL_MUSIC_CAP = 2
 
 def categories_of(c):
     return {x.lower() for x in (c.get("categories") or [])}
@@ -327,7 +332,16 @@ AUTO_RULES = [
     ("Uşaq",             lambda cid, c, L: "kids" in categories_of(c) and bool(L & {"aze", "tur"})),
     ("Sənədli",          lambda cid, c, L: "documentary" in categories_of(c) and bool(L & ALLOWED_LANGS)),
     ("Azərbaycan 🇦🇿",    lambda cid, c, L: c.get("country") == "AZ"),
+    # International music, last so it only claims channels no earlier rule
+    # wanted -- widening this can then only open slots, never move an
+    # existing entry between groups. Held to INTL_MUSIC_CAP seats.
+    ("Musiqi",           lambda cid, c, L: "music" in categories_of(c)),
 ]
+
+def is_intl_music(cid):
+    c = channels.get(cid) or {}
+    return (c.get("country") not in ("AZ", "TR")
+            and "music" in categories_of(c))
 # Probing every stream of every matching channel would dominate the run,
 # so only this many best-ranked streams per auto-candidate are checked.
 AUTO_PROBE_PER_CHANNEL = 2
@@ -791,6 +805,7 @@ for _cid in sorted(incumbents):
 
 # ---- newcomers fill whatever room the caps leave ----
 capped_out = 0
+intl_music_waiting = 0
 for _group in sorted({g for g, _ in eligible.values()}):
     _held = [c for c, (g, _s) in auto_add.items() if g == _group]
     _cap = AUTO_CAP.get(_group)
@@ -802,10 +817,37 @@ for _group in sorted({g for g, _ in eligible.values()}):
             incumbents.pop(_cid, None)
             capped_out += 1
         _held = _held[:_cap]
+    # International music gets its own hard ceiling inside Musiqi. Trim
+    # incumbents first if the sub-cap was lowered, lowest rank first.
+    _intl_room = None
+    if _group == "Musiqi":
+        _intl_held = [c for c in _held if is_intl_music(c)]
+        if len(_intl_held) > INTL_MUSIC_CAP:
+            _intl_held.sort(key=lambda c: auto_rank_key(
+                c, (eligible.get(c) or (None, None))[1]))
+            for _cid in _intl_held[INTL_MUSIC_CAP:]:
+                vacated.append((_cid, f"over the international music cap "
+                                      f"of {INTL_MUSIC_CAP}"))
+                auto_add.pop(_cid, None)
+                incumbents.pop(_cid, None)
+                _held.remove(_cid)
+            _intl_held = _intl_held[:INTL_MUSIC_CAP]
+        _intl_room = max(0, INTL_MUSIC_CAP - len(_intl_held))
+
     _room = None if _cap is None else max(0, _cap - len(_held))
     _new = [(c, s) for c, (g, s) in eligible.items()
             if g == _group and c not in auto_add]
     _new.sort(key=lambda r: auto_rank_key(r[0], r[1]))
+    if _intl_room is not None:
+        _kept = []
+        for _cid, _hit in _new:
+            if is_intl_music(_cid):
+                if _intl_room <= 0:
+                    intl_music_waiting += 1
+                    continue
+                _intl_room -= 1
+            _kept.append((_cid, _hit))
+        _new = _kept
     if _room is not None and len(_new) > _room:
         capped_out += len(_new) - _room
         _new = _new[:_room]
@@ -1102,6 +1144,13 @@ print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
       f"over cap {capped_out}")
 print(f"Total {count} / ceiling {TOTAL_MAX} "
       f"({picks_count} from PICKS, {len(auto_add)} auto)")
+_intl_seats = sorted((c for c in auto_add if is_intl_music(c)),
+                     key=lambda c: display_name(c).lower())
+print(f"International music seats: {len(_intl_seats)} / {INTL_MUSIC_CAP} "
+      f"({intl_music_waiting} candidate(s) waiting for a vacancy)")
+for _cid in _intl_seats:
+    _c = channels.get(_cid) or {}
+    print(f"  * {display_name(_cid)} ({_cid}, {_c.get('country')})")
 if vacated:
     print(f"Vacated {len(vacated)} auto-slot(s):")
     for _cid, _why in vacated:
