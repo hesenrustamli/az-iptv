@@ -51,6 +51,8 @@ in `generate_playlist.py`.
 | BBC Earth | Sənədli | `BBCEarth.uk` |
 | BBC News | Beynəlxalq Xəbər | `BBCNews.uk` |
 | Belarus-5 | İdman | `Belarus5.by` |
+| Bondi Rescue | Sənədli | `BondiRescue.de` |
+| CGTN russian | Beynəlxalq Xəbər | `CGTNRussian.cn` |
 | China Travel | Sənədli | `ChinaTravel.cn` |
 | CNA Originals | Sənədli | `CNAOriginals.sg` |
 | Cricket Gold | İdman | `CricketGold.au` |
@@ -63,22 +65,51 @@ in `generate_playlist.py`.
 | DraftKings Network | İdman | `DraftKingsNetwork.us` |
 | Dynamo Kyiv TV | İdman | `DynamoKyivTV.ua` |
 | Equalympic | İdman | `Equalympic.ua` |
+| F1 Channel | İdman | `F1Channel.ie` |
 | Fast&FunBox | İdman | `FastFunBox.nl` |
 | FIFA+ Women | İdman | `FIFAPlusWomen.uk` |
+| Fight Network | İdman | `FightNetwork.ca` |
 | FightBox | İdman | `FightBox.nl` |
 | Finans Turk TV | Xəbər – Türkiyə | `FinansTurkTV.tr` |
+| FITE 24/7 | İdman | `FITE247.us` |
 | FloHockey | İdman | `FloHockey.us` |
 | FloRacing | İdman | `FloRacing.us` |
+| Football | İdman | `Football.ru` |
+| France 24 | Beynəlxalq Xəbər | `France24.fr` |
 | FUEL TV | İdman | `FUELTV.pt` |
 | Glory Kickboxing | İdman | `GloryKickboxing.us` |
 | GolTV Latin America | İdman | `GolTVLatinAmerica.us` |
 | Guneydogu TV | Xəbər – Türkiyə | `GuneydoguTV.tr` |
 | Haber61 TV | Xəbər – Türkiyə | `Haber61TV.tr` |
 | History Asia | Sənədli | `HistoryAsia.us` |
+| i24NEWS English World | Beynəlxalq Xəbər | `i24NEWSEnglishWorld.il` |
+| Ink Master | Sənədli | `InkMaster.us` |
+| InTrouble | İdman | `InTrouble.nl` |
 | Jail | Sənədli | `Jail.uk` |
+| Kozoom TV | İdman | `KozoomTV.fr` |
+| KTV Sport | İdman | `KTVSport.kw` |
 | Life TV | Xəbər – Türkiyə | `LifeTV.tr` |
 | Love The Planet | Sənədli | `LoveThePlanet.es` |
+| Maincast Cybersport | İdman | `MaincastCybersport.ua` |
+| Maincast Sport | İdman | `MaincastSport.ua` |
+| MLB | İdman | `MLB.us` |
+| MMA-TV.com | İdman | `MMATVcom.ru` |
+| NBA TV | İdman | `NBATV.us` |
+| NBC Sports NOW | İdman | `NBCSportsNOW.us` |
+| News of the World | Beynəlxalq Xəbər | `NewsoftheWorld.us` |
+| NewsWorld | Beynəlxalq Xəbər | `NewsWorld.hk` |
+| NFL Channel | İdman | `NFLChannel.us` |
+| NHL Network | İdman | `NHLNetwork.us` |
+| NowMedia Television | Beynəlxalq Xəbər | `NowMediaTelevision.us` |
 | Number 1 Ask | Musiqi | `Number1Ask.tr` |
+| Pluto TV Alien Invasion | Sənədli | `PlutoTVAlienInvasion.de` |
+| Pluto TV American True Crime | Sənədli | `PlutoTVAmericanTrueCrime.de` |
+| Pluto TV Animals | Sənədli | `PlutoTVAnimals.de` |
+| Pluto TV Britain at War | Sənədli | `PlutoTVBritainatWar.de` |
+| Pluto TV Conspiracy | Sənədli | `PlutoTVConspiracy.de` |
+| Pluto TV Dokumentar | Sənədli | `PlutoTVDokumentar.se` |
+| Pluto TV Food | Sənədli | `PlutoTVFood.de` |
+| Pluto TV History | Sənədli | `PlutoTVHistory.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.se` |
 | PowerTurk Akustik | Musiqi | `PowerTurkAkustik.tr` |

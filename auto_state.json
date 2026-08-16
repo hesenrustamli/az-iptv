@@ -1,0 +1,364 @@
+{
+  "incumbents": {
+    "ABCNewsLive.us": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "ACCDigitalNetwork.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "ASTV.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "AdventureEarth.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "Africa24English.fr": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "AlArabiyaEnglish.sa": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "AlJazeera.qa": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "ArirangUN.kr": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "AutenticHistory.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "BBCEarth.uk": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "BBCNews.uk": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "BabyFirst.us": {
+      "group": "Uşaq",
+      "fails": 0
+    },
+    "Belarus5.by": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "BondiRescue.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "CGTNRussian.cn": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "CNAOriginals.sg": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "ChinaTravel.cn": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "CricketGold.au": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "CuriosityNOW.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "DHA.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "DiscoveringChina.cn": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "DiviSport.ua": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "DocuBox.nl": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "DocumentaryPlus.us": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "DraftKingsNetwork.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "DynamoKyivTV.ua": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "Equalympic.ua": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "F1Channel.ie": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FIFAPlusWomen.uk": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FITE247.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FUELTV.pt": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FastFunBox.nl": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FightBox.nl": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FightNetwork.ca": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FinansTurkTV.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "FloHockey.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "FloRacing.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "Football.ru": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "France24.fr": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "GloryKickboxing.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "GolTVLatinAmerica.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "GuneydoguTV.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "Haber61TV.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "HistoryAsia.us": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "InTrouble.nl": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "InkMaster.us": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "Jail.uk": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "KTVSport.kw": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "KozoomTV.fr": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "LifeTV.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "LoveThePlanet.es": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "MLB.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "MMATVcom.ru": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "MaincastCybersport.ua": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "MaincastSport.ua": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "NBATV.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "NBCSportsNOW.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "NFLChannel.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "NHLNetwork.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "NewsWorld.hk": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "NewsoftheWorld.us": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "NowMediaTelevision.us": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
+    "Number1Ask.tr": {
+      "group": "Musiqi",
+      "fails": 0
+    },
+    "PlutoTVAlienInvasion.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVAmericanTrueCrime.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVAnimals.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVBritainatWar.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVConspiracy.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVDokumentar.se": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVFood.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVHistory.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "PlutoTVSnooker900.de": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "PlutoTVSnooker900.se": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "PowerTurkAkustik.tr": {
+      "group": "Musiqi",
+      "fails": 0
+    },
+    "PowerTurkSlow.tr": {
+      "group": "Musiqi",
+      "fails": 0
+    },
+    "PowerTurkTaptaze.tr": {
+      "group": "Musiqi",
+      "fails": 0
+    },
+    "RACERInternational.pl": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "RTDocumentary.ru": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "RacerNetwork.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "RacerSelect.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "Sport1Baltic.ua": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "SportdigitalFUSSBALL.de": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "Strongman.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "TRTArabi.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "TerraMaterWILD.de": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "TraceSportStars.fr": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "TurkHaberTV.tr": {
+      "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "WaterBear.ch": {
+      "group": "Sənədli",
+      "fails": 0
+    },
+    "WillowSports.us": {
+      "group": "İdman",
+      "fails": 0
+    },
+    "i24NEWSEnglishWorld.il": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    }
+  }
+}
