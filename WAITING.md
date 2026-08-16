@@ -38,6 +38,7 @@ in `generate_playlist.py`.
 
 | Channel | Group | Channel id |
 | --- | --- | --- |
+| ABC News Live | Beynəlxalq Xəbər | `ABCNewsLive.us` |
 | ACC Digital Network | İdman | `ACCDigitalNetwork.us` |
 | Adventure Earth | Sənədli | `AdventureEarth.de` |
 | Africa 24 English | Beynəlxalq Xəbər | `Africa24English.fr` |
@@ -47,12 +48,13 @@ in `generate_playlist.py`.
 | AS TV | Xəbər – Türkiyə | `ASTV.tr` |
 | Autentic History | Sənədli | `AutenticHistory.de` |
 | BabyFirst | Uşaq | `BabyFirst.us` |
+| BBC Earth | Sənədli | `BBCEarth.uk` |
+| BBC News | Beynəlxalq Xəbər | `BBCNews.uk` |
 | Belarus-5 | İdman | `Belarus5.by` |
-| Bondi Rescue | Sənədli | `BondiRescue.de` |
-| CGTN russian | Beynəlxalq Xəbər | `CGTNRussian.cn` |
 | China Travel | Sənədli | `ChinaTravel.cn` |
 | CNA Originals | Sənədli | `CNAOriginals.sg` |
 | Cricket Gold | İdman | `CricketGold.au` |
+| Curiosity NOW | Sənədli | `CuriosityNOW.de` |
 | DHA | Xəbər – Türkiyə | `DHA.tr` |
 | Discovering China | Sənədli | `DiscoveringChina.cn` |
 | DiviSport | İdman | `DiviSport.ua` |
@@ -67,25 +69,23 @@ in `generate_playlist.py`.
 | Finans Turk TV | Xəbər – Türkiyə | `FinansTurkTV.tr` |
 | FloHockey | İdman | `FloHockey.us` |
 | FloRacing | İdman | `FloRacing.us` |
-| France 24 | Beynəlxalq Xəbər | `France24.fr` |
 | FUEL TV | İdman | `FUELTV.pt` |
 | Glory Kickboxing | İdman | `GloryKickboxing.us` |
 | GolTV Latin America | İdman | `GolTVLatinAmerica.us` |
 | Guneydogu TV | Xəbər – Türkiyə | `GuneydoguTV.tr` |
 | Haber61 TV | Xəbər – Türkiyə | `Haber61TV.tr` |
 | History Asia | Sənədli | `HistoryAsia.us` |
-| Ink Master | Sənədli | `InkMaster.us` |
 | Jail | Sənədli | `Jail.uk` |
 | Life TV | Xəbər – Türkiyə | `LifeTV.tr` |
 | Love The Planet | Sənədli | `LoveThePlanet.es` |
 | Number 1 Ask | Musiqi | `Number1Ask.tr` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.se` |
-| Pluto TV Sport | İdman | `PlutoTVSport.se` |
 | PowerTurk Akustik | Musiqi | `PowerTurkAkustik.tr` |
 | PowerTurk Slow | Musiqi | `PowerTurkSlow.tr` |
 | PowerTurk Taptaze | Musiqi | `PowerTurkTaptaze.tr` |
 | RACER International | İdman | `RACERInternational.pl` |
+| Racer Network | İdman | `RacerNetwork.us` |
 | Racer Select | İdman | `RacerSelect.us` |
 | RT Documentary | Sənədli | `RTDocumentary.ru` |
 | Sport 1 Baltic | İdman | `Sport1Baltic.ua` |
