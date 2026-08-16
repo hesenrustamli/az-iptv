@@ -18,7 +18,7 @@ Every run (daily, on GitHub Actions):
  6. Writes playlist.m3u and WAITING.md, plus a commit message hint.
 Set SKIP_CHECK=1 to skip probing and discovery (local testing only).
 """
-import datetime, http.client, json, os, re, socket, ssl
+import datetime, http.client, json, os, re, socket, ssl, unicodedata
 import urllib.error, urllib.parse, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
@@ -68,8 +68,19 @@ def get(name):
     raise last
 
 channels = {c["id"]: c for c in get("channels.json")}
+# broadcast_area, languages and format live on the FEED, not the channel
+# (channels.json has no broadcast_area field at all).
+_feeds = get("feeds.json")
 feed_langs = {(f["channel"], f["id"]): set(f.get("languages") or [])
-              for f in get("feeds.json")}
+              for f in _feeds}
+chan_langs, chan_areas, chan_format = {}, {}, {}
+for _f in _feeds:
+    _ch = _f["channel"]
+    chan_langs.setdefault(_ch, set()).update(_f.get("languages") or [])
+    chan_areas.setdefault(_ch, set()).update(_f.get("broadcast_area") or [])
+    _m = re.match(r"(\d+)", _f.get("format") or "")
+    if _m:
+        chan_format[_ch] = max(chan_format.get(_ch, 0), int(_m.group(1)))
 logos = {}
 for l in get("logos.json"):
     if l.get("channel") and l["channel"] not in logos:
@@ -113,6 +124,45 @@ def url_allowed(url):
     return (url not in STREAM_BLOCKLIST
             and not any(b in url for b in BAD_HOSTS))
 
+# A candidate that has failed the probe this many consecutive runs is
+# dropped from discovered.json / skipped in WATCHLIST, so dead leads do
+# not accumulate forever.
+PRUNE_AFTER = 60
+DEFAULT_STATE = {"discovered": {}, "watchlist": {}}
+
+def load_state(path=DISCOVERED_FILE):
+    """discovered.json: {"discovered": {cid: {url: {page, fails}}},
+    "watchlist": {url: {fails}}}. Older flat {cid: {url: page}} files are
+    migrated on read."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, ValueError):
+        return json.loads(json.dumps(DEFAULT_STATE))
+    if not isinstance(data, dict):
+        return json.loads(json.dumps(DEFAULT_STATE))
+    if "discovered" in data or "watchlist" in data:
+        raw_disc, raw_wl = data.get("discovered") or {}, data.get("watchlist") or {}
+    else:
+        raw_disc, raw_wl = data, {}          # migrate the old flat schema
+    disc = {}
+    for cid, m in raw_disc.items():
+        if not isinstance(m, dict):
+            continue
+        for url, v in m.items():
+            if isinstance(v, str):
+                entry = {"page": v, "fails": 0}
+            elif isinstance(v, dict):
+                entry = {"page": v.get("page", ""), "fails": int(v.get("fails", 0) or 0)}
+            else:
+                continue
+            disc.setdefault(cid, {})[url] = entry
+    wl = {u: {"fails": int((v or {}).get("fails", 0) or 0)}
+          for u, v in raw_wl.items() if isinstance(v, dict)}
+    return {"discovered": disc, "watchlist": wl}
+
+state = load_state()
+
 by = {}
 blocked_ids = set()  # ids that lost at least one stream to the blocklist
 for s in get("streams.json"):
@@ -155,15 +205,142 @@ WATCHLIST = {
     "TRT2.tr": ["https://trt.daioncdn.net/trt-2/master.m3u8?app=web"],
     "TRTBelgesel.tr": ["https://trt.daioncdn.net/trt-belgesel/master.m3u8?app=web"],
 }
+watchlist_live = {}
 for _cid, _urls in WATCHLIST.items():
     for _u in _urls:
-        if url_allowed(_u) and not looks_tokenized(_u):
-            by.setdefault(_cid, []).append(
-                {"url": _u, "quality": None, "user_agent": None,
-                 "referrer": None, "feed": None})
+        if not (url_allowed(_u) and not looks_tokenized(_u)):
+            continue
+        if state["watchlist"].get(_u, {}).get("fails", 0) >= PRUNE_AFTER:
+            continue  # pruned: dead for PRUNE_AFTER runs, see run summary
+        watchlist_live[_u] = _cid
+        by.setdefault(_cid, []).append(
+            {"url": _u, "quality": None, "user_agent": None,
+             "referrer": None, "feed": None})
+
+# ---------------------------------------------------------------------
+# SOURCE POLICY -- applies to SOURCES and AUTO_RULES alike, and is a hard
+# rule, not a preference. Streams may come from exactly two places:
+#   1. the iptv-org public database, and
+#   2. a broadcaster's own domain (its official live page).
+# Never add a scraper for an aggregator, a restream site, an IPTV portal,
+# or a third-party playlist dump, however convenient. Legal-only.
+# ---------------------------------------------------------------------
+
+# Channel ids that must never be auto-added, whatever AUTO_RULES says.
+# Seeded with channels that were deliberately removed by hand, so the
+# rules engine cannot quietly undo that curation.
+EXCLUDE = {
+    # dropped in the first cleanup
+    "AyazTV.az", "ELTV.az", "KapazTV.az", "VilayetTV.az", "KNMusicTV.az",
+    "TJKTV.tr",
+    # dropped in the Turkish music cleanup
+    "Number1Damar.tr", "Number1Dance.tr", "PowerDance.tr", "PowerLove.tr",
+    # dropped because it 403s from Azerbaijan
+    "CBSSportsHQ.us",
+}
+
+# Subscription broadcasters. Never auto-added from any source -- carrying
+# them would breach the legal-only rule in the SOURCE POLICY above.
+# Matched case-insensitively against the channel name and its network.
+# Free-to-air Match! (the main channel) is deliberately absent, so it can
+# land in İdman if a stream ever passes; the premium Match! tier is here.
+PAY_TV_BLOCK = {
+    "bein", "sky sport", "setanta", "eurosport", "discovery", "espn",
+    "fox sport", "dazn", "viaplay", "canal+", "supersport", "arena sport",
+    "match! futbol", "match! arena", "match! igra", "match! premier",
+    "match! ultra", "match! strana", "match! boets", "match! planeta",
+    "okko", "khl", "boks tv",
+    # same tier, added by judgement
+    "premier sport", "sportklub", "polsat sport", "digi sport",
+    "nova sport", "tnt sports", "optus sport", "sportsnet", "bt sport",
+    "movistar", "orange sport", "telekom sport", "ziggo sport",
+    "star sports", "ufc fight pass", "nba league pass", "nfl sunday ticket",
+}
+# Sports sub-genres that are not what this playlist is for. Sports only.
+NICHE_SKIP = re.compile(
+    r"college|campus|horse|equestrian|rodeo|poker|billiard|fishing|"
+    r"hunting|cornhole|pickleball", re.I)
+
+# Ceiling on auto-adds per group. PICKS entries never count against a cap
+# and are never displaced -- caps only trim the automatic tail.
+AUTO_CAP = {"İdman": 25, "Sənədli": 15, "Musiqi": 10,
+            "Xəbər – Türkiyə": 8, "Uşaq": 5, "Beynəlxalq Xəbər": 6}
+
+def categories_of(c):
+    return {x.lower() for x in (c.get("categories") or [])}
+
+def is_international(cid):
+    areas = chan_areas.get(cid, set())
+    return (any(a.startswith("r/") for a in areas)
+            or len([a for a in areas if a.startswith("c/")]) > 1)
+
+def reach_score(cid):
+    """Region-wide > multi-country > one country > local."""
+    areas = chan_areas.get(cid, set())
+    if any(a.startswith("r/") for a in areas):
+        return 3
+    countries = [a for a in areas if a.startswith("c/")]
+    if len(countries) > 1:
+        return 2
+    return 1 if countries else 0
+
+def notable(cid, c):
+    """Reject local stations, closed channels and NSFW. A feed whose
+    broadcast_area is only city (ct/) or subdivision (s/) level is below
+    country level. An unknown area is not held against a channel."""
+    if c.get("closed") or c.get("is_nsfw"):
+        return False
+    areas = chan_areas.get(cid, set())
+    if not areas:
+        return True
+    return any(a.startswith(("c/", "r/")) for a in areas)
+
+def is_pay_tv(cid, c):
+    hay = f"{c.get('name') or ''} {c.get('network') or ''}".lower()
+    return any(tok in hay for tok in PAY_TV_BLOCK)
+
+# Evaluated against the whole iptv-org database every run. First match
+# wins, so the country-specific rules are listed before the broad
+# catch-alls -- otherwise the later rules could never fire.
+AUTO_RULES = [
+    ("İdman",            lambda cid, c, L: "sports" in categories_of(c)),
+    ("Xəbər – Türkiyə",  lambda cid, c, L: c.get("country") == "TR" and "news" in categories_of(c)),
+    ("Beynəlxalq Xəbər", lambda cid, c, L: ("news" in categories_of(c)
+                                            and is_international(cid)
+                                            and bool(L & ALLOWED_LANGS))),
+    ("Musiqi",           lambda cid, c, L: c.get("country") in ("TR", "AZ") and "music" in categories_of(c)),
+    ("Uşaq",             lambda cid, c, L: "kids" in categories_of(c) and bool(L & {"aze", "tur"})),
+    ("Sənədli",          lambda cid, c, L: "documentary" in categories_of(c) and bool(L & ALLOWED_LANGS)),
+    ("Azərbaycan 🇦🇿",    lambda cid, c, L: c.get("country") == "AZ"),
+]
+# Probing every stream of every matching channel would dominate the run,
+# so only this many best-ranked streams per auto-candidate are checked.
+AUTO_PROBE_PER_CHANNEL = 2
+
+def latin_only(name):
+    """True if every letter is Latin (Azerbaijani/Turkish diacritics pass,
+    Cyrillic/Greek/Arabic/CJK do not)."""
+    for ch in name:
+        if ch.isalpha():
+            try:
+                if not unicodedata.name(ch).startswith("LATIN"):
+                    return False
+            except ValueError:
+                return False
+    return True
+
+def auto_group_for(cid, c):
+    L = chan_langs.get(cid, set())
+    for group, pred in AUTO_RULES:
+        try:
+            if pred(cid, c, L):
+                return group
+        except Exception:
+            continue
+    return None
 
 # Broadcasters' own live pages, scraped daily for static .m3u8 URLs.
-# Official domains ONLY -- never aggregators or restream sites.
+# Official domains ONLY -- see SOURCE POLICY above.
 SOURCES = {
     # arbtv.az/now currently answers with a JS "One moment, please..."
     # interstitial that reloads itself, so nothing is extractable without
@@ -251,7 +428,10 @@ RENAME = {"Russia1.ru": "russia 1", "EuronewsRussian.fr": "Euronews russian",
           "FashionTVParisLOriginal.fr": "Fashion TV"}
 
 def display_name(cid):
-    return RENAME.get(cid) or (channels.get(cid) or {}).get("name") or cid
+    name = RENAME.get(cid) or (channels.get(cid) or {}).get("name") or cid
+    # hard rule: the words russia/russian never appear capitalised, whether
+    # the entry is hand-picked or auto-added
+    return re.sub(r"Russia", "russia", name)
 
 GROUP_OF = {}
 for _g, _idl in PICKS.items():
@@ -402,14 +582,6 @@ def discover(log):
                 found.setdefault(cid, {})[u] = page
     return found
 
-def load_discovered(path=DISCOVERED_FILE):
-    try:
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        return {c: dict(v) for c, v in data.items()} if isinstance(data, dict) else {}
-    except (FileNotFoundError, ValueError):
-        return {}
-
 # ---------------- probe everything ----------------
 skip_check = os.environ.get("SKIP_CHECK") == "1"
 all_ids = {cid for idl in PICKS.values() for cid in idl}
@@ -417,12 +589,14 @@ previous = load_previous()
 prev_waiting_names = load_prev_waiting()
 
 discovery_log = []
-discovered = load_discovered()
+discovered = {c: dict(m) for c, m in state["discovered"].items()}
 if not skip_check:
     for _cid, _urlmap in discover(discovery_log).items():
-        discovered.setdefault(_cid, {}).update(_urlmap)
+        for _u, _page in _urlmap.items():
+            discovered.setdefault(_cid, {}).setdefault(_u, {"page": _page, "fails": 0})
+            discovered[_cid][_u]["page"] = _page
 # stale entries can be retired by the blocklist just like anything else
-discovered = {c: {u: p for u, p in m.items()
+discovered = {c: {u: e for u, e in m.items()
                   if url_allowed(u) and not looks_tokenized(u)}
               for c, m in discovered.items()}
 discovered = {c: m for c, m in discovered.items() if m}
@@ -433,6 +607,33 @@ for _cid, _urlmap in discovered.items():
         disc_by.setdefault(_cid, []).append(
             {"url": _u, "quality": None, "user_agent": None,
              "referrer": None, "feed": None})
+
+# ---- auto-include candidates (PICKS always wins; these only ever add) ----
+auto_candidates = {}   # cid -> (group, [streams to probe])
+skip_paytv, skip_gate, skip_niche, skip_script = 0, 0, 0, 0
+for _cid, _c in channels.items():
+    if _cid in all_ids or _cid in EXCLUDE:
+        continue
+    _pool = [s for s in by.get(_cid, []) if url_allowed(s["url"])]
+    if not _pool:
+        continue
+    _group = auto_group_for(_cid, _c)
+    if _group is None:
+        continue
+    if is_pay_tv(_cid, _c):
+        skip_paytv += 1
+        continue
+    if not notable(_cid, _c):
+        skip_gate += 1
+        continue
+    if _group == "İdman" and NICHE_SKIP.search(_c.get("name") or ""):
+        skip_niche += 1
+        continue
+    if not latin_only(_c.get("name") or ""):
+        skip_script += 1   # no cyrillic (or other non-Latin) display names
+        continue
+    _pool = sorted(_pool, key=rank, reverse=True)[:AUTO_PROBE_PER_CHANNEL]
+    auto_candidates[_cid] = (_group, _pool)
 
 # Retained URLs are probed as well: a last-known-good entry must not
 # outlive the stream it points at.
@@ -447,6 +648,8 @@ for cid in all_ids:
     candidates.extend(by.get(cid, []))
     candidates.extend(disc_by.get(cid, []))
 candidates.extend(prev_streams.values())
+for _group, _pool in auto_candidates.values():
+    candidates.extend(_pool)
 status, detail_of = {}, {}
 override_warnings = []
 if not skip_check:
@@ -498,10 +701,38 @@ def retained_usable(cid):
         return True
     return status.get(skey(s)) == "ok"
 
+# Resolve auto-adds: a rule match only becomes an entry if one of its
+# streams actually passes the probe.
+auto_add = {}          # cid -> (group, stream)
+auto_by_group = {}
+_eligible = {}
+for _cid, (_group, _pool) in auto_candidates.items():
+    _hit = _pick(_pool) if not skip_check else (_pool[0] if _pool else None)
+    if _hit is None:
+        continue
+    _eligible.setdefault(_group, []).append((_cid, _hit))
+
+# Apply the per-group ceiling: best reach first, then HD over SD, then name.
+capped_out = 0
+for _group, _rows in _eligible.items():
+    _rows.sort(key=lambda r: (-reach_score(r[0]),
+                              -max(chan_format.get(r[0], 0), qscore(r[1])),
+                              display_name(r[0]).lower()))
+    _cap = AUTO_CAP.get(_group)
+    if _cap is not None and len(_rows) > _cap:
+        capped_out += len(_rows) - _cap
+        _rows = _rows[:_cap]
+    for _cid, _hit in _rows:
+        auto_add[_cid] = (_group, _hit)
+        auto_by_group.setdefault(_group, []).append(_cid)
+for _g in auto_by_group:
+    auto_by_group[_g].sort(key=lambda c: display_name(c).lower())
+
 # ---------------- build the playlist ----------------
 lines = ["#EXTM3U"]
 count = 0
 published = set()
+published_urls = set()
 adopted = {}   # cid -> page it was discovered on
 retained, stale, no_stream, unknown_id = [], [], [], []
 for group, idl in PICKS.items():
@@ -539,6 +770,25 @@ for group, idl in PICKS.items():
         lines.extend(opts)
         lines.append(url)
         published.add(cid)
+        published_urls.add(url)
+        count += 1
+    # auto-added channels come after the hand-curated ones in their group
+    for cid in auto_by_group.get(group, []):
+        best = auto_add[cid][1]
+        url = best["url"]
+        if url in published_urls:   # dedupe: same stream already carried
+            continue
+        q = best.get("quality")
+        disp = display_name(cid) + (f" ({q})" if q else "")
+        lines.append(f'#EXTINF:-1 tvg-id="{cid}" tvg-logo="{logos.get(cid,"")}" '
+                     f'group-title="{group}",{disp}')
+        if best.get("user_agent"):
+            lines.append(f'#EXTVLCOPT:http-user-agent={best["user_agent"]}')
+        if best.get("referrer"):
+            lines.append(f'#EXTVLCOPT:http-referrer={best["referrer"]}')
+        lines.append(url)
+        published.add(cid)
+        published_urls.add(url)
         count += 1
 
 with open(PLAYLIST, "w", encoding="utf-8") as f:
@@ -575,6 +825,13 @@ for cid, urlmap in sorted(discovered.items(),
             alternate_rows.append((display_name(cid),
                                    "; ".join(GROUP_OF.get(cid, [])), url, page))
 
+auto_rows = sorted(
+    ((display_name(cid), grp, cid) for cid, (grp, _s) in auto_add.items()
+     if cid in published),
+    key=lambda r: r[0].lower())
+# auto-adds that were not in the previous playlist -> named in the commit
+new_auto = [r for r in auto_rows if r[2] not in previous]
+
 def render_report():
     out = ["# Waiting list", "",
            "Channels kept in the playlist config that have no working stream",
@@ -595,14 +852,49 @@ def render_report():
         out += [f"| {c} | {g} | {u} | {p} |" for c, g, u, p in alternate_rows]
     else:
         out.append("_None._")
+    out += ["", "## New channels", "",
+            "Added automatically by AUTO_RULES from the iptv-org database,",
+            "not hand-picked. To drop one for good, add its id to EXCLUDE",
+            "in `generate_playlist.py`.", ""]
+    if auto_rows:
+        out += ["| Channel | Group | Channel id |", "| --- | --- | --- |"]
+        out += [f"| {n} | {g} | `{i}` |" for n, g, i in auto_rows]
+    else:
+        out.append("_None._")
     return "\n".join(out) + "\n"
 
 report_text = render_report()
 with open(WAITING_FILE, "w", encoding="utf-8") as f:
     f.write(report_text)
 
+# ---------------- prune candidates that have been dead for ages ----------
+pruned = []
+if not skip_check:
+    for _cid, _m in list(discovered.items()):
+        for _u, _entry in list(_m.items()):
+            if status.get((None, _u)) in ("ok", "geo"):
+                _entry["fails"] = 0
+                continue
+            _entry["fails"] = int(_entry.get("fails", 0)) + 1
+            if _entry["fails"] >= PRUNE_AFTER:
+                del _m[_u]
+                pruned.append(f"discovered {display_name(_cid)}: {_u}")
+        if not _m:
+            del discovered[_cid]
+    for _u, _cid in watchlist_live.items():
+        _e = state["watchlist"].setdefault(_u, {"fails": 0})
+        if status.get((None, _u)) in ("ok", "geo"):
+            _e["fails"] = 0
+            continue
+        _e["fails"] = int(_e.get("fails", 0)) + 1
+        if _e["fails"] >= PRUNE_AFTER:
+            pruned.append(f"watchlist {display_name(_cid)}: {_u} "
+                          f"(now inert; delete the line from WATCHLIST)")
+
 with open(DISCOVERED_FILE, "w", encoding="utf-8") as f:
-    json.dump({c: dict(sorted(m.items())) for c, m in sorted(discovered.items())},
+    json.dump({"discovered": {c: dict(sorted(m.items()))
+                              for c, m in sorted(discovered.items())},
+               "watchlist": dict(sorted(state["watchlist"].items()))},
               f, indent=2, ensure_ascii=False)
     f.write("\n")
 
@@ -619,20 +911,27 @@ if summary_path:
 # ---------------- commit message hint ----------------
 new_waiting_names = {r[0] for r in waiting_rows}
 returned = sorted(prev_waiting_names - new_waiting_names)
-msg = []
+parts, detail = [], []
+if new_auto:
+    names = ", ".join(r[0] for r in new_auto[:4])
+    if len(new_auto) > 4:
+        names += f", +{len(new_auto) - 4} more"
+    parts.append(f"+{len(new_auto)} new ({names})")
 for cid, page in sorted(adopted.items(), key=lambda kv: display_name(kv[0]).lower()):
     host = urllib.parse.urlsplit(page).hostname or page
-    msg.append(f"bot: discovered {display_name(cid)} on {host}")
+    parts.append(f"discovered {display_name(cid)} on {host}")
     returned = [r for r in returned if r != display_name(cid)]
 if returned:
-    verb = "is back" if len(returned) == 1 else "are back"
-    msg.append(f"bot: {', '.join(returned)} {verb}")
-if not msg:
-    msg.append("Auto-update playlist")
+    parts.append(f"{', '.join(returned)} {'is' if len(returned) == 1 else 'are'} back")
+if pruned:
+    parts.append(f"pruned {len(pruned)} dead candidate"
+                 f"{'' if len(pruned) == 1 else 's'}")
+    detail = ["", "Pruned:"] + [f"  {p}" for p in pruned]
+headline = "bot: " + ", ".join(parts) if parts else "Auto-update playlist"
 with open(COMMIT_MSG_FILE, "w", encoding="utf-8") as f:
-    f.write(msg[0] + "\n")
-    if len(msg) > 1:
-        f.write("\n" + "\n".join(msg[1:]) + "\n")
+    f.write(headline + "\n")
+    if detail:
+        f.write("\n".join(detail) + "\n")
 
 # ---------------- console report ----------------
 def report(label, ids):
@@ -652,3 +951,20 @@ if discovery_log:
         print(line)
 print(f"Waiting list: {len(waiting_rows)} channel(s); "
       f"alternates found: {len(alternate_rows)}")
+print(f"Auto-added by AUTO_RULES: {len(auto_rows)} channel(s) "
+      f"({len(new_auto)} new this run)")
+_per_group = {}
+for _n, _g, _i in auto_rows:
+    _per_group[_g] = _per_group.get(_g, 0) + 1
+for _g in sorted(_per_group, key=lambda k: -_per_group[k]):
+    cap = AUTO_CAP.get(_g)
+    print(f"    {_g:20} {_per_group[_g]}{f' / cap {cap}' if cap else ''}")
+for _n, _g, _i in auto_rows:
+    print(f"  + {_i:34} {_n[:36]:36} -> {_g}")
+print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
+      f"{skip_gate}, niche sports {skip_niche}, non-Latin name {skip_script}, "
+      f"over cap {capped_out}")
+if pruned:
+    print(f"Pruned {len(pruned)} dead candidate(s):")
+    for p in pruned:
+        print(f"  - {p}")
