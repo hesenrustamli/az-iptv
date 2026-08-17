@@ -358,7 +358,7 @@ https://russian-livews.cgtn.com/hls/LSvexABhNipibK5KRuUkvHZ7220802LSTeze9o8tdFXM
 #EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://dtil.tmsimg.com/assets/s159111_ld_h15_aa.png?lock=720x540" group-title="Beynəlxalq Xəbər",France 24 (1080p)
 https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_5000.m3u8
 #EXTINF:-1 tvg-id="i24NEWSEnglishWorld.il" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/LOGO_i24NEWS.png/960px-LOGO_i24NEWS.png" group-title="Beynəlxalq Xəbər",i24NEWS English World (1080p)
-https://i24newsenglish-cdn.encoders.immergo.tv/master.m3u8
+https://hlspackager.akamaized.net/live/DB/i24_ENGLISH/HLS/i24_ENGLISH.m3u8
 #EXTINF:-1 tvg-id="NewsoftheWorld.us" tvg-logo="https://i.imgur.com/MfyRQCs.png" group-title="Beynəlxalq Xəbər",News of the World (1080p)
 https://live.nowtelly.com/now_usa/live_usa/playlist.m3u8
 #EXTINF:-1 tvg-id="NewsWorld.hk" tvg-logo="https://images-3.rakuten.tv/storage/global-live-channel/translation/artwork/e58c409f-711e-4690-98de-e92a88440011-width200-quality90.jpeg" group-title="Beynəlxalq Xəbər",NewsWorld (1080p)
