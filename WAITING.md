@@ -118,16 +118,16 @@ in `generate_playlist.py`.
 | RACER International | İdman | `RACERInternational.pl` |
 | Racer Network | İdman | `RacerNetwork.us` |
 | Racer Select | İdman | `RacerSelect.us` |
-| RT | Beynəlxalq Xəbər | `RT.ru` |
 | RT Documentary | Sənədli | `RTDocumentary.ru` |
-| RT India | Beynəlxalq Xəbər | `RTIndia.in` |
 | Sport 1 Baltic | İdman | `Sport1Baltic.ua` |
 | Sportdigital FUSSBALL | İdman | `SportdigitalFUSSBALL.de` |
 | Strongman | İdman | `Strongman.us` |
-| Telesur | Beynəlxalq Xəbər | `Telesur.ve` |
 | Terra Mater WILD | Sənədli | `TerraMaterWILD.de` |
+| TOI Global | Beynəlxalq Xəbər | `TOIGlobal.in` |
 | Trace Sport Stars | İdman | `TraceSportStars.fr` |
+| Trailers | Beynəlxalq Xəbər | `Trailers.es` |
 | TRT Arabi | Xəbər – Türkiyə | `TRTArabi.tr` |
 | TurkHaber TV | Xəbər – Türkiyə | `TurkHaberTV.tr` |
 | WaterBear | Sənədli | `WaterBear.ch` |
 | Willow Sports | İdman | `WillowSports.us` |
+| WION | Beynəlxalq Xəbər | `WION.in` |
