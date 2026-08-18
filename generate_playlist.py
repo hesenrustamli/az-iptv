@@ -130,7 +130,12 @@ def looks_tokenized(url):
     except ValueError:
         return True
     keys = {k.lower() for k, _ in urllib.parse.parse_qsl(q, keep_blank_values=True)}
-    return bool(keys & TOKEN_PARAMS)
+    if keys & TOKEN_PARAMS:
+        return True
+    # exact-key matching misses names like authToken, which is how a Pluto
+    # stitcher URL carrying an expiring JWT nearly got pinned as a PICK
+    return any(frag in k for k in keys
+               for frag in ("token", "expires", "signature", "wmsauthsign"))
 
 def url_allowed(url):
     return (url not in STREAM_BLOCKLIST
@@ -212,6 +217,12 @@ OVERRIDES = {
     # The "ww" edge works from both; the "uk" edge 403s outside the UK.
     "BBCNews.uk": {"url": "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_hd_abr_v2.m3u8",
                    "quality": "720p", "user_agent": None, "referrer": None},
+    # Sky News, pinned to the Xumo/NBCUniversal FAST host that
+    # xemzi.short.gy/1000018 resolves to -- one hop fewer, no query string,
+    # and Sky is a Comcast/NBCU channel so this is its own distributor. The
+    # shortener stays in the candidate pool as a fallback, not blocklisted.
+    "SkyNews.ie": {"url": "https://xumo-drct-skynews-nc91a.fast.nbcuni.com/live/master.m3u8",
+                   "quality": "1080p", "user_agent": None, "referrer": None},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
@@ -219,9 +230,13 @@ for _cid, _ov in OVERRIDES.items():
 # Hand-found static candidates for channels iptv-org has no working entry
 # for. Probed every run like any other candidate; they simply join the
 # playlist the day they start answering. Never tokenized URLs.
+# TRT's daioncdn slugs are inconsistent: trt-1 and trtworld both work,
+# but trt2/trt-2 and trtbelgesel/trt-belgesel all 404 -- TRT simply does
+# not publish those two there. Kept on the unhyphenated form (the shape
+# that works for trtworld) so the daily probe keeps trying if that changes.
 WATCHLIST = {
-    "TRT2.tr": ["https://trt.daioncdn.net/trt-2/master.m3u8?app=web"],
-    "TRTBelgesel.tr": ["https://trt.daioncdn.net/trt-belgesel/master.m3u8?app=web"],
+    "TRT2.tr": ["https://trt.daioncdn.net/trt2/master.m3u8?app=web"],
+    "TRTBelgesel.tr": ["https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
 }
 watchlist_live = {}
 for _cid, _urls in WATCHLIST.items():
@@ -255,6 +270,9 @@ EXCLUDE = {
     "Number1Damar.tr", "Number1Dance.tr", "PowerDance.tr", "PowerLove.tr",
     # dropped because it 403s from Azerbaijan
     "CBSSportsHQ.us",
+    # state broadcasters that backfilled Beynəlxalq Xəbər; seats refill by
+    # ranking as usual
+    "RT.ru", "RTIndia.in", "Telesur.ve",
 }
 
 # Subscription broadcasters. Never auto-added from any source -- carrying
@@ -397,7 +415,8 @@ SOURCES = {
 
 OFFICIAL = ["trt.com.tr", "daioncdn", "baku.tv", "itv.az", "atv.az",
             "xezerxeber.az", "yodacdn", "mncdn", "akamaized", "trt.com",
-            "bloomberg.com", "nhkworld.jp", "cgtn.com", "cosmonova"]
+            "bloomberg.com", "nhkworld.jp", "cgtn.com", "cosmonova",
+            "nbcuni.com"]
 def qscore(s):
     q = s.get("quality") or ""
     try: return int(q.replace("p", "").replace("i", ""))
@@ -455,6 +474,9 @@ PICKS = {
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr","DreamTurk.tr"],
 "Sənədli": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVParisLOriginal.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
 "· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
+# TRT World repair path if tv-trtworld.medya.trt.com.tr ever geo-blocks
+# the way TRT 2 and TRT Belgesel do:
+#   https://trt.daioncdn.net/trtworld/master.m3u8?app=web   (verified 200)
 "Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","BBCNews.uk","AlJazeera.qa","France24.fr"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
