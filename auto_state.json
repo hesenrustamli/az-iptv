@@ -24,10 +24,6 @@
       "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
-    "AlJazeera.qa": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
     "ArirangUN.kr": {
       "group": "Beynəlxalq Xəbər",
       "fails": 0
@@ -38,10 +34,6 @@
     },
     "BBCEarth.uk": {
       "group": "Sənədli",
-      "fails": 0
-    },
-    "BBCNews.uk": {
-      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "BabyFirst.us": {
@@ -150,10 +142,6 @@
     },
     "Football.ru": {
       "group": "İdman",
-      "fails": 0
-    },
-    "France24.fr": {
-      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "GloryKickboxing.us": {
@@ -316,8 +304,16 @@
       "group": "İdman",
       "fails": 0
     },
+    "RT.ru": {
+      "group": "Beynəlxalq Xəbər",
+      "fails": 0
+    },
     "RTDocumentary.ru": {
       "group": "Sənədli",
+      "fails": 0
+    },
+    "RTIndia.in": {
+      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "RacerNetwork.us": {
@@ -342,6 +338,10 @@
     },
     "TRTArabi.tr": {
       "group": "Xəbər – Türkiyə",
+      "fails": 0
+    },
+    "Telesur.ve": {
+      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "TerraMaterWILD.de": {

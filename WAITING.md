@@ -17,6 +17,7 @@ right now. Every one is re-probed on each run and rejoins
 | Futbol | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | Olympic Channel | İdman | 3 | 403 forbidden |
+| REN TV | · russia | 2 | unreachable |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | TGRT Belgesel | Sənədli | 0 | all known streams blocklisted |
@@ -43,13 +44,11 @@ in `generate_playlist.py`.
 | Adventure Earth | Sənədli | `AdventureEarth.de` |
 | Africa 24 English | Beynəlxalq Xəbər | `Africa24English.fr` |
 | Al Arabiya English | Beynəlxalq Xəbər | `AlArabiyaEnglish.sa` |
-| Al Jazeera | Beynəlxalq Xəbər | `AlJazeera.qa` |
 | Arirang UN | Beynəlxalq Xəbər | `ArirangUN.kr` |
 | AS TV | Xəbər – Türkiyə | `ASTV.tr` |
 | Autentic History | Sənədli | `AutenticHistory.de` |
 | BabyFirst | Uşaq | `BabyFirst.us` |
 | BBC Earth | Sənədli | `BBCEarth.uk` |
-| BBC News | Beynəlxalq Xəbər | `BBCNews.uk` |
 | Belarus-5 | İdman | `Belarus5.by` |
 | Bondi Rescue | Sənədli | `BondiRescue.de` |
 | CGTN russian | Beynəlxalq Xəbər | `CGTNRussian.cn` |
@@ -75,7 +74,6 @@ in `generate_playlist.py`.
 | FloHockey | İdman | `FloHockey.us` |
 | FloRacing | İdman | `FloRacing.us` |
 | Football | İdman | `Football.ru` |
-| France 24 | Beynəlxalq Xəbər | `France24.fr` |
 | FUEL TV | İdman | `FUELTV.pt` |
 | Glory Kickboxing | İdman | `GloryKickboxing.us` |
 | GolTV Latin America | İdman | `GolTVLatinAmerica.us` |
@@ -120,10 +118,13 @@ in `generate_playlist.py`.
 | RACER International | İdman | `RACERInternational.pl` |
 | Racer Network | İdman | `RacerNetwork.us` |
 | Racer Select | İdman | `RacerSelect.us` |
+| RT | Beynəlxalq Xəbər | `RT.ru` |
 | RT Documentary | Sənədli | `RTDocumentary.ru` |
+| RT India | Beynəlxalq Xəbər | `RTIndia.in` |
 | Sport 1 Baltic | İdman | `Sport1Baltic.ua` |
 | Sportdigital FUSSBALL | İdman | `SportdigitalFUSSBALL.de` |
 | Strongman | İdman | `Strongman.us` |
+| Telesur | Beynəlxalq Xəbər | `Telesur.ve` |
 | Terra Mater WILD | Sənədli | `TerraMaterWILD.de` |
 | Trace Sport Stars | İdman | `TraceSportStars.fr` |
 | TRT Arabi | Xəbər – Türkiyə | `TRTArabi.tr` |

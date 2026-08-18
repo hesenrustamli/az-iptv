@@ -31,8 +31,8 @@ https://lives.atv.az:5443/ATV_TV_STREAM/streams/atvcanli.m3u8
 https://dash4.antik.sk/live/test_uatv/playlist.m3u8
 #EXTINF:-1 tvg-id="Pershyi.ua" tvg-logo="https://i.imgur.com/osTQLED.png" group-title="Ukrayna",Pershyi (1080p)
 https://api-tv.ipnet.ua/api/v1/manifest/2118742505.m3u8
-#EXTINF:-1 tvg-id="TRT1.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/TRT_1_logo_%282021-%29.svg/960px-TRT_1_logo_%282021-%29.svg.png" group-title="Türkiyə – Ümumi",TRT 1 (1440p)
-https://tv-trt1.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRT1.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/TRT_1_logo_%282021-%29.svg/960px-TRT_1_logo_%282021-%29.svg.png" group-title="Türkiyə – Ümumi",TRT 1 (1080p)
+https://trt.daioncdn.net/trt-1/master.m3u8?app=web
 #EXTINF:-1 tvg-id="ATV.tr" tvg-logo="https://i.imgur.com/HyVUwFC.png" group-title="Türkiyə – Ümumi",ATV (360p)
 http://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/atv/atv_360p.m3u8
 #EXTINF:-1 tvg-id="KanalD.tr" tvg-logo="https://i.imgur.com/9o1atM6.png" group-title="Türkiyə – Ümumi",Kanal D (1080p)
@@ -319,10 +319,6 @@ https://stream.smotrim.ru/hls2/russia_hd/playlist_6.m3u8
 https://bl.rutube.ru/livestream/c37cd74192c6bc3d6cd6077c0c4fd686/index.m3u8?e=2077050299&s=HSWg81JrQ3OqmwuWkEIDAQ&scheme=https
 #EXTINF:-1 tvg-id="STS.ru" tvg-logo="https://i.imgur.com/ilUzAeb.png" group-title="· russia",STS (1080p)
 http://stream.mcquack.net/138/index.m3u8
-#EXTINF:-1 tvg-id="RENTV.ru" tvg-logo="https://iks-online.net/storage/2018/07/REN-TV-HD.png" group-title="· russia",REN TV
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
-#EXTVLCOPT:http-referrer=https://televizor24tochka.ru/
-https://streaming.televizor-24-tochka.ru/live/14.m3u8
 #EXTINF:-1 tvg-id="TRTWorld.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/TRT_World.svg/960px-TRT_World.svg.png" group-title="Beynəlxalq Xəbər",TRT World (1080p)
 https://tv-trtworld.medya.trt.com.tr/master.m3u8
 #EXTINF:-1 tvg-id="EuronewsEnglish.fr" tvg-logo="https://a.jsrdn.com/hls/22886/euronews/extras/1080_logo.png" group-title="Beynəlxalq Xəbər",Euronews English (720p)
@@ -341,22 +337,22 @@ https://xemzi.short.gy/1000018
 https://abc-news-dmd-streams-1.akamaized.net/out/v1/701126012d044971b3fa89406a440133/index.m3u8
 #EXTINF:-1 tvg-id="NHKWorldJapan.jp" tvg-logo="https://jiotvimages.cdn.jio.com/dare_images/images/NHK_World_Japan.png" group-title="Beynəlxalq Xəbər",NHK World-Japan (1080p)
 https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8
+#EXTINF:-1 tvg-id="BBCNews.uk" tvg-logo="https://dtil.tmsimg.com/assets/s158142_ld_h15_aa.png?lock=720x540" group-title="Beynəlxalq Xəbər",BBC News (720p)
+https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_hd_abr_v2.m3u8
+#EXTINF:-1 tvg-id="AlJazeera.qa" tvg-logo="https://upload.wikimedia.org/wikipedia/ms/thumb/f/f2/Aljazeera_eng.svg/500px-Aljazeera_eng.svg.png" group-title="Beynəlxalq Xəbər",Al Jazeera (1080p)
+https://live-hls-apps-aje-fa.getaj.net/AJE/index.m3u8
+#EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://dtil.tmsimg.com/assets/s159111_ld_h15_aa.png?lock=720x540" group-title="Beynəlxalq Xəbər",France 24 (1080p)
+https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_5000.m3u8
 #EXTINF:-1 tvg-id="ABCNewsLive.us" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/ABC_News_Live_logo_2021.svg/960px-ABC_News_Live_logo_2021.svg.png" group-title="Beynəlxalq Xəbər",ABC News Live (1080p)
 https://pb-0n3n2ej0w8pl9.akamaized.net/ABCNewsLive_Disney.m3u8
 #EXTINF:-1 tvg-id="Africa24English.fr" tvg-logo="https://africa24tv.com/wp-content/uploads/2023/12/logo-Africa24TVEnglish.png" group-title="Beynəlxalq Xəbər",Africa 24 English (1080p)
 https://edge20.vedge.infomaniak.com/livecast/ik:africa24english/manifest.m3u8
 #EXTINF:-1 tvg-id="AlArabiyaEnglish.sa" tvg-logo="https://english.alarabiya.net/.resources/aa-fe-templating/webresources/dist/assets/gfx/logo/en-night-logo.svg" group-title="Beynəlxalq Xəbər",Al Arabiya English (1080p)
 https://live.alarabiya.net/alarabiapublish/english/playlist_dvr.m3u8
-#EXTINF:-1 tvg-id="AlJazeera.qa" tvg-logo="https://upload.wikimedia.org/wikipedia/ms/thumb/f/f2/Aljazeera_eng.svg/500px-Aljazeera_eng.svg.png" group-title="Beynəlxalq Xəbər",Al Jazeera (1080p)
-https://live-hls-apps-aje-fa.getaj.net/AJE/index.m3u8
 #EXTINF:-1 tvg-id="ArirangUN.kr" tvg-logo="https://i.imgur.com/Jdy3WNm.png" group-title="Beynəlxalq Xəbər",Arirang UN (1080p)
 https://amdlive-ch02-ctnd-com.akamaized.net/arirang_2ch/smil:arirang_2ch.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="BBCNews.uk" tvg-logo="https://dtil.tmsimg.com/assets/s158142_ld_h15_aa.png?lock=720x540" group-title="Beynəlxalq Xəbər",BBC News (1080p)
-https://pb-iiczlgfysam0q.akamaized.net/v1/amcnetworks_bbcnews_1/samsungheadend_us/latest/main/hls/playlist.m3u8
 #EXTINF:-1 tvg-id="CGTNRussian.cn" tvg-logo="https://i.imgur.com/nDWkCmL.png" group-title="Beynəlxalq Xəbər",CGTN russian (1080p)
 https://russian-livews.cgtn.com/hls/LSvexABhNipibK5KRuUkvHZ7220802LSTeze9o8tdFXMHsb1VosgoT220802cd/playlist.m3u8
-#EXTINF:-1 tvg-id="France24.fr" tvg-logo="https://dtil.tmsimg.com/assets/s159111_ld_h15_aa.png?lock=720x540" group-title="Beynəlxalq Xəbər",France 24 (1080p)
-https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_5000.m3u8
 #EXTINF:-1 tvg-id="i24NEWSEnglishWorld.il" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/LOGO_i24NEWS.png/960px-LOGO_i24NEWS.png" group-title="Beynəlxalq Xəbər",i24NEWS English World (1080p)
 https://hlspackager.akamaized.net/live/DB/i24_ENGLISH/HLS/i24_ENGLISH.m3u8
 #EXTINF:-1 tvg-id="NewsoftheWorld.us" tvg-logo="https://i.imgur.com/MfyRQCs.png" group-title="Beynəlxalq Xəbər",News of the World (1080p)
@@ -365,3 +361,9 @@ https://live.nowtelly.com/now_usa/live_usa/playlist.m3u8
 https://amg01076-lightning-amg01076c5-rakuten-us-1788.playouts.now.amagi.tv/playlist/amg01076-lightning-newsworld-rakutenus/playlist.m3u8
 #EXTINF:-1 tvg-id="NowMediaTelevision.us" tvg-logo="https://i.imgur.com/8m8gy0n.png" group-title="Beynəlxalq Xəbər",NowMedia Television (1080p)
 https://stream-204968.castr.net/64e0c91d08bff3041638aee3/live_a4243540d4b911f0b624bda5e9a32aa9/index.m3u8
+#EXTINF:-1 tvg-id="RT.ru" tvg-logo="https://dtil.tmsimg.com/assets/s142401_ld_h15_aa.png?lock=720x540" group-title="Beynəlxalq Xəbər",RT (1080p)
+https://wisewatchoott.wiseplayout.com/RT/master.m3u8
+#EXTINF:-1 tvg-id="RTIndia.in" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/a/a0/Russia-today-logo.svg" group-title="Beynəlxalq Xəbər",RT India (1080p)
+https://rt-india.rttv.com/dvr/rtindia/playlist.m3u8
+#EXTINF:-1 tvg-id="Telesur.ve" tvg-logo="https://i.imgur.com/P50VjRX.png" group-title="Beynəlxalq Xəbər",Telesur (1080p)
+https://mblenmain01.telesur.ultrabase.net/mblivev3/hd/playlist.m3u8
