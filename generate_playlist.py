@@ -237,6 +237,14 @@ for _cid, _ov in OVERRIDES.items():
 WATCHLIST = {
     "TRT2.tr": ["https://trt.daioncdn.net/trt2/master.m3u8?app=web"],
     "TRTBelgesel.tr": ["https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
+    # cnnturk.com's own player. 403 from Azerbaijan today while Dream Turk
+    # on the same duhnet CDN answers, so it is channel-level geo-blocking,
+    # not a dead link -- probed daily so it joins the moment that lifts.
+    "CNNTurk.tr": ["https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8"],
+    # CNN International has no free official feed: cnn.com gates live behind
+    # a TV-provider login and no Pluto/Samsung/Rakuten/Xumo endpoint for it
+    # is reachable. It holds position 3 as a waiting pick; add a verified
+    # static URL here if one ever appears.
 }
 watchlist_live = {}
 for _cid, _urls in WATCHLIST.items():
@@ -297,6 +305,24 @@ NICHE_SKIP = re.compile(
     r"college|campus|horse|equestrian|rodeo|poker|billiard|fishing|"
     r"hunting|cornhole|pickleball", re.I)
 
+# A locked group contains exactly these channels, in exactly this order,
+# and AUTO_RULES never touch it. Use it for a group that is curated rather
+# than grown -- the ordering is editorial, so nothing may be appended,
+# reordered or displaced by ranking.
+LOCKED_GROUPS = {
+    "Beynəlxalq Xəbər": [
+        "TRTWorld.tr",          # 1
+        "BBCNews.uk",           # 2  (override: BBC's own worldwide CDN)
+        "CNNInternational.us",  # 3  (waiting: no free official feed found)
+        "EuronewsEnglish.fr",   # 4
+        "EuronewsRussian.fr",   # 5  (RENAME keeps "russian" lowercase)
+        "AlJazeera.qa",         # 6  English feed
+        "SkyNews.ie",           # 7  (override: pinned Xumo/NBCU host)
+        "France24.fr",          # 8  English feed
+        "DW.de",                # 9  English feed
+    ],
+}
+
 # Ceiling on auto-adds per group. PICKS entries never count against a cap
 # and are never displaced -- caps only trim the automatic tail. Groups
 # absent from this dict are uncapped.
@@ -353,9 +379,6 @@ def is_pay_tv(cid, c):
 AUTO_RULES = [
     ("İdman",            lambda cid, c, L: "sports" in categories_of(c)),
     ("Xəbər – Türkiyə",  lambda cid, c, L: c.get("country") == "TR" and "news" in categories_of(c)),
-    ("Beynəlxalq Xəbər", lambda cid, c, L: ("news" in categories_of(c)
-                                            and is_international(cid)
-                                            and bool(L & ALLOWED_LANGS))),
     ("Musiqi",           lambda cid, c, L: c.get("country") in ("TR", "AZ") and "music" in categories_of(c)),
     ("Uşaq",             lambda cid, c, L: "kids" in categories_of(c) and bool(L & {"aze", "tur"})),
     ("Sənədli",          lambda cid, c, L: "documentary" in categories_of(c) and bool(L & ALLOWED_LANGS)),
@@ -389,6 +412,8 @@ def latin_only(name):
 def auto_group_for(cid, c):
     L = chan_langs.get(cid, set())
     for group, pred in AUTO_RULES:
+        if group in LOCKED_GROUPS:
+            continue          # locked groups are curated, never grown
         try:
             if pred(cid, c, L):
                 return group
@@ -468,7 +493,7 @@ PICKS = {
 "Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","IdmanTV.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","AlvinChannelTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az","AzadTV.az","ARB.az"],
 "Ukrayna": ["FREEDOM.ua","Pershyi.ua"],
 "Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","TRT2.tr"],
-"Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr"],
+"Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr","CNNTurk.tr"],
 "İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
 "Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr","DreamTurk.tr"],
@@ -477,7 +502,7 @@ PICKS = {
 # TRT World repair path if tv-trtworld.medya.trt.com.tr ever geo-blocks
 # the way TRT 2 and TRT Belgesel do:
 #   https://trt.daioncdn.net/trtworld/master.m3u8?app=web   (verified 200)
-"Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","BBCNews.uk","AlJazeera.qa","France24.fr"],
+"Beynəlxalq Xəbər": LOCKED_GROUPS["Beynəlxalq Xəbər"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
 # StartTV, DMAX...) are kept on purpose: they join automatically the day
