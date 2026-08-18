@@ -112,6 +112,10 @@ STREAM_BLOCKLIST = {
     "https://b01c02nl.mediatriple.net/videoonlylive/mtsxxkzwwuqtglive/broadcast_5fe462afc6a0e.smil/playlist.m3u8",
     # ATV (TR): times out from Azerbaijan; health check picks an alternate
     "https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/atv/atv_1080p.m3u8",
+    # BBC News via Samsung TV Plus US: 403 from Azerbaijan but fine from the
+    # runner, and it outranks BBC's own edge on quality, so ranking alone
+    # would keep pinning BBC News to a stream the user cannot watch.
+    "https://pb-iiczlgfysam0q.akamaized.net/v1/amcnetworks_bbcnews_1/samsungheadend_us/latest/main/hls/playlist.m3u8",
 }
 
 # Query parameters that mark a URL as per-session. Such URLs are never
@@ -202,6 +206,12 @@ OVERRIDES = {
     # that already serves Kanal S). Needs no Referer/User-Agent.
     "AzadTV.az": {"url": "https://lives.atv.az:5443/ATV_TV_STREAM/streams/atvcanli.m3u8",
                   "quality": None, "user_agent": None, "referrer": None},
+    # BBC's own worldwide CDN. iptv-org's highest-ranked BBC News stream is
+    # a Samsung TV Plus US feed that 403s from Azerbaijan while passing from
+    # the runner, so ranking alone would keep picking an unwatchable stream.
+    # The "ww" edge works from both; the "uk" edge 403s outside the UK.
+    "BBCNews.uk": {"url": "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_hd_abr_v2.m3u8",
+                   "quality": "720p", "user_agent": None, "referrer": None},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
@@ -445,7 +455,7 @@ PICKS = {
 "Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr","DreamTurk.tr"],
 "Sənədli": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVParisLOriginal.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
 "· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
-"Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp"],
+"Beynəlxalq Xəbər": ["TRTWorld.tr","EuronewsEnglish.fr","EuronewsRussian.fr","DW.de","CGTN.cn","BloombergTV.us","SkyNews.ie","ABCNews.au","NHKWorldJapan.jp","BBCNews.uk","AlJazeera.qa","France24.fr"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
 # StartTV, DMAX...) are kept on purpose: they join automatically the day
