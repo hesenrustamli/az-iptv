@@ -1,9 +1,5 @@
 {
   "incumbents": {
-    "ABCNewsLive.us": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
     "ACCDigitalNetwork.us": {
       "group": "İdman",
       "fails": 0
@@ -14,18 +10,6 @@
     },
     "AdventureEarth.de": {
       "group": "Sənədli",
-      "fails": 0
-    },
-    "Africa24English.fr": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
-    "AlArabiyaEnglish.sa": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
-    "ArirangUN.kr": {
-      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "AutenticHistory.de": {
@@ -46,10 +30,6 @@
     },
     "BondiRescue.de": {
       "group": "Sənədli",
-      "fails": 0
-    },
-    "CGTNRussian.cn": {
-      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "CNAOriginals.sg": {
@@ -232,18 +212,6 @@
       "group": "İdman",
       "fails": 0
     },
-    "NewsWorld.hk": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
-    "NewsoftheWorld.us": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
-    "NowMediaTelevision.us": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
     "Number1Ask.tr": {
       "group": "Musiqi",
       "fails": 0
@@ -328,10 +296,6 @@
       "group": "İdman",
       "fails": 0
     },
-    "TOIGlobal.in": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
     "TRTArabi.tr": {
       "group": "Xəbər – Türkiyə",
       "fails": 0
@@ -344,16 +308,8 @@
       "group": "İdman",
       "fails": 0
     },
-    "Trailers.es": {
-      "group": "Beynəlxalq Xəbər",
-      "fails": 0
-    },
     "TurkHaberTV.tr": {
       "group": "Xəbər – Türkiyə",
-      "fails": 0
-    },
-    "WION.in": {
-      "group": "Beynəlxalq Xəbər",
       "fails": 0
     },
     "WaterBear.ch": {
@@ -362,10 +318,6 @@
     },
     "WillowSports.us": {
       "group": "İdman",
-      "fails": 0
-    },
-    "i24NEWSEnglishWorld.il": {
-      "group": "Beynəlxalq Xəbər",
       "fails": 0
     }
   }

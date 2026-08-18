@@ -3,11 +3,14 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 8
+        "fails": 9
       }
     }
   },
   "watchlist": {
+    "https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8": {
+      "fails": 1
+    },
     "https://trt.daioncdn.net/trt-2/master.m3u8?app=web": {
       "fails": 7
     },
@@ -15,10 +18,10 @@
       "fails": 7
     },
     "https://trt.daioncdn.net/trt2/master.m3u8?app=web": {
-      "fails": 1
+      "fails": 2
     },
     "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web": {
-      "fails": 1
+      "fails": 2
     }
   }
 }

@@ -13,11 +13,12 @@ right now. Every one is re-probed on each run and rejoins
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | CBS Sports Golazo Network | İdman | 1 | server error |
 | Che! | · russia | 1 | unreachable |
+| CNN International | Beynəlxalq Xəbər | 0 | no candidate URLs |
+| CNN Turk | Xəbər – Türkiyə | 1 | 403 forbidden |
 | DMAX | Sənədli | 0 | no candidate URLs |
 | Futbol | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | Olympic Channel | İdman | 3 | 403 forbidden |
-| REN TV | · russia | 2 | unreachable |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | TGRT Belgesel | Sənədli | 0 | all known streams blocklisted |
@@ -39,19 +40,14 @@ in `generate_playlist.py`.
 
 | Channel | Group | Channel id |
 | --- | --- | --- |
-| ABC News Live | Beynəlxalq Xəbər | `ABCNewsLive.us` |
 | ACC Digital Network | İdman | `ACCDigitalNetwork.us` |
 | Adventure Earth | Sənədli | `AdventureEarth.de` |
-| Africa 24 English | Beynəlxalq Xəbər | `Africa24English.fr` |
-| Al Arabiya English | Beynəlxalq Xəbər | `AlArabiyaEnglish.sa` |
-| Arirang UN | Beynəlxalq Xəbər | `ArirangUN.kr` |
 | AS TV | Xəbər – Türkiyə | `ASTV.tr` |
 | Autentic History | Sənədli | `AutenticHistory.de` |
 | BabyFirst | Uşaq | `BabyFirst.us` |
 | BBC Earth | Sənədli | `BBCEarth.uk` |
 | Belarus-5 | İdman | `Belarus5.by` |
 | Bondi Rescue | Sənədli | `BondiRescue.de` |
-| CGTN russian | Beynəlxalq Xəbər | `CGTNRussian.cn` |
 | China Travel | Sənədli | `ChinaTravel.cn` |
 | CNA Originals | Sənədli | `CNAOriginals.sg` |
 | Cricket Gold | İdman | `CricketGold.au` |
@@ -80,7 +76,6 @@ in `generate_playlist.py`.
 | Guneydogu TV | Xəbər – Türkiyə | `GuneydoguTV.tr` |
 | Haber61 TV | Xəbər – Türkiyə | `Haber61TV.tr` |
 | History Asia | Sənədli | `HistoryAsia.us` |
-| i24NEWS English World | Beynəlxalq Xəbər | `i24NEWSEnglishWorld.il` |
 | Ink Master | Sənədli | `InkMaster.us` |
 | InTrouble | İdman | `InTrouble.nl` |
 | Jail | Sənədli | `Jail.uk` |
@@ -96,11 +91,8 @@ in `generate_playlist.py`.
 | MTV Biggest Pop | Musiqi | `MTVBiggestPop.us` |
 | NBA TV | İdman | `NBATV.us` |
 | NBC Sports NOW | İdman | `NBCSportsNOW.us` |
-| News of the World | Beynəlxalq Xəbər | `NewsoftheWorld.us` |
-| NewsWorld | Beynəlxalq Xəbər | `NewsWorld.hk` |
 | NFL Channel | İdman | `NFLChannel.us` |
 | NHL Network | İdman | `NHLNetwork.us` |
-| NowMedia Television | Beynəlxalq Xəbər | `NowMediaTelevision.us` |
 | Number 1 Ask | Musiqi | `Number1Ask.tr` |
 | Pluto TV Alien Invasion | Sənədli | `PlutoTVAlienInvasion.de` |
 | Pluto TV American True Crime | Sənədli | `PlutoTVAmericanTrueCrime.de` |
@@ -123,11 +115,8 @@ in `generate_playlist.py`.
 | Sportdigital FUSSBALL | İdman | `SportdigitalFUSSBALL.de` |
 | Strongman | İdman | `Strongman.us` |
 | Terra Mater WILD | Sənədli | `TerraMaterWILD.de` |
-| TOI Global | Beynəlxalq Xəbər | `TOIGlobal.in` |
 | Trace Sport Stars | İdman | `TraceSportStars.fr` |
-| Trailers | Beynəlxalq Xəbər | `Trailers.es` |
 | TRT Arabi | Xəbər – Türkiyə | `TRTArabi.tr` |
 | TurkHaber TV | Xəbər – Türkiyə | `TurkHaberTV.tr` |
 | WaterBear | Sənədli | `WaterBear.ch` |
 | Willow Sports | İdman | `WillowSports.us` |
-| WION | Beynəlxalq Xəbər | `WION.in` |
