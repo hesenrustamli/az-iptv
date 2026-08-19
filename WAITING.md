@@ -24,6 +24,7 @@ right now. Every one is re-probed on each run and rejoins
 | TGRT Belgesel | Sənədli | 0 | all known streams blocklisted |
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
 | TRT Belgesel | Sənədli | 1 | 404 not found |
+| TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 
 ## Alternates found
 
@@ -42,9 +43,7 @@ in `generate_playlist.py`.
 | --- | --- | --- |
 | ACC Digital Network | İdman | `ACCDigitalNetwork.us` |
 | Adventure Earth | Sənədli | `AdventureEarth.de` |
-| AS TV | Xəbər – Türkiyə | `ASTV.tr` |
 | Autentic History | Sənədli | `AutenticHistory.de` |
-| BabyFirst | Uşaq | `BabyFirst.us` |
 | BBC Earth | Sənədli | `BBCEarth.uk` |
 | Belarus-5 | İdman | `Belarus5.by` |
 | Bondi Rescue | Sənədli | `BondiRescue.de` |
@@ -52,7 +51,6 @@ in `generate_playlist.py`.
 | CNA Originals | Sənədli | `CNAOriginals.sg` |
 | Cricket Gold | İdman | `CricketGold.au` |
 | Curiosity NOW | Sənədli | `CuriosityNOW.de` |
-| DHA | Xəbər – Türkiyə | `DHA.tr` |
 | Discovering China | Sənədli | `DiscoveringChina.cn` |
 | DiviSport | İdman | `DiviSport.ua` |
 | DocuBox | Sənədli | `DocuBox.nl` |
@@ -65,7 +63,6 @@ in `generate_playlist.py`.
 | FIFA+ Women | İdman | `FIFAPlusWomen.uk` |
 | Fight Network | İdman | `FightNetwork.ca` |
 | FightBox | İdman | `FightBox.nl` |
-| Finans Turk TV | Xəbər – Türkiyə | `FinansTurkTV.tr` |
 | FITE 24/7 | İdman | `FITE247.us` |
 | FloHockey | İdman | `FloHockey.us` |
 | FloRacing | İdman | `FloRacing.us` |
@@ -73,27 +70,21 @@ in `generate_playlist.py`.
 | FUEL TV | İdman | `FUELTV.pt` |
 | Glory Kickboxing | İdman | `GloryKickboxing.us` |
 | GolTV Latin America | İdman | `GolTVLatinAmerica.us` |
-| Guneydogu TV | Xəbər – Türkiyə | `GuneydoguTV.tr` |
-| Haber61 TV | Xəbər – Türkiyə | `Haber61TV.tr` |
 | History Asia | Sənədli | `HistoryAsia.us` |
 | Ink Master | Sənədli | `InkMaster.us` |
 | InTrouble | İdman | `InTrouble.nl` |
 | Jail | Sənədli | `Jail.uk` |
 | Kozoom TV | İdman | `KozoomTV.fr` |
 | KTV Sport | İdman | `KTVSport.kw` |
-| Life TV | Xəbər – Türkiyə | `LifeTV.tr` |
 | Love The Planet | Sənədli | `LoveThePlanet.es` |
 | Maincast Cybersport | İdman | `MaincastCybersport.ua` |
 | Maincast Sport | İdman | `MaincastSport.ua` |
-| MBC FM | Musiqi | `MBCFM.ae` |
 | MLB | İdman | `MLB.us` |
 | MMA-TV.com | İdman | `MMATVcom.ru` |
-| MTV Biggest Pop | Musiqi | `MTVBiggestPop.us` |
 | NBA TV | İdman | `NBATV.us` |
 | NBC Sports NOW | İdman | `NBCSportsNOW.us` |
 | NFL Channel | İdman | `NFLChannel.us` |
 | NHL Network | İdman | `NHLNetwork.us` |
-| Number 1 Ask | Musiqi | `Number1Ask.tr` |
 | Pluto TV Alien Invasion | Sənədli | `PlutoTVAlienInvasion.de` |
 | Pluto TV American True Crime | Sənədli | `PlutoTVAmericanTrueCrime.de` |
 | Pluto TV Animals | Sənədli | `PlutoTVAnimals.de` |
@@ -104,9 +95,6 @@ in `generate_playlist.py`.
 | Pluto TV History | Sənədli | `PlutoTVHistory.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.se` |
-| PowerTurk Akustik | Musiqi | `PowerTurkAkustik.tr` |
-| PowerTurk Slow | Musiqi | `PowerTurkSlow.tr` |
-| PowerTurk Taptaze | Musiqi | `PowerTurkTaptaze.tr` |
 | RACER International | İdman | `RACERInternational.pl` |
 | Racer Network | İdman | `RacerNetwork.us` |
 | Racer Select | İdman | `RacerSelect.us` |
@@ -116,7 +104,5 @@ in `generate_playlist.py`.
 | Strongman | İdman | `Strongman.us` |
 | Terra Mater WILD | Sənədli | `TerraMaterWILD.de` |
 | Trace Sport Stars | İdman | `TraceSportStars.fr` |
-| TRT Arabi | Xəbər – Türkiyə | `TRTArabi.tr` |
-| TurkHaber TV | Xəbər – Türkiyə | `TurkHaberTV.tr` |
 | WaterBear | Sənədli | `WaterBear.ch` |
 | Willow Sports | İdman | `WillowSports.us` |

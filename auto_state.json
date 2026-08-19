@@ -4,10 +4,6 @@
       "group": "İdman",
       "fails": 0
     },
-    "ASTV.tr": {
-      "group": "Xəbər – Türkiyə",
-      "fails": 0
-    },
     "AdventureEarth.de": {
       "group": "Sənədli",
       "fails": 0
@@ -18,10 +14,6 @@
     },
     "BBCEarth.uk": {
       "group": "Sənədli",
-      "fails": 0
-    },
-    "BabyFirst.us": {
-      "group": "Uşaq",
       "fails": 0
     },
     "Belarus5.by": {
@@ -46,10 +38,6 @@
     },
     "CuriosityNOW.de": {
       "group": "Sənədli",
-      "fails": 0
-    },
-    "DHA.tr": {
-      "group": "Xəbər – Türkiyə",
       "fails": 0
     },
     "DiscoveringChina.cn": {
@@ -108,10 +96,6 @@
       "group": "İdman",
       "fails": 0
     },
-    "FinansTurkTV.tr": {
-      "group": "Xəbər – Türkiyə",
-      "fails": 0
-    },
     "FloHockey.us": {
       "group": "İdman",
       "fails": 0
@@ -130,14 +114,6 @@
     },
     "GolTVLatinAmerica.us": {
       "group": "İdman",
-      "fails": 0
-    },
-    "GuneydoguTV.tr": {
-      "group": "Xəbər – Türkiyə",
-      "fails": 0
-    },
-    "Haber61TV.tr": {
-      "group": "Xəbər – Türkiyə",
       "fails": 0
     },
     "HistoryAsia.us": {
@@ -164,16 +140,8 @@
       "group": "İdman",
       "fails": 0
     },
-    "LifeTV.tr": {
-      "group": "Xəbər – Türkiyə",
-      "fails": 0
-    },
     "LoveThePlanet.es": {
       "group": "Sənədli",
-      "fails": 0
-    },
-    "MBCFM.ae": {
-      "group": "Musiqi",
       "fails": 0
     },
     "MLB.us": {
@@ -182,10 +150,6 @@
     },
     "MMATVcom.ru": {
       "group": "İdman",
-      "fails": 0
-    },
-    "MTVBiggestPop.us": {
-      "group": "Musiqi",
       "fails": 0
     },
     "MaincastCybersport.ua": {
@@ -210,10 +174,6 @@
     },
     "NHLNetwork.us": {
       "group": "İdman",
-      "fails": 0
-    },
-    "Number1Ask.tr": {
-      "group": "Musiqi",
       "fails": 0
     },
     "PlutoTVAlienInvasion.de": {
@@ -256,18 +216,6 @@
       "group": "İdman",
       "fails": 0
     },
-    "PowerTurkAkustik.tr": {
-      "group": "Musiqi",
-      "fails": 0
-    },
-    "PowerTurkSlow.tr": {
-      "group": "Musiqi",
-      "fails": 0
-    },
-    "PowerTurkTaptaze.tr": {
-      "group": "Musiqi",
-      "fails": 0
-    },
     "RACERInternational.pl": {
       "group": "İdman",
       "fails": 0
@@ -296,20 +244,12 @@
       "group": "İdman",
       "fails": 0
     },
-    "TRTArabi.tr": {
-      "group": "Xəbər – Türkiyə",
-      "fails": 0
-    },
     "TerraMaterWILD.de": {
       "group": "Sənədli",
       "fails": 0
     },
     "TraceSportStars.fr": {
       "group": "İdman",
-      "fails": 0
-    },
-    "TurkHaberTV.tr": {
-      "group": "Xəbər – Türkiyə",
       "fails": 0
     },
     "WaterBear.ch": {
@@ -320,5 +260,6 @@
       "group": "İdman",
       "fails": 0
     }
-  }
+  },
+  "last_az_discovery": "2026-08-19"
 }
