@@ -28,6 +28,22 @@ from concurrent.futures import ThreadPoolExecutor
 # is written. Pass --write to override deliberately.
 IS_CI = os.environ.get("GITHUB_ACTIONS") == "true"
 WRITE = IS_CI or "--write" in sys.argv
+PREVIEW_NOTE = "PREVIEW - local vantage; runner is authoritative"
+
+def preview_banner():
+    if WRITE and not IS_CI:
+        print("!! --write on a local run: these files are normally the runner's")
+        return
+    if WRITE:
+        return
+    print("=" * 72)
+    print(f"!! {PREVIEW_NOTE}")
+    print("!! Nothing is written. Counts reflect what THIS machine can reach,")
+    print("!! which differs from the runner's vantage. Do not quote these")
+    print("!! numbers as published figures.")
+    print("=" * 72)
+
+preview_banner()
 
 MIRRORS = ["https://iptv-org.github.io/api/{}",
            "https://raw.githubusercontent.com/iptv-org/api/gh-pages/{}"]
@@ -1234,8 +1250,14 @@ print(f"Frozen groups: {len(LOCKED_GROUPS)}; machine-managed: İdman, Sənədli"
 print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
       f"{skip_gate}, niche sports {skip_niche}, non-Latin name {skip_script}, "
       f"over cap {capped_out}")
+_tag = "" if WRITE else f"   <- {PREVIEW_NOTE}"
 print(f"Total {count} / ceiling {TOTAL_MAX} "
-      f"({picks_count} from PICKS, {len(auto_add)} auto)")
+      f"({picks_count} from PICKS, {len(auto_add)} auto){_tag}")
+# entries != channels: CBC Sport and Idman TV are dual-grouped on purpose,
+# so a count keyed by channel id reads one lower per duplicated channel.
+_dupes = count - len(published)
+print(f"Entries {count} = {len(published)} unique channels"
+      + (f" + {_dupes} dual-grouped repeat(s)" if _dupes else ""))
 if vacated:
     print(f"Vacated {len(vacated)} auto-slot(s):")
     for _cid, _why in vacated:
@@ -1249,3 +1271,5 @@ if pruned:
     print(f"Pruned {len(pruned)} dead candidate(s):")
     for p in pruned:
         print(f"  - {p}")
+
+preview_banner()
