@@ -3,16 +3,25 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 17
+        "fails": 18
       }
     }
   },
   "watchlist": {
+    "https://amg00090-blueantmedia-naturetime-samsungse-axgcn.amagi.tv/playlist/amg00090-blueantmedia-naturetime-samsungse/playlist.m3u8": {
+      "fails": 0
+    },
+    "https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8": {
+      "fails": 0
+    },
+    "https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8": {
+      "fails": 0
+    },
     "https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8": {
       "fails": 0
     },
     "https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8": {
-      "fails": 9
+      "fails": 10
     },
     "https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8": {
       "fails": 0
@@ -24,22 +33,22 @@
       "fails": 7
     },
     "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web": {
-      "fails": 4
+      "fails": 5
     },
     "https://trt.daioncdn.net/trt2/master.m3u8?app=web": {
-      "fails": 10
+      "fails": 11
     },
     "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web": {
-      "fails": 10
+      "fails": 11
     },
     "https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web": {
-      "fails": 4
+      "fails": 5
     },
     "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8": {
       "fails": 2
     },
     "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8": {
-      "fails": 2
+      "fails": 3
     }
   }
 }

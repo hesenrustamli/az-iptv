@@ -23,7 +23,6 @@ right now. Every one is re-probed on each run and rejoins
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
-| TRT Belgesel | Sənədli | 3 | 404 not found, server error, unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
 
@@ -41,7 +40,7 @@ the group itself never change.
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
 | Smithsonian Channel Selects | Sənədli | 4 | in play - covering a hidden member |
 | Curiosity NOW | Sənədli | 5 | in play - covering a hidden member |
-| Terra Mater WILD | Sənədli | 6 | in play - covering a hidden member |
+| Terra Mater WILD | Sənədli | 6 | ready - no seat needed this run |
 | CNA Originals | Sənədli | 7 | ready - no seat needed this run |
 | NHK World-Japan | Sənədli | 8 | ready - no seat needed this run |
 | WildEarth | Sənədli | 9 | ready - no seat needed this run |
