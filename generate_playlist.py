@@ -228,6 +228,12 @@ OVERRIDES = {
     # from Azerbaijan, so Show TV enters as a working pick, not a waiting one.
     "ShowTV.tr": {"url": "https://ciner.daioncdn.net/showtv/showtv.m3u8?ce=3&app=4bc856ef-4c68-4a94-bc87-37dfaaa66558",
                   "quality": "1080p", "user_agent": None, "referrer": None},
+    # TRT Cocuk on TRT's own medya CDN. Verified 200 from Azerbaijan, but the
+    # runner reaches it only intermittently -- one failed probe was enough to
+    # drop it from the frozen Uşaq list. As an override it is never dropped
+    # on a failed probe; the run logs a warning instead.
+    "TRTCocuk.tr": {"url": "https://tv-trtcocuk.medya.trt.com.tr/master.m3u8",
+                    "quality": "1440p", "user_agent": None, "referrer": None},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
