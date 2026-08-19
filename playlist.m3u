@@ -124,8 +124,8 @@ https://amg12058-c15studio-amg12058c1-lg-us-5787.playouts.now.amagi.tv/playlist.
 https://dash3.antik.sk/live/test_fast_and_funbox_medium_atk/playlist.m3u8
 #EXTINF:-1 tvg-id="FIFAPlusWomen.uk" tvg-logo="https://i.ibb.co/LhpwRm8V/GB3800009-F0-20251028-T010335-SQUARE.png" group-title="İdman",FIFA+ Women (720p)
 https://cffda8ff.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1nYl9GSUZBUGx1c3dvbWVuX0hMUw/playlist.m3u8
-#EXTINF:-1 tvg-id="FightNetwork.ca" tvg-logo="https://i.imgur.com/vlKPZHR.png" group-title="İdman",Fight Network (1080p)
-https://amg00966-amg00966c10-amgplt0081.playout.now3.amagi.tv/playlist/amg00966-amg00966c10-amgplt0081/playlist.m3u8
+#EXTINF:-1 tvg-id="FightNetwork.ca" tvg-logo="https://i.imgur.com/vlKPZHR.png" group-title="İdman",Fight Network (720p)
+https://a-cdn.klowdtv.com/live2/fight_720p/playlist.m3u8
 #EXTINF:-1 tvg-id="FightBox.nl" tvg-logo="https://i.imgur.com/mRsnztA.png" group-title="İdman",FightBox
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3
 https://webtvstream.bhtelecom.ba/fightbox.m3u8
@@ -144,7 +144,7 @@ https://6f972d29.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdX
 #EXTINF:-1 tvg-id="GolTVLatinAmerica.us" tvg-logo="https://i.imgur.com/pypul3s.png" group-title="İdman",GolTV Latin America (720p)
 http://177.234.249.178:8888/GOLTV/index.m3u8
 #EXTINF:-1 tvg-id="InTrouble.nl" tvg-logo="https://cdn.uc.assets.prezly.com/28ebc4a6-cfda-4bb1-9b9c-14e2c3da67a8/InTrouble_portraitOrange.png" group-title="İdman",InTrouble (1080p)
-https://amg00861-amg00861c6-rlaxx-uk-3951.playouts.now.amagi.tv/playlist.m3u8
+https://amg00861-amg00861c6-stirr-us-8229.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="KozoomTV.fr" tvg-logo="https://i.imgur.com/M1Ee79b.png" group-title="İdman",Kozoom TV (1080p)
 https://streams2.sofast.tv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/fdd6f243-f971-4a1a-9510-97ac01d6b37f/manifest.m3u8
 #EXTINF:-1 tvg-id="KTVSport.kw" tvg-logo="https://i.imgur.com/R1hGX1d.png" group-title="İdman",KTV Sport (1080p)
@@ -153,16 +153,16 @@ https://kwtspta.cdn.mangomolo.com/sp/smil:sp.stream.smil/chunklist.m3u8
 http://stream.mcquack.net/487/index.m3u8
 #EXTINF:-1 tvg-id="MaincastSport.ua" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/5/57/Maincast_%28HD_Logo%29_2024.png" group-title="İdman",Maincast Sport (1080p)
 http://stream.mcquack.net/490/index.m3u8
-#EXTINF:-1 tvg-id="MLB.us" tvg-logo="https://i.imgur.com/ym3su2J.png" group-title="İdman",MLB (1080p)
-https://pb-2y9ox4r1fy550.akamaized.net/playlist.m3u8
-#EXTINF:-1 tvg-id="MMATVcom.ru" tvg-logo="https://i.imgur.com/QhdxNsB.png" group-title="İdman",MMA-TV.com (1080p)
-https://streams2.sofast.tv/vglive-sk-462904/playlist.m3u8
+#EXTINF:-1 tvg-id="MLB.us" tvg-logo="https://i.imgur.com/ym3su2J.png" group-title="İdman",MLB (720p)
+https://jmp2.uk/plu-5e66968a70f34c0007d050be.m3u8
+#EXTINF:-1 tvg-id="MMATVcom.ru" tvg-logo="https://i.imgur.com/QhdxNsB.png" group-title="İdman",MMA-TV.com
+https://stream8.cinerama.uz/1226/tracks-v1a1/mono.m3u8
 #EXTINF:-1 tvg-id="NBATV.us" tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/d/d2/NBA_TV.svg/960px-NBA_TV.svg.png" group-title="İdman",NBA TV (1080p)
-https://pb-5pdyic0cu7tri.akamaized.net/NBA.m3u8
+https://cdn1.ayitistream.com/NBATV/index.m3u8
 #EXTINF:-1 tvg-id="NBCSportsNOW.us" tvg-logo="https://i.imgur.com/EzNf2Yx.png" group-title="İdman",NBC Sports NOW (1080p)
 https://xumo-xumoent-vc-122-sjv70.fast.nbcuni.com/live/master.m3u8
-#EXTINF:-1 tvg-id="NFLChannel.us" tvg-logo="https://i.imgur.com/mPGtwAP.png" group-title="İdman",NFL Channel (1080p)
-https://pb-we3ltka9xobj6.akamaized.net/master.m3u8
+#EXTINF:-1 tvg-id="NFLChannel.us" tvg-logo="https://i.imgur.com/mPGtwAP.png" group-title="İdman",NFL Channel (720p)
+https://jmp2.uk/plu-5ced7d5df64be98e07ed47b6.m3u8
 #EXTINF:-1 tvg-id="NHLNetwork.us" tvg-logo="https://i.imgur.com/UNZ8bef.png" group-title="İdman",NHL Network (1080p)
 https://nhl-firetv.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="PlutoTVSnooker900.de" tvg-logo="https://images.pluto.tv/channels/68ac5543a1ac0c90f2c8943e/colorLogoPNG_1760517341343.png" group-title="İdman",Pluto TV Snooker 900 (720p)
@@ -172,7 +172,7 @@ https://jmp2.uk/plu-68ac55bb3efb41cd979a65ec.m3u8
 #EXTINF:-1 tvg-id="RACERInternational.pl" tvg-logo="https://provider-static.plex.tv/epg/cms/production/dd4e5871-4347-49e3-9ea1-a8770ea9c518/RACER_Intl_logo_1500x1000.png" group-title="İdman",RACER International (1080p)
 https://amg00378-mavtv-amg00378c2-rakuten-us-1048.playouts.now.amagi.tv/playlist/amg00378-mavtvfast-motorsportsnetwork-rakutenus/playlist.m3u8
 #EXTINF:-1 tvg-id="RacerNetwork.us" tvg-logo="https://upload.wikimedia.org/wikipedia/en/7/74/Racer_Network.jpg" group-title="İdman",Racer Network (1080p)
-https://amg00378-mavtv-amg00378c2-samsung-au-1790.playouts.now.amagi.tv/playlist/amg00378-mavtvfast-motorsportsnetwork-samsungau/playlist.m3u8
+https://amg00378-mavtv-amg00378c3-sportstribal-emea-1325.playouts.now.amagi.tv/mavtv-smn-xm/playlist.m3u8
 #EXTINF:-1 tvg-id="RacerSelect.us" tvg-logo="https://i.imgur.com/CurtYvn.png" group-title="İdman",Racer Select (1080p)
 https://amg00378-amg00378c4-freelivesports-emea-5637.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="Sport1Baltic.ua" tvg-logo="https://i.imgur.com/aBY7QK4.png" group-title="İdman",Sport 1 Baltic (1080p)
@@ -233,14 +233,14 @@ https://d1nhni5l2n8hjt.cloudfront.net/gf.m3u8
 https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="PlutoTVNature.de" tvg-logo="https://i.imgur.com/PtWUmss.png" group-title="Sənədli",Pluto TV Nature
 https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8
+#EXTINF:-1 tvg-id="BBCEarth.uk" tvg-logo="https://i.imgur.com/nGSsUd4.png" group-title="Sənədli",BBC Earth (1080p)
+https://amg00793-amg00793c6-xumo-us-2669.playouts.now.amagi.tv/BBCStudios-BBCEarthA-hls/playlist.m3u8
 #EXTINF:-1 tvg-id="SmithsonianChannelSelects.us" tvg-logo="https://i.imgur.com/Kt5j8Vr.png" group-title="Sənədli",Smithsonian Channel Selects
 https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8
 #EXTINF:-1 tvg-id="CuriosityNOW.de" tvg-logo="https://i.imgur.com/gJ9eMaG.png" group-title="Sənədli",Curiosity NOW
 https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8
 #EXTINF:-1 tvg-id="TerraMaterWILD.de" tvg-logo="https://d3b6luslimvglo.cloudfront.net/images/79/rlaxximages/channels-rescaled/icon-white/terramaterwild_white.png" group-title="Sənədli",Terra Mater WILD (1080p)
 https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8
-#EXTINF:-1 tvg-id="CNAOriginals.sg" tvg-logo="https://i.imgur.com/hlFQTrB.png" group-title="Sənədli",CNA Originals (1080p)
-https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="ChannelOne.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/pervyj-hd.png" group-title="· russia",Channel One (720p)
 https://edge1.1internet.tv/dash-live2/streams/1tv-dvr/1tvdash.mpd
 #EXTINF:-1 tvg-id="Russia1.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/rossiya-1-hd.png" group-title="· russia",russia 1 (1080p)
