@@ -1,0 +1,161 @@
+# CLAUDE.md — project memory for `az-iptv`
+
+> **Maintenance rule (read first).** Any change to a mechanism or a policy in
+> this repo must update this file **in the same commit**. If you add a gate,
+> move a group between tiers, change a cap, or alter the write rules, edit the
+> matching section here before you commit. A stale CLAUDE.md is worse than none.
+
+## 1. What this is
+
+A self-updating IPTV playlist for Azerbaijani/Turkish viewers.
+`generate_playlist.py` runs daily on GitHub Actions (`.github/workflows/update.yml`,
+cron `0 4 * * *` = 08:00 Baku, plus `workflow_dispatch`): it pulls channel, feed
+and stream data from the iptv-org public API, health-checks every candidate URL,
+heals broken links, and rewrites `playlist.m3u` plus a report of what is waiting.
+
+Player URL (Televizo etc.):
+`https://raw.githubusercontent.com/hesenrustamli/az-iptv/main/playlist.m3u`
+
+## 2. HARD RULES — not preferences
+
+- **Legal, free, official streams only.** Never carry a pirated feed of a pay
+  channel. `PAY_TV_BLOCK` enforces this for anything automatic.
+- **Static URLs only.** Never write a token-refreshing scraper. A URL carrying a
+  per-session token is never adopted — see `looks_tokenized()`.
+- **Two sources, ever:** the iptv-org database, and a broadcaster's own domain
+  (its official live page). Never add a scraper for an aggregator, restream site,
+  IPTV portal, or third-party playlist dump, however convenient. This is written
+  as the SOURCE POLICY comment block above `EXCLUDE` and governs `SOURCES` and
+  `AUTO_RULES` alike.
+- **No Cyrillic in display names**, and the words *russia* / *russian* never
+  appear capitalised. Enforced by `RENAME` plus the `re.sub(r"Russia", "russia")`
+  in `display_name()`. **tvg-ids are exempt** — EPG matching depends on them and
+  they are not user-visible.
+- **The group name `· russia` is preserved exactly**, middot and all.
+
+## 3. Architecture map
+
+**`PICKS`** — the hand-curated playlist, group → ordered list of channel ids.
+Group order in this dict *is* the order in the file. Streamless ids stay in
+`PICKS` on purpose: they are listed in `WAITING.md` and rejoin automatically the
+day a stream passes. `CBCSport.az` and `IdmanTV.az` are dual-grouped
+(Azərbaycan + İdman) deliberately — this is why entry count exceeds unique
+channel count.
+
+**`OVERRIDES`** — hand-verified static URLs taken from a broadcaster's own
+player, merged ahead of the iptv-org candidates so ranking prefers them. Never
+dropped on a failed probe: `best_working()` returns them anyway and appends to
+`override_warnings`, because the runner sits outside Azerbaijan and a failure
+there says more about vantage than about the stream.
+
+**`WATCHLIST`** — hand-found static candidates for channels iptv-org has no
+working entry for. Probed daily like anything else, joining the day they start
+answering; dropped after `PRUNE_AFTER = 60` consecutive fails.
+
+**`SOURCES` + portal guard** — broadcaster-owned live pages, scraped daily by
+`discover()` for static `.m3u8` URLs, persisted in `discovered.json`. A page
+yielding more than `PORTAL_LIMIT = 2` URLs is treated as a portal listing rival
+channels, and only URLs whose path matches `names_channel()` are kept. A live
+channel is never swapped out from under itself — only a would-be-waiting channel
+adopts a discovered URL.
+
+**`AUTO_RULES`** — ordered `(group, predicate)` list evaluated against the whole
+iptv-org database; first match wins. Only three rules exist: İdman (sports),
+Sənədli (documentary + allowed language), and Azərbaycan (country AZ, monthly).
+`auto_group_for()` skips any group in `LOCKED_GROUPS`.
+
+**`EXCLUDE`** — ids that must never be auto-added, whatever the rules say. Seeded
+with every channel removed by hand, so the rules engine cannot quietly undo
+curation. **Deleting a channel means adding its id here**, not just removing it
+from `PICKS`.
+
+**`PAY_TV_BLOCK`** — subscription broadcasters, matched case-insensitively
+against channel name and network. Free-to-air Match! is deliberately absent while
+the premium Match! tiers are listed.
+
+**Gates** (all in `auto_eligible_group()`, identical for newcomers and
+incumbents): `EXCLUDE` → rule match → `is_pay_tv()` → `notable()` (rejects
+closed/NSFW and anything whose `broadcast_area` is only city `ct/` or subdivision
+`s/` level) → `NICHE_SKIP` (İdman only) → `latin_only()`. Note that
+`broadcast_area`, `languages` and `format` live on the **feed**, not the channel.
+
+**`AUTO_CAP` + `TOTAL_MAX`** — `{"İdman": 40, "Sənədli": 25}`, other groups
+uncapped; `TOTAL_MAX = 199` is a hard ceiling on the whole playlist. The build
+runs in two passes so the ceiling knows how many slots `PICKS` occupies, then
+trims auto-adds lowest-rank-first. `PICKS` entries and `OVERRIDES` are never
+trimmed or displaced.
+
+**Sticky slots** — an incumbent auto-add holds its seat while it matches its rule
+and passes the probe, and holds on last-known-good through a single failure. It
+vacates only after `STICKY_FAILS = 2` consecutive failures, on disqualification,
+or on a cap/ceiling trim. Newcomers fill open slots only; they never displace.
+Incumbency lives in `auto_state.json`.
+
+**`LOCKED_GROUPS`** — a locked group contains exactly these ids in exactly this
+order. No `AUTO_RULE` may add to it and nothing is reordered or displaced by
+ranking, because the ordering is editorial. Seven groups are frozen this way.
+Stream healing, retention and daily `WAITING.md` probing still run for every
+member — freezing stops growth, not maintenance.
+
+**Monthly AZ sweep** — `AZ_SWEEP_GROUP` is evaluated only when
+`AZ_SWEEP_DAYS = 28` have passed since `last_az_discovery` in `auto_state.json`.
+On an active run the stamp is set to today, so the next window is today + 28.
+Only *new-channel discovery* is monthly; healing, retention, `SOURCES` scraping
+and waiting-list probing stay **daily for every group, no exceptions**.
+
+**`looks_tokenized()` substring rule** — exact key matching against
+`TOKEN_PARAMS` is not enough: a Pluto stitcher URL carrying an expiring JWT under
+`authToken` nearly got pinned as a pick. Any query key *containing* `token`,
+`expires`, `signature` or `wmsauthsign` is rejected.
+
+## 4. Group policy
+
+| Group | Tier | The bot may | The bot may not |
+| --- | --- | --- | --- |
+| Azərbaycan 🇦🇿 | monthly, uncapped | add new AZ channels once per 28 days; heal daily | add anything in `EXCLUDE`; add off the monthly cycle |
+| Ukrayna | frozen | heal, retain, probe waiting members | add, reorder, displace |
+| Türkiyə – Ümumi | frozen | heal, retain, probe waiting members | add, reorder, displace |
+| Xəbər – Türkiyə | frozen | heal, retain, probe waiting members | add, reorder, displace |
+| İdman | machine-managed, cap 40 | add/trim/vacate per rules, caps, stickiness | drop a `PICKS` entry or an override |
+| Uşaq | frozen | heal, retain, probe waiting members | add, reorder, displace |
+| Musiqi | frozen | heal, retain, probe waiting members | add, reorder, displace |
+| Sənədli | machine-managed, cap 25 | add/trim/vacate per rules, caps, stickiness | drop a `PICKS` entry or an override |
+| · russia | frozen | heal, retain, probe waiting members | add, reorder, displace, rename the group |
+| Beynəlxalq Xəbər | frozen, order is editorial (1–9) | heal, retain, probe waiting members | add, reorder, displace |
+
+## 5. Working conventions
+
+- **Pull `main` first, every session.** The bot commits daily; local state goes
+  stale overnight.
+- **Single author.** Only the GitHub runner writes `playlist.m3u`, `WAITING.md`,
+  `discovered.json` and `auto_state.json` (`IS_CI` via `GITHUB_ACTIONS`). A local
+  run computes and reports everything but writes nothing, so it cannot race the
+  bot or publish from the wrong vantage. `--write` overrides deliberately and
+  prints a warning. Local commits should contain code only.
+- **Triggering:** `gh workflow run update.yml` (gh lives at
+  `C:\Program Files\GitHub CLI\gh.exe`, not on PATH). Not needed for print-only
+  changes.
+- **Reports must distinguish entries from unique channels.** Dual-grouped ids
+  make the two differ; a count keyed by tvg-id silently reads low. Every run
+  prints `Entries N = M unique channels + K dual-grouped repeat(s)` for this.
+- **Reports must distinguish preview from published.** Local runs print the
+  `PREVIEW - local vantage; runner is authoritative` banner and tag the totals
+  line. Preview numbers are never quotable as published facts — the runner is in
+  the US, the user is in Baku, and the two vantages disagree.
+- **Never invent a causal explanation without checking the diff first.** If a
+  number moved, run `git diff` and prove what moved before saying why. A
+  plausible story about a change that never happened is worse than "I do not
+  know yet". A published stream that fails from Baku is the standing criterion
+  for `STREAM_BLOCKLIST` — report the channel, group and host.
+
+## 6. Live state
+
+- `WAITING.md` — channels with no working stream, alternates found, and every
+  channel added by `AUTO_RULES`. Regenerated each run.
+- `auto_state.json` — `incumbents` (sticky auto-slots + fail counts) and
+  `last_az_discovery`.
+- `discovered.json` — `discovered` (per-channel URLs found on official pages,
+  with fail counts) and `watchlist` fail counts.
+- `EXCLUDE`, `STREAM_BLOCKLIST`, `BAD_HOSTS` in `generate_playlist.py` — the
+  record of what was removed by hand and why. Each entry carries its reason as a
+  comment; keep that up.
