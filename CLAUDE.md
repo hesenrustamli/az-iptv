@@ -155,10 +155,21 @@ Each run, as many bench channels enter as there are hidden members, taken in
 bench order and skipping any bench channel with no working stream of its own.
 They render **after** the members, so the editorial order of positions 1..N
 never reshuffles, and they step back on the run the cover is no longer needed
-— a starter never loses its claim on its position. Bench channels are
+— a starter never loses its claim on its position. **Seat gate.** A bench member may take a seat only if **both** hold: its
+chosen URL passes the runner's probe this run, **and** `BAKU.json`'s most
+recent verdict for that same URL is a pass (at any age — the gate wants
+evidence the stream ever worked, not a recent opinion). A recorded fail blocks
+the seat until a newer pass replaces it; never-measured does not seat. The
+seat falls through to the next rank meeting both. The reason is what a
+substitute is *for*: it exists solely to put something watchable in a seat
+that would otherwise be empty, so being watchable should be a precondition of
+taking the seat rather than a hope. Starters are deliberately exempt —
+editorial picks publish best-effort, with `BAKU.json` steering only which of
+their URLs is chosen, via ranking. Bench channels are
 stream-hunted exactly like waiting members (daily iptv-org refresh plus
 `WATCHLIST` probing) and are listed in `WAITING.md` with their rank and
-`in play` / `ready` / `streamless` status, separately from waiting starters.
+`in play` / `ready` / `gated` / `streamless` status, separately from waiting
+starters; the gated line reads `runner-alive, no Baku pass on record`.
 Meant for locked groups; a bench on a grown group would race its own auto-adds.
 Only Sənədli has one today (15 deep).
 
@@ -167,10 +178,14 @@ in the US and the viewer is in Baku, so a CI probe answers a different question
 than "can this be watched". Every **local** run records what it measured here;
 the runner only ever *reads* it. This is the single deliberate exception to the
 single-author rule in §5, because only this machine can produce the data — it
-is committed from here like code. It biases **ranking only**: a Baku-ok URL
-sorts ahead of its rivals for that channel, a Baku-failed URL sorts behind
-them, unknown keeps its existing rank. It never excludes anything;
-`STREAM_BLOCKLIST` and `BAD_HOSTS` stay the only tools that do. Readings older
+is committed from here like code. It does two jobs. **Ranking:** a Baku-ok URL sorts ahead
+of its rivals for that channel, a Baku-failed URL sorts behind them, unknown
+keeps its existing rank — freshness-filtered, so only recent readings vote.
+**The bench seat gate** (see `SUBSTITUTES`): a substitute needs a recorded
+pass to take a seat, at any age, since that asks whether the stream ever
+worked rather than what is currently believed. It still never excludes a
+stream from the playlist; `STREAM_BLOCKLIST` and `BAD_HOSTS` stay the only
+tools that do, and a gated substitute simply yields its seat to the next rank. Readings older
 than `BAKU_FRESH_DAYS = 14` are ignored, so a transient flap ages out instead
 of being held against a stream. A `geo` probe result is not a verdict and is
 not recorded. This is what breaks the iptv-org-before-`WATCHLIST` tie that used

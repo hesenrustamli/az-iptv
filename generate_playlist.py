@@ -268,6 +268,14 @@ def load_baku(path=BAKU_FILE):
 
 baku_raw, baku_pref = load_baku()
 
+def baku_verdict(url):
+    """The most recent Baku reading for a URL, at ANY age: True if it played
+    here, False if it did not, None if it was never measured. Deliberately
+    not freshness-filtered, unlike baku_pref: ranking wants a recent opinion,
+    but the bench seat gate wants evidence that the stream ever worked."""
+    e = baku_raw.get(url)
+    return None if e is None else bool(e.get("ok"))
+
 by = {}
 blocked_ids = set()  # ids that lost at least one stream to the blocklist
 for s in get("streams.json"):
@@ -1302,10 +1310,21 @@ for group, idl in PICKS.items():
     # The seat is held only while the cover is needed.
     seats = len(idl) - placed
     hidden_members[group] = seats
+    # A substitute exists for exactly one reason: to give the viewer
+    # something watchable in a seat that would otherwise be empty. So a seat
+    # requires BOTH that the runner's probe passes this run AND that Baku has
+    # a pass on record for that same URL. A recorded fail blocks the seat
+    # until a newer pass replaces it, and never-measured does not seat -- a
+    # stream nobody in Baku has opened is a hope, not a substitute. The seat
+    # falls through to the next rank meeting both. Starters are untouched:
+    # editorial picks publish best-effort, with BAKU steering only which of
+    # their URLs is chosen, through ranking.
     for pos, cid in enumerate(SUBSTITUTES.get(group, []), 1):
         fields, source = entry_for(cid)
         if fields is None:
             bench_rows.append((cid, group, pos, "streamless"))
+        elif baku_verdict(fields[2]) is not True:
+            bench_rows.append((cid, group, pos, "gated"))
         elif seats <= 0 or cid in published:
             bench_rows.append((cid, group, pos, "ready"))
         else:
@@ -1383,6 +1402,13 @@ def bench_status_text(cid, state):
     a streamless one borrows the waiting list's own reason."""
     if state == "streamless":
         return f"streamless - {candidate_summary(cid)[1]}"
+    if state == "gated":
+        # named precisely: a recorded fail needs a new URL, a never-measured
+        # one only needs a local run to look at it
+        fields, _src = entry_for(cid)
+        why = ("failed here" if fields and baku_verdict(fields[2]) is False
+               else "never measured here")
+        return f"runner-alive, no Baku pass on record ({why})"
     if state == "ready":
         return "ready - no seat needed this run"
     return "in play - covering a hidden member"

@@ -83,6 +83,10 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "http://23.237.104.106:8080/USA_NBA/index.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "http://23.237.104.106:8080/USA_NFL_NETWORK/index.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
@@ -767,6 +771,10 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://amg01269-amg01269c1-distrotv-us-5379.playouts.now.amagi.tv/playlist/amg01269-willowtvfast-willowplus-distrotvus/playlist.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
   "https://amg01269-amg01269c1-firetv-us-5377.playouts.now.amagi.tv/playlist.m3u8": {
     "ok": false,
     "ts": "2026-08-20"
@@ -1053,6 +1061,10 @@
   },
   "https://d2xeo83q8fcni6.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/SkiTV-SportsTribal/193.m3u8": {
     "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8": {
+    "ok": true,
     "ts": "2026-08-20"
   },
   "https://d36r8jifhgsk5j.cloudfront.net/Willow_TV1080p.m3u8": {
@@ -1544,7 +1556,7 @@
     "ts": "2026-08-20"
   },
   "https://mainstreammedia-worldoffreesportsintl-rakuten.amagi.tv/hls/amagi_hls_data_rakutenAA-mainstreammediafreesportsintl-rakuten/CDN/master.m3u8": {
-    "ok": false,
+    "ok": true,
     "ts": "2026-08-20"
   },
   "https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8": {
