@@ -180,12 +180,20 @@ the runner only ever *reads* it. This is the single deliberate exception to the
 single-author rule in §5, because only this machine can produce the data — it
 is committed from here like code. It does two jobs. **Ranking:** a Baku-ok URL sorts ahead
 of its rivals for that channel, a Baku-failed URL sorts behind them, unknown
-keeps its existing rank — freshness-filtered, so only recent readings vote.
-**The bench seat gate** (see `SUBSTITUTES`): a substitute needs a recorded
-pass to take a seat, at any age, since that asks whether the stream ever
-worked rather than what is currently believed. It still never excludes a
+keeps its existing rank. **The bench seat gate** (see `SUBSTITUTES`): a
+substitute needs a recorded pass to take a seat. It still never excludes a
 stream from the playlist; `STREAM_BLOCKLIST` and `BAD_HOSTS` stay the only
-tools that do, and a gated substitute simply yields its seat to the next rank. Readings older
+tools that do, and a gated substitute simply yields its seat to the next rank.
+
+**Last verdict wins, with no expiry.** A verdict stands until a newer probe of
+that same URL overwrites it, however old it is; the timestamp is for the
+reader, not the logic. This is not laziness about staleness, it is the
+consequence of the operating model in §5: there is no scheduled sync, so a
+freshness window would not measure "recent truth" but "how long since someone
+happened to run a preview", and every reading would decay to *unknown* — which
+is exactly the state that lets a geo-blocked URL win a bench seat. The cost is
+that a transient failure sticks until re-probed; the benefit is that the system
+stays safe under arbitrarily stale data, which is the condition it runs in. Readings older
 than `BAKU_FRESH_DAYS = 14` are ignored, so a transient flap ages out instead
 of being held against a stream. A `geo` probe result is not a verdict and is
 not recorded. This is what breaks the iptv-org-before-`WATCHLIST` tie that used
@@ -228,6 +236,17 @@ and waiting-list probing stay **daily for every group, no exceptions**.
   it is written by local runs only, never by the runner, and committed from
   this machine alongside code. `--write` overrides deliberately and
   prints a warning. Local commits should contain code only.
+- **Operating model — who does what.** The runner is **fully autonomous**: it
+  publishes daily on its own, and nothing here depends on this machine being
+  on. Baku data is *not* synced on a schedule; `BAKU.json` refreshes only as a
+  side effect of a maintenance preview, so it may be arbitrarily stale, and
+  every mechanism that reads it must stay safe when it is (hence no expiry —
+  see `BAKU.json` in §3). **The user is the geo sensor**: a channel that is
+  dead from Baku is reported by hand, and enters the system as a
+  `STREAM_BLOCKLIST` or `BAD_HOSTS` change, which is the one signal CI can
+  never produce for itself. Automation picks the best candidate it can measure;
+  the viewer's report is what tells it the measurement was from the wrong
+  country.
 - **Triggering:** `gh workflow run update.yml` (gh lives at
   `C:\Program Files\GitHub CLI\gh.exe`, not on PATH). Not needed for print-only
   changes.

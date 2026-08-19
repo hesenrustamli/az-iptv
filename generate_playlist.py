@@ -235,17 +235,23 @@ state = load_state()
 # It is written only by a local run and only read by the runner -- the single
 # deliberate exception to "only the runner writes", because only this machine
 # can produce it. It is committed from here like code.
-# It biases RANKING and nothing else: a Baku-ok URL sorts ahead of its rivals
-# for that channel, a Baku-failed URL sorts behind them, an unknown or stale
-# one keeps the rank it always had. It never excludes anything --
-# STREAM_BLOCKLIST and BAD_HOSTS remain the only tools that do.
-# Readings older than BAKU_FRESH_DAYS are ignored, so a transient failure
-# (an ATV-style CDN flap) ages out instead of being held against a stream.
+# It biases RANKING and gates bench seats (see SUBSTITUTES). It never excludes
+# anything -- STREAM_BLOCKLIST and BAD_HOSTS remain the only tools that do.
+#
+# LAST VERDICT WINS, WITH NO EXPIRY. There is no scheduled sync: this machine
+# is usually off, and Baku data refreshes only as a side effect of a
+# maintenance preview. A freshness window would therefore not model "recent
+# truth", it would model "how long since someone happened to run a preview" --
+# and every reading would silently decay to unknown, which is precisely the
+# state that lets a geo-blocked URL win a seat. So a verdict stands until a
+# newer probe of that same URL overwrites it, however old it is. The timestamp
+# is kept for the reader, not for the logic. The cost is that a transient
+# failure sticks until re-probed; the benefit is that the system stays safe
+# under arbitrarily stale data, which is the condition it actually runs in.
 BAKU_FILE = "BAKU.json"
-BAKU_FRESH_DAYS = 14
 
 def load_baku(path=BAKU_FILE):
-    """Return (raw entries, {url: +1 ok / -1 failed} for fresh entries only)."""
+    """Return (raw entries, {url: +1 ok / -1 failed}) for every URL on record."""
     try:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
@@ -253,26 +259,20 @@ def load_baku(path=BAKU_FILE):
         return {}, {}
     if not isinstance(data, dict):
         return {}, {}
-    today, raw, pref = datetime.date.today(), {}, {}
+    raw, pref = {}, {}
     for url, e in data.items():
         if not isinstance(e, dict):
             continue
         raw[url] = {"ok": bool(e.get("ok")), "ts": str(e.get("ts") or "")}
-        try:
-            age = (today - datetime.date.fromisoformat(raw[url]["ts"])).days
-        except ValueError:
-            continue          # unparsable stamp: keep the row, ignore its vote
-        if 0 <= age <= BAKU_FRESH_DAYS:
-            pref[url] = 1 if raw[url]["ok"] else -1
+        pref[url] = 1 if raw[url]["ok"] else -1
     return raw, pref
 
 baku_raw, baku_pref = load_baku()
 
 def baku_verdict(url):
-    """The most recent Baku reading for a URL, at ANY age: True if it played
-    here, False if it did not, None if it was never measured. Deliberately
-    not freshness-filtered, unlike baku_pref: ranking wants a recent opinion,
-    but the bench seat gate wants evidence that the stream ever worked."""
+    """The most recent Baku reading for a URL: True if it played here, False
+    if it did not, None if it was never measured. Age is irrelevant -- see the
+    no-expiry note above."""
     e = baku_raw.get(url)
     return None if e is None else bool(e.get("ok"))
 
@@ -764,6 +764,7 @@ def rank(s):
     # stream the viewer cannot open is worth less than a lower-quality one
     # they can. This is also what breaks the iptv-org-before-WATCHLIST tie
     # that used to publish a geo-blocked feed over a working alternate.
+    # 0 means never measured here, never "measured a while ago".
     return (baku_pref.get(s["url"], 0),
             any(d in s["url"] for d in OFFICIAL), qscore(s))
 
@@ -1313,9 +1314,10 @@ for group, idl in PICKS.items():
     # A substitute exists for exactly one reason: to give the viewer
     # something watchable in a seat that would otherwise be empty. So a seat
     # requires BOTH that the runner's probe passes this run AND that Baku has
-    # a pass on record for that same URL. A recorded fail blocks the seat
-    # until a newer pass replaces it, and never-measured does not seat -- a
-    # stream nobody in Baku has opened is a hope, not a substitute. The seat
+    # a pass on record for that same URL, at any age. A recorded fail blocks
+    # the seat until a newer pass replaces it, and never-measured does not
+    # seat -- a stream nobody in Baku has opened is a hope, not a substitute.
+    # The seat
     # falls through to the next rank meeting both. Starters are untouched:
     # editorial picks publish best-effort, with BAKU steering only which of
     # their URLs is chosen, through ranking.
@@ -1641,9 +1643,9 @@ if watchlist_suppressed:
     print(f"WATCHLIST URLs suppressed by a host rule ({len(watchlist_suppressed)}):")
     for _c, _u in watchlist_suppressed:
         print(f"  - {display_name(_c)}: {_u[:88]}")
-_fresh = len(baku_pref)
-print(f"Baku vantage: {len(baku_raw)} URL(s) on record, {_fresh} fresh "
-      f"(<= {BAKU_FRESH_DAYS}d) and biasing rank"
+_ok = sum(1 for v in baku_pref.values() if v > 0)
+print(f"Baku vantage: {len(baku_raw)} URL(s) on record ({_ok} pass, "
+      f"{len(baku_raw) - _ok} fail), all biasing rank -- no expiry"
       + (f"; {len(baku_measured)} measured this run -> {BAKU_FILE}"
          if baku_measured else ""))
 print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
