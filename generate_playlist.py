@@ -110,11 +110,21 @@ for l in get("logos.json"):
     if l.get("channel") and l["channel"] not in logos:
         logos[l["channel"]] = l["url"]
 
+# Substrings matched against the WHOLE URL, so a path slug counts too, not
+# just the hostname. Everything here is skipped as a candidate, in retention
+# and in discovery, and the health check falls through to the alternates.
 BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
-             "zabava-htlive.cdn.ngenix.net"]    # Wink CDN: "not available
+             "zabava-htlive.cdn.ngenix.net",    # Wink CDN: "not available
              # in your territory" from Azerbaijan (Che, REN TV et al).
-             # Host-level so every stream on it is skipped and the health
-             # check falls through to each channel's alternates.
+             # amagi's Samsung TV Plus UK playouts: three for three 403 from
+             # Baku while passing the US runner -- Curiosity NOW, Earth Touch
+             # and NatureTime -- so the slug family is treated as a rule
+             # rather than blocklisted one URL at a time as each surfaces.
+             # Both spellings occur, sometimes in the same URL.
+             # Deliberately NOT "samsunguk": WaterBear and INWILD ride that
+             # slug and neither vantage has been measured, so it stays open.
+             "samsung-gb",
+             "samsunggb"]
 # Confirmed dead, geo-blocked from inside Azerbaijan, or not a legal free
 # feed. Excluded as candidates, from retention, and from discovery, so they
 # cannot come back. The channel ids stay in PICKS and rejoin automatically
@@ -147,6 +157,10 @@ STREAM_BLOCKLIST = {
     # 1080p wins ranking on the US runner but 403s from Azerbaijan;
     # the Rakuten-DE feed passes both vantages
     "https://amg00416-amg00416c9-samsung-in-4882.playouts.now.amagi.tv/playlist/amg00416-travelxp-travelxphd-samsungin/playlist.m3u8",
+    # NatureTime: passes US runner, 403 from Baku (vantage split)
+    "https://amg01515-amg01515c43-samsung-gb-9038.playouts.now.amagi.tv/playlist.m3u8",
+    # BBC Earth: same split, measured this round
+    "https://pb-zjy36qhp8e8cz.akamaized.net/BBC_Earth_US.m3u8",
     # upstream mislabels Love Nature Australia playouts under NatureTime.ca
     "https://amg00090-blueantllc-lovenature-au-samsungau-wggcn.amagi.tv/playlist/amg00090-blueantllc-lovenature-au-samsungau/playlist.m3u8",
     "https://amg00090-blueantllc-lovenatureau-samsungnz-r3iaz.amagi.tv/playlist/amg00090-blueantllc-lovenatureau-samsungnz/playlist.m3u8",
@@ -214,6 +228,46 @@ def load_state(path=DISCOVERED_FILE):
 
 state = load_state()
 
+# ---------------- Baku vantage data (BAKU.json) --------------------------
+# The runner sits in the US and the viewer is in Baku, so a probe from CI
+# answers a different question than "can this actually be watched". BAKU.json
+# records what THIS machine measured: {url: {"ok": bool, "ts": "YYYY-MM-DD"}}.
+# It is written only by a local run and only read by the runner -- the single
+# deliberate exception to "only the runner writes", because only this machine
+# can produce it. It is committed from here like code.
+# It biases RANKING and nothing else: a Baku-ok URL sorts ahead of its rivals
+# for that channel, a Baku-failed URL sorts behind them, an unknown or stale
+# one keeps the rank it always had. It never excludes anything --
+# STREAM_BLOCKLIST and BAD_HOSTS remain the only tools that do.
+# Readings older than BAKU_FRESH_DAYS are ignored, so a transient failure
+# (an ATV-style CDN flap) ages out instead of being held against a stream.
+BAKU_FILE = "BAKU.json"
+BAKU_FRESH_DAYS = 14
+
+def load_baku(path=BAKU_FILE):
+    """Return (raw entries, {url: +1 ok / -1 failed} for fresh entries only)."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, ValueError):
+        return {}, {}
+    if not isinstance(data, dict):
+        return {}, {}
+    today, raw, pref = datetime.date.today(), {}, {}
+    for url, e in data.items():
+        if not isinstance(e, dict):
+            continue
+        raw[url] = {"ok": bool(e.get("ok")), "ts": str(e.get("ts") or "")}
+        try:
+            age = (today - datetime.date.fromisoformat(raw[url]["ts"])).days
+        except ValueError:
+            continue          # unparsable stamp: keep the row, ignore its vote
+        if 0 <= age <= BAKU_FRESH_DAYS:
+            pref[url] = 1 if raw[url]["ok"] else -1
+    return raw, pref
+
+baku_raw, baku_pref = load_baku()
+
 by = {}
 blocked_ids = set()  # ids that lost at least one stream to the blocklist
 for s in get("streams.json"):
@@ -275,16 +329,6 @@ OVERRIDES = {
     # on a failed probe; the run logs a warning instead.
     "TRTCocuk.tr": {"url": "https://tv-trtcocuk.medya.trt.com.tr/master.m3u8",
                     "quality": "1440p", "user_agent": None, "referrer": None},
-    # Earth Touch TV's official amagi Samsung TV Plus UK playout, hand-keyed
-    # from iptv-org's uk_samsung provider file (those entries carry no
-    # tvg-id, so nothing links them to a channel). 403s from the runner but
-    # plays in VLC from Baku, which is the same split that made TRT Cocuk an
-    # override: the failure describes the runner's vantage, not the stream.
-    # Quality is what the uk_samsung provider file labels this exact URL
-    # ("Earth Touch (1080p)"); VLC codec info from Baku can overrule it.
-    "EarthTouchTV.za": {"url": "https://amg01823-earthtouch-amg01823c1-samsung-gb-862.playouts.now.amagi.tv/playlist/amg01823-earthtouch-earthtouch-samsunggb/playlist.m3u8",
-                        "quality": "1080p", "user_agent": None, "referrer": None,
-                        "expected_fail": True},
     # TRT Belgesel on TRT's own -dai host. Answers 200 with a manifest from
     # Azerbaijan; the runner failed all three candidates the same morning
     # ("404 not found, server error, unreachable"), so the vantage split is
@@ -293,7 +337,14 @@ OVERRIDES = {
                        "quality": "720p", "user_agent": None, "referrer": None,
                        "expected_fail": True},
 }
+# A pin is still subject to the host rules: BAD_HOSTS and STREAM_BLOCKLIST
+# record streams measured unusable, and "hand-verified" cannot outrank a
+# measurement. Anything dropped here is named in the run summary.
+override_blocked = []
 for _cid, _ov in OVERRIDES.items():
+    if not url_allowed(_ov["url"]):
+        override_blocked.append(_cid)
+        continue
     by[_cid] = [_ov] + by.get(_cid, [])
 
 # Hand-found static candidates for channels iptv-org has no working entry
@@ -331,6 +382,14 @@ WATCHLIST = {
     # STREAM_BLOCKLIST now: it outranked everything on the runner and 403s
     # from Azerbaijan, so it published as a channel nobody in Baku could watch.
     "Travelxp.in": ["https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8"],
+    # Earth Touch TV, demoted from OVERRIDES. Its pin claimed "Baku-verified"
+    # but no probe from any vantage ever passed: bare, VLC, Tizen, ExoPlayer,
+    # no-User-Agent, and Referer/Origin variants for samsungtvplus, wurl and
+    # amagi all returned 403 from Baku, and the runner 403s too. Kept here as
+    # the record of the only known URL -- currently INERT, because the
+    # samsung-gb BAD_HOSTS rule excludes it. It revives only if that rule is
+    # relaxed or the slug family starts answering.
+    "EarthTouchTV.za": ["https://amg01823-earthtouch-amg01823c1-samsung-gb-862.playouts.now.amagi.tv/playlist/amg01823-earthtouch-earthtouch-samsunggb/playlist.m3u8"],
     # NatureTime's genuine slugs. The two blocklisted URLs above carry
     # "lovenature-au" in the path: upstream files Love Nature Australia
     # playouts under NatureTime.ca, so ranking kept picking the wrong
@@ -385,11 +444,17 @@ WATCHLIST = {
 # from iptv-org's label. Quality only affects ranking and the display suffix;
 # it is never trusted over a probe, because it is not measured here.
 watchlist_live = {}
+watchlist_suppressed = []
 for _cid, _urls in WATCHLIST.items():
     _known = {s["url"] for s in by.get(_cid, [])}
     for _entry in _urls:
         _u, _q = _entry if isinstance(_entry, tuple) else (_entry, None)
-        if not (url_allowed(_u) and not looks_tokenized(_u)):
+        if not url_allowed(_u):
+            # suppressed, not forgotten: named in the run summary so a
+            # WATCHLIST line cannot quietly become dead config
+            watchlist_suppressed.append((_cid, _u))
+            continue
+        if looks_tokenized(_u):
             continue
         if _u in _known:
             continue  # iptv-org already carries it; no need to probe twice
@@ -506,8 +571,9 @@ LOCKED_GROUPS = {
     "Sənədli": [
         "TRTBelgesel.tr",       # 1  WATCHLIST candidates, probe pending
         "LoveNature.ca",        # 2  live, 2160p
-        "EarthTouchTV.za",      # 3  live (override: Samsung-UK playout,
-                                #    Baku-verified, 403s from the runner)
+        "EarthTouchTV.za",      # 3  waiting: its only known URL 403s from
+                                #    both vantages and rides the excluded
+                                #    samsung-gb slug. The bench covers it
         "CGTNDocumentary.cn",   # 4  live
         "DWDocumentary.de",     # 5  waiting: YouTube-only brand, no linear
                                 #    feed exists
@@ -686,7 +752,12 @@ def qscore(s):
     try: return int(q.replace("p", "").replace("i", ""))
     except ValueError: return 0
 def rank(s):
-    return (any(d in s["url"] for d in OFFICIAL), qscore(s))
+    # Baku's measured verdict outranks provenance and resolution both: a
+    # stream the viewer cannot open is worth less than a lower-quality one
+    # they can. This is also what breaks the iptv-org-before-WATCHLIST tie
+    # that used to publish a geo-blocked feed over a working alternate.
+    return (baku_pref.get(s["url"], 0),
+            any(d in s["url"] for d in OFFICIAL), qscore(s))
 
 def skey(s):
     """Stable identity for a stream dict (used to key probe results)."""
@@ -1042,7 +1113,7 @@ def best_working(cid):
     # sits outside Azerbaijan, so a failure here says more about the
     # runner's vantage point than the stream. Warn instead.
     ov = OVERRIDES.get(cid)
-    if ov is not None:
+    if ov is not None and url_allowed(ov["url"]):
         _det = status.get(skey(ov), "unprobed")
         (override_expected if ov.get("expected_fail")
          else override_warnings).append(f"{cid} (probe={_det})")
@@ -1427,6 +1498,24 @@ if WRITE:
                   f, indent=2, ensure_ascii=False)
         f.write("\n")
 
+# ---------------- Baku vantage data --------------------------------------
+# The one file a local run writes and the runner never does: only this
+# machine sits in Baku, so only it can answer "is this watchable". Committed
+# from here like code. "geo" is not a verdict, so it is not recorded.
+baku_measured = {}
+if not IS_CI and not skip_check:
+    for (_feed, _u), _st in status.items():
+        if _st == "geo":
+            continue
+        baku_measured[_u] = baku_measured.get(_u, False) or (_st == "ok")
+    _merged = dict(baku_raw)
+    _merged.update({_u: {"ok": _ok, "ts": TODAY.isoformat()}
+                    for _u, _ok in baku_measured.items()})
+    with open(BAKU_FILE, "w", encoding="utf-8") as f:
+        json.dump({u: _merged[u] for u in sorted(_merged)}, f,
+                  indent=2, ensure_ascii=False)
+        f.write("\n")
+
 summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
 if summary_path:
     try:
@@ -1519,6 +1608,18 @@ for _g, _bench in SUBSTITUTES.items():
                   f"{bench_status_text(_c, _st)}")
 print(f"Overrides: {len(OVERRIDES)} pinned; {len(override_expected)} expected "
       f"vantage-fail, {len(override_warnings)} unexpected failure(s)")
+if override_blocked:
+    print(f"Overrides dropped by a host rule / blocklist: "
+          f"{', '.join(sorted(override_blocked))}")
+if watchlist_suppressed:
+    print(f"WATCHLIST URLs suppressed by a host rule ({len(watchlist_suppressed)}):")
+    for _c, _u in watchlist_suppressed:
+        print(f"  - {display_name(_c)}: {_u[:88]}")
+_fresh = len(baku_pref)
+print(f"Baku vantage: {len(baku_raw)} URL(s) on record, {_fresh} fresh "
+      f"(<= {BAKU_FRESH_DAYS}d) and biasing rank"
+      + (f"; {len(baku_measured)} measured this run -> {BAKU_FILE}"
+         if baku_measured else ""))
 print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
       f"{skip_gate}, niche sports {skip_niche}, non-Latin name {skip_script}, "
       f"over cap {capped_out}")

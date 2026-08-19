@@ -54,8 +54,21 @@ runner: its failure goes to a quiet line and is counted separately, so that an
 *unflagged* override which starts failing still stands out instead of being
 lost in known noise. The run prints `overrides: N pinned; E expected
 vantage-fail, U unexpected failure(s)`, and says so when a flagged override
-starts passing, since the flag is stale at that point. Only `EarthTouchTV.za`
-carries the flag today.
+starts passing, since the flag is stale at that point. Only `TRTBelgesel.tr`
+carries the flag today: it answers from Baku and failed all three candidates on
+the runner the same morning, which is the passing-vantage evidence the
+provenance rule below demands.
+
+**Override provenance — a hard rule.** An override comment may claim only what
+a *recorded probe measured*, never what someone expected or intended to check.
+`"expected_fail": True` additionally requires **at least one passing vantage on
+record**: a stream that fails everywhere is not vantage-split, it is broken,
+and belongs in `WATCHLIST` where its silence is honest. Earth Touch TV was
+pinned on an unexecuted manual check, claimed "Baku-verified", and failed nine
+header variants from Baku plus the runner — it was demoted for exactly this.
+Overrides are also subject to `BAD_HOSTS` and `STREAM_BLOCKLIST`: hand-verified
+never outranks measured-unusable, and anything dropped that way is named in the
+run summary.
 
 **`WATCHLIST`** — hand-found static candidates for channels iptv-org has no
 working entry for, and last-known-good URLs for bench channels so their
@@ -99,6 +112,14 @@ hosts, and `rank()` can score them above the legitimate feed (an `akamaized`
 host reads as official, and a leaked 4K stream outranks a legitimate 1080p
 one). Merely leaving such a URL out of `WATCHLIST` does not keep it out.
 
+**`BAD_HOSTS`** — substrings matched against the **whole URL**, so a path slug
+counts, not just the hostname. Beyond the two dead CDNs it now carries
+`samsung-gb` / `samsunggb`: amagi's Samsung TV Plus UK playouts went three for
+three — Curiosity NOW, Earth Touch, NatureTime — passing the US runner and
+403ing from Baku, so the slug family is a rule rather than a URL-at-a-time
+chase. `samsunguk` is deliberately **not** matched: WaterBear and INWILD ride
+it and neither vantage has been measured.
+
 **`PAY_TV_BLOCK`** — subscription broadcasters, matched case-insensitively
 against channel name and network. Free-to-air Match! is deliberately absent while
 the premium Match! tiers are listed.
@@ -141,6 +162,20 @@ stream-hunted exactly like waiting members (daily iptv-org refresh plus
 Meant for locked groups; a bench on a grown group would race its own auto-adds.
 Only Sənədli has one today (15 deep).
 
+**`BAKU.json`** — committed vantage data, `{url: {"ok", "ts"}}`. The runner is
+in the US and the viewer is in Baku, so a CI probe answers a different question
+than "can this be watched". Every **local** run records what it measured here;
+the runner only ever *reads* it. This is the single deliberate exception to the
+single-author rule in §5, because only this machine can produce the data — it
+is committed from here like code. It biases **ranking only**: a Baku-ok URL
+sorts ahead of its rivals for that channel, a Baku-failed URL sorts behind
+them, unknown keeps its existing rank. It never excludes anything;
+`STREAM_BLOCKLIST` and `BAD_HOSTS` stay the only tools that do. Readings older
+than `BAKU_FRESH_DAYS = 14` are ignored, so a transient flap ages out instead
+of being held against a stream. A `geo` probe result is not a verdict and is
+not recorded. This is what breaks the iptv-org-before-`WATCHLIST` tie that used
+to publish a geo-blocked feed over a working alternate.
+
 **Monthly AZ sweep** — `AZ_SWEEP_GROUP` is evaluated only when
 `AZ_SWEEP_DAYS = 28` have passed since `last_az_discovery` in `auto_state.json`.
 On an active run the stamp is set to today, so the next window is today + 28.
@@ -163,7 +198,7 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 | İdman | machine-managed, cap 40 | add/trim/vacate per rules, caps, stickiness | drop a `PICKS` entry or an override |
 | Uşaq | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Musiqi | frozen | heal, retain, probe waiting members | add, reorder, displace |
-| Sənədli | frozen, order is editorial (1–13), 15-deep bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
+| Sənədli | frozen, order is editorial (1–13), 16-deep bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
 | · russia | frozen | heal, retain, probe waiting members | add, reorder, displace, rename the group |
 | Beynəlxalq Xəbər | frozen, order is editorial (1–9) | heal, retain, probe waiting members | add, reorder, displace |
 
@@ -174,7 +209,9 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 - **Single author.** Only the GitHub runner writes `playlist.m3u`, `WAITING.md`,
   `discovered.json` and `auto_state.json` (`IS_CI` via `GITHUB_ACTIONS`). A local
   run computes and reports everything but writes nothing, so it cannot race the
-  bot or publish from the wrong vantage. `--write` overrides deliberately and
+  bot or publish from the wrong vantage. **`BAKU.json` is the one exception**:
+  it is written by local runs only, never by the runner, and committed from
+  this machine alongside code. `--write` overrides deliberately and
   prints a warning. Local commits should contain code only.
 - **Triggering:** `gh workflow run update.yml` (gh lives at
   `C:\Program Files\GitHub CLI\gh.exe`, not on PATH). Not needed for print-only
@@ -205,6 +242,8 @@ and waiting-list probing stay **daily for every group, no exceptions**.
   `last_az_discovery`.
 - `discovered.json` — `discovered` (per-channel URLs found on official pages,
   with fail counts) and `watchlist` fail counts.
+- `BAKU.json` — per-URL Baku probe results, written locally and committed by
+  hand; read by the runner to bias ranking. Never written in CI.
 - `EXCLUDE`, `STREAM_BLOCKLIST`, `BAD_HOSTS` in `generate_playlist.py` — the
   record of what was removed by hand and why. Each entry carries its reason as a
   comment; keep that up.
