@@ -246,6 +246,12 @@ WATCHLIST = {
     # on the same duhnet CDN answers, so it is channel-level geo-blocking,
     # not a dead link -- probed daily so it joins the moment that lifts.
     "CNNTurk.tr": ["https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8"],
+    # TRT Cocuk recovery seeds. Its only iptv-org stream is on the medya
+    # host that geo-blocks, and TRT's daioncdn slugs are inconsistent
+    # (trtworld unhyphenated works, trt-1 hyphenated works), so both
+    # spellings are seeded. Both 404 today; probed daily regardless.
+    "TRTCocuk.tr": ["https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web",
+                    "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web"],
     # CNN International has no free official feed: cnn.com gates live behind
     # a TV-provider login and no Pluto/Samsung/Rakuten/Xumo endpoint for it
     # is reachable. It holds position 3 as a waiting pick; add a verified
@@ -291,6 +297,7 @@ EXCLUDE = {
     "AlvinChannelTV.az", "TRTTurk.tr", "HaberturkTV.tr", "BloombergHT.tr",
     "FinansTurkTV.tr", "Haber61TV.tr", "LifeTV.tr", "TRTArabi.tr",
     "TurkHaberTV.tr", "KralPopTV.tr", "MBCFM.ae", "Number1Ask.tr",
+    "CNBCe.tr", "GuneydoguTV.tr",
 }
 
 # Subscription broadcasters. Never auto-added from any source -- carrying
@@ -338,8 +345,8 @@ LOCKED_GROUPS = {
     ],
     "Xəbər – Türkiyə": [
         "TRTHaber.tr", "HaberGlobal.tr", "AHaber.tr", "TGRTHaber.tr",
-        "NTV.tr", "24TV.tr", "360.tr", "TVNET.tr", "HalkTV.tr", "CNBCe.tr",
-        "ASTV.tr", "DHA.tr", "GuneydoguTV.tr",      # promoted from auto
+        "NTV.tr", "24TV.tr", "360.tr", "TVNET.tr", "HalkTV.tr",
+        "ASTV.tr", "DHA.tr",                        # promoted from auto
         "CNNTurk.tr",                               # waiting: 403 from AZ
     ],
     "Musiqi": [
