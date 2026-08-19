@@ -15,16 +15,43 @@ right now. Every one is re-probed on each run and rejoins
 | Che! | · russia | 1 | unreachable |
 | CNN International | Beynəlxalq Xəbər | 0 | no candidate URLs |
 | CNN Turk | Xəbər – Türkiyə | 1 | 403 forbidden |
-| DMAX | Sənədli | 0 | no candidate URLs |
+| DW Documentary | Sənədli | 0 | no candidate URLs |
 | Futbol | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | Olympic Channel | İdman | 3 | 403 forbidden |
+| Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| TGRT Belgesel | Sənədli | 0 | all known streams blocklisted |
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
-| TRT Belgesel | Sənədli | 1 | 404 not found |
+| TRT Belgesel | Sənədli | 3 | 404 not found, server error, unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
+| Wild Nature | Sənədli | 0 | no candidate URLs |
+
+## Substitutes
+
+The bench for a locked group. One substitute enters for each
+member with no working stream, in bench order, and steps back
+when the member returns. Membership and the editorial order of
+the group itself never change.
+
+| Substitute | Group | Bench rank | Status |
+| --- | --- | --- | --- |
+| TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
+| DMAX | Sənədli | 2 | streamless - no candidate URLs |
+| BBC Earth | Sənədli | 3 | in play - covering a hidden member |
+| Smithsonian Channel Selects | Sənədli | 4 | in play - covering a hidden member |
+| Curiosity NOW | Sənədli | 5 | in play - covering a hidden member |
+| Terra Mater WILD | Sənədli | 6 | in play - covering a hidden member |
+| CNA Originals | Sənədli | 7 | ready - no seat needed this run |
+| NHK World-Japan | Sənədli | 8 | ready - no seat needed this run |
+| WildEarth | Sənədli | 9 | ready - no seat needed this run |
+| RT Documentary | Sənədli | 10 | ready - no seat needed this run |
+| WaterBear | Sənədli | 11 | ready - no seat needed this run |
+| Love The Planet | Sənədli | 12 | ready - no seat needed this run |
+| Autentic History | Sənədli | 13 | ready - no seat needed this run |
+| China Travel | Sənədli | 14 | ready - no seat needed this run |
+| Pluto TV Science | Sənədli | 15 | ready - no seat needed this run |
+| Pluto TV History | Sənədli | 16 | ready - no seat needed this run |
 
 ## Alternates found
 
@@ -42,19 +69,9 @@ in `generate_playlist.py`.
 | Channel | Group | Channel id |
 | --- | --- | --- |
 | ACC Digital Network | İdman | `ACCDigitalNetwork.us` |
-| Adventure Earth | Sənədli | `AdventureEarth.de` |
-| Autentic History | Sənədli | `AutenticHistory.de` |
-| BBC Earth | Sənədli | `BBCEarth.uk` |
 | Belarus-5 | İdman | `Belarus5.by` |
-| Bondi Rescue | Sənədli | `BondiRescue.de` |
-| China Travel | Sənədli | `ChinaTravel.cn` |
-| CNA Originals | Sənədli | `CNAOriginals.sg` |
 | Cricket Gold | İdman | `CricketGold.au` |
-| Curiosity NOW | Sənədli | `CuriosityNOW.de` |
-| Discovering China | Sənədli | `DiscoveringChina.cn` |
 | DiviSport | İdman | `DiviSport.ua` |
-| DocuBox | Sənədli | `DocuBox.nl` |
-| Documentary+ | Sənədli | `DocumentaryPlus.us` |
 | DraftKings Network | İdman | `DraftKingsNetwork.us` |
 | Dynamo Kyiv TV | İdman | `DynamoKyivTV.ua` |
 | Equalympic | İdman | `Equalympic.ua` |
@@ -70,13 +87,9 @@ in `generate_playlist.py`.
 | FUEL TV | İdman | `FUELTV.pt` |
 | Glory Kickboxing | İdman | `GloryKickboxing.us` |
 | GolTV Latin America | İdman | `GolTVLatinAmerica.us` |
-| History Asia | Sənədli | `HistoryAsia.us` |
-| Ink Master | Sənədli | `InkMaster.us` |
 | InTrouble | İdman | `InTrouble.nl` |
-| Jail | Sənədli | `Jail.uk` |
 | Kozoom TV | İdman | `KozoomTV.fr` |
 | KTV Sport | İdman | `KTVSport.kw` |
-| Love The Planet | Sənədli | `LoveThePlanet.es` |
 | Maincast Cybersport | İdman | `MaincastCybersport.ua` |
 | Maincast Sport | İdman | `MaincastSport.ua` |
 | MLB | İdman | `MLB.us` |
@@ -85,24 +98,13 @@ in `generate_playlist.py`.
 | NBC Sports NOW | İdman | `NBCSportsNOW.us` |
 | NFL Channel | İdman | `NFLChannel.us` |
 | NHL Network | İdman | `NHLNetwork.us` |
-| Pluto TV Alien Invasion | Sənədli | `PlutoTVAlienInvasion.de` |
-| Pluto TV American True Crime | Sənədli | `PlutoTVAmericanTrueCrime.de` |
-| Pluto TV Animals | Sənədli | `PlutoTVAnimals.de` |
-| Pluto TV Britain at War | Sənədli | `PlutoTVBritainatWar.de` |
-| Pluto TV Conspiracy | Sənədli | `PlutoTVConspiracy.de` |
-| Pluto TV Dokumentar | Sənədli | `PlutoTVDokumentar.se` |
-| Pluto TV Food | Sənədli | `PlutoTVFood.de` |
-| Pluto TV History | Sənədli | `PlutoTVHistory.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.de` |
 | Pluto TV Snooker 900 | İdman | `PlutoTVSnooker900.se` |
 | RACER International | İdman | `RACERInternational.pl` |
 | Racer Network | İdman | `RacerNetwork.us` |
 | Racer Select | İdman | `RacerSelect.us` |
-| RT Documentary | Sənədli | `RTDocumentary.ru` |
 | Sport 1 Baltic | İdman | `Sport1Baltic.ua` |
 | Sportdigital FUSSBALL | İdman | `SportdigitalFUSSBALL.de` |
 | Strongman | İdman | `Strongman.us` |
-| Terra Mater WILD | Sənədli | `TerraMaterWILD.de` |
 | Trace Sport Stars | İdman | `TraceSportStars.fr` |
-| WaterBear | Sənədli | `WaterBear.ch` |
 | Willow Sports | İdman | `WillowSports.us` |
