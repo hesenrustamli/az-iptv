@@ -42,15 +42,35 @@ day a stream passes. `CBCSport.az` and `IdmanTV.az` are dual-grouped
 (Azərbaycan + İdman) deliberately — this is why entry count exceeds unique
 channel count.
 
-**`OVERRIDES`** — hand-verified static URLs taken from a broadcaster's own
-player, merged ahead of the iptv-org candidates so ranking prefers them. Never
-dropped on a failed probe: `best_working()` returns them anyway and appends to
-`override_warnings`, because the runner sits outside Azerbaijan and a failure
-there says more about vantage than about the stream.
+**`OVERRIDES`** — hand-verified static URLs, taken from a broadcaster's own
+player or from an iptv-org provider file (`<country>_<provider>.m3u`, whose
+entries carry no tvg-id and so must be hand-keyed to a channel), merged ahead
+of the iptv-org candidates so ranking prefers them. Never
+dropped on a failed probe: `best_working()` returns them anyway and records the
+failure, because the runner sits outside Azerbaijan and a failure there says
+more about vantage than about the stream. An override carrying
+`"expected_fail": True` is one verified from Baku and known to fail from the
+runner: its failure goes to a quiet line and is counted separately, so that an
+*unflagged* override which starts failing still stands out instead of being
+lost in known noise. The run prints `overrides: N pinned; E expected
+vantage-fail, U unexpected failure(s)`, and says so when a flagged override
+starts passing, since the flag is stale at that point. Only `EarthTouchTV.za`
+carries the flag today.
 
 **`WATCHLIST`** — hand-found static candidates for channels iptv-org has no
-working entry for. Probed daily like anything else, joining the day they start
-answering; dropped after `PRUNE_AFTER = 60` consecutive fails.
+working entry for, and last-known-good URLs for bench channels so their
+readiness does not depend on iptv-org churn. Probed daily like anything else,
+joining the day they start answering; dropped after `PRUNE_AFTER = 60`
+consecutive fails. A URL iptv-org already carries for that channel is skipped
+rather than probed twice, and activates by itself the day upstream drops it.
+Entries bypass the feed-language filter, which is how a channel whose only
+upstream feed is tagged (say) `deu` can still be carried.
+
+**`LOCAL_CHANNELS`** — display names for ids the iptv-org database has no
+record of at all. Merged into `channels` with `setdefault`, so real upstream
+data always wins the day the channel is added. Without the stub `display_name()`
+prints the raw id and `channels.get(cid)` hands `None` to code expecting a
+record. The ids are deliberately written in iptv-org's own shape.
 
 **`SOURCES` + portal guard** — broadcaster-owned live pages, scraped daily by
 `discover()` for static `.m3u8` URLs, persisted in `discovered.json`. A page
@@ -60,14 +80,21 @@ channel is never swapped out from under itself — only a would-be-waiting chann
 adopts a discovered URL.
 
 **`AUTO_RULES`** — ordered `(group, predicate)` list evaluated against the whole
-iptv-org database; first match wins. Only three rules exist: İdman (sports),
-Sənədli (documentary + allowed language), and Azərbaycan (country AZ, monthly).
+iptv-org database; first match wins. Only two rules remain: İdman (sports) and
+Azərbaycan (country AZ, monthly). Sənədli had one until the group was locked.
 `auto_group_for()` skips any group in `LOCKED_GROUPS`.
 
 **`EXCLUDE`** — ids that must never be auto-added, whatever the rules say. Seeded
 with every channel removed by hand, so the rules engine cannot quietly undo
 curation. **Deleting a channel means adding its id here**, not just removing it
 from `PICKS`.
+
+**`STREAM_BLOCKLIST`** — individual URLs that must never be carried: dead,
+geo-blocked from Azerbaijan, **or not a legal free feed**. The last case is not
+optional tidying — iptv-org carries pay-DTH origin leaks and pirate aggregator
+hosts, and `rank()` can score them above the legitimate feed (an `akamaized`
+host reads as official, and a leaked 4K stream outranks a legitimate 1080p
+one). Merely leaving such a URL out of `WATCHLIST` does not keep it out.
 
 **`PAY_TV_BLOCK`** — subscription broadcasters, matched case-insensitively
 against channel name and network. Free-to-air Match! is deliberately absent while
@@ -79,7 +106,7 @@ closed/NSFW and anything whose `broadcast_area` is only city `ct/` or subdivisio
 `s/` level) → `NICHE_SKIP` (İdman only) → `latin_only()`. Note that
 `broadcast_area`, `languages` and `format` live on the **feed**, not the channel.
 
-**`AUTO_CAP` + `TOTAL_MAX`** — `{"İdman": 40, "Sənədli": 25}`, other groups
+**`AUTO_CAP` + `TOTAL_MAX`** — `{"İdman": 40}`, other groups
 uncapped; `TOTAL_MAX = 199` is a hard ceiling on the whole playlist. The build
 runs in two passes so the ceiling knows how many slots `PICKS` occupies, then
 trims auto-adds lowest-rank-first. `PICKS` entries and `OVERRIDES` are never
@@ -93,9 +120,23 @@ Incumbency lives in `auto_state.json`.
 
 **`LOCKED_GROUPS`** — a locked group contains exactly these ids in exactly this
 order. No `AUTO_RULE` may add to it and nothing is reordered or displaced by
-ranking, because the ordering is editorial. Seven groups are frozen this way.
+ranking, because the ordering is editorial. Eight groups are frozen this way.
 Stream healing, retention and daily `WAITING.md` probing still run for every
 member — freezing stops growth, not maintenance.
+
+**`SUBSTITUTES`** — an ordered bench for a locked group. A locked group
+publishes exactly its members, so a member with no working stream leaves the
+group one shorter; the bench covers that seat without touching membership.
+Each run, as many bench channels enter as there are hidden members, taken in
+bench order and skipping any bench channel with no working stream of its own.
+They render **after** the members, so the editorial order of positions 1..N
+never reshuffles, and they step back on the run the cover is no longer needed
+— a starter never loses its claim on its position. Bench channels are
+stream-hunted exactly like waiting members (daily iptv-org refresh plus
+`WATCHLIST` probing) and are listed in `WAITING.md` with their rank and
+`in play` / `ready` / `streamless` status, separately from waiting starters.
+Meant for locked groups; a bench on a grown group would race its own auto-adds.
+Only Sənədli has one today (15 deep).
 
 **Monthly AZ sweep** — `AZ_SWEEP_GROUP` is evaluated only when
 `AZ_SWEEP_DAYS = 28` have passed since `last_az_discovery` in `auto_state.json`.
@@ -119,7 +160,7 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 | İdman | machine-managed, cap 40 | add/trim/vacate per rules, caps, stickiness | drop a `PICKS` entry or an override |
 | Uşaq | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Musiqi | frozen | heal, retain, probe waiting members | add, reorder, displace |
-| Sənədli | machine-managed, cap 25 | add/trim/vacate per rules, caps, stickiness | drop a `PICKS` entry or an override |
+| Sənədli | frozen, order is editorial (1–13), 15-deep bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
 | · russia | frozen | heal, retain, probe waiting members | add, reorder, displace, rename the group |
 | Beynəlxalq Xəbər | frozen, order is editorial (1–9) | heal, retain, probe waiting members | add, reorder, displace |
 
@@ -150,8 +191,10 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 
 ## 6. Live state
 
-- `WAITING.md` — channels with no working stream, alternates found, and every
-  channel added by `AUTO_RULES`. Regenerated each run.
+- `WAITING.md` — channels with no working stream, the `SUBSTITUTES` bench with
+  rank and status, alternates found, and every channel added by `AUTO_RULES`.
+  Regenerated each run. Its first table is parsed back on the next run to spot
+  returning channels, so no other table may use a `| Channel ` header.
 - `auto_state.json` — `incumbents` (sticky auto-slots + fail counts) and
   `last_az_discovery`.
 - `discovered.json` — `discovered` (per-channel URLs found on official pages,

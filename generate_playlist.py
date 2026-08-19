@@ -115,10 +115,10 @@ BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
              # in your territory" from Azerbaijan (Che, REN TV et al).
              # Host-level so every stream on it is skipped and the health
              # check falls through to each channel's alternates.
-# Confirmed dead or geo-blocked from inside Azerbaijan. Excluded as
-# candidates, from retention, and from discovery, so they cannot come
-# back. The channel ids stay in PICKS and rejoin automatically the day a
-# working stream appears.
+# Confirmed dead, geo-blocked from inside Azerbaijan, or not a legal free
+# feed. Excluded as candidates, from retention, and from discovery, so they
+# cannot come back. The channel ids stay in PICKS and rejoin automatically
+# the day a working stream appears.
 STREAM_BLOCKLIST = {
     "https://mn-nl.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
     "https://mn-nl.mncdn.com/blutv_beyaztv2/live.m3u8",
@@ -132,6 +132,16 @@ STREAM_BLOCKLIST = {
     # runner, and it outranks BBC's own edge on quality, so ranking alone
     # would keep pinning BBC News to a stream the user cannot watch.
     "https://pb-iiczlgfysam0q.akamaized.net/v1/amcnetworks_bbcnews_1/samsungheadend_us/latest/main/hls/playlist.m3u8",
+    # Travelxp 4K: a Tata Play pay-DTH origin leak, not a free feed, so the
+    # legal-only rule forbids it. It has to be named here rather than merely
+    # left out of WATCHLIST: iptv-org carries it, and rank() reads the
+    # akamaized host as official at 2160p, so it would outrank Travelxp's
+    # legitimate Samsung-India playout and get pinned as the pick.
+    "https://deltatesttatasky.akamaized.net/out/i/968284.m3u8",
+    # pirate aggregator host, violates source policy (was History Asia)
+    "https://freem3u.xyz/api/live/play.m3u8?vid=9856",
+    # ISP test endpoint leaking FilmBox's pay channel DocuBox
+    "https://dash3.antik.sk/live/test_docubox_medium_atk/playlist.m3u8",
 }
 
 # Query parameters that mark a URL as per-session. Such URLs are never
@@ -215,6 +225,13 @@ for s in get("streams.json"):
 # one is verified static (no per-session token) and still health-checked
 # like any other candidate -- but never dropped when the probe fails, see
 # best_working().
+# "expected_fail": True marks an override that is verified from Baku and
+# KNOWN to fail from the runner. Its daily failure is vantage noise, not
+# news, so it is reported on a quiet line and counted separately -- which
+# is the whole point: an unflagged override that starts failing still
+# stands out instead of being lost among the known-noisy ones. The run
+# also says so if a flagged override starts passing, since the flag is
+# then stale.
 OVERRIDES = {
     # TRT's own CDN, the one tabii uses
     "TRT1.tr": {"url": "https://trt.daioncdn.net/trt-1/master.m3u8?app=web",
@@ -250,6 +267,16 @@ OVERRIDES = {
     # on a failed probe; the run logs a warning instead.
     "TRTCocuk.tr": {"url": "https://tv-trtcocuk.medya.trt.com.tr/master.m3u8",
                     "quality": "1440p", "user_agent": None, "referrer": None},
+    # Earth Touch TV's official amagi Samsung TV Plus UK playout, hand-keyed
+    # from iptv-org's uk_samsung provider file (those entries carry no
+    # tvg-id, so nothing links them to a channel). 403s from the runner but
+    # plays in VLC from Baku, which is the same split that made TRT Cocuk an
+    # override: the failure describes the runner's vantage, not the stream.
+    # Quality is what the uk_samsung provider file labels this exact URL
+    # ("Earth Touch (1080p)"); VLC codec info from Baku can overrule it.
+    "EarthTouchTV.za": {"url": "https://amg01823-earthtouch-amg01823c1-samsung-gb-862.playouts.now.amagi.tv/playlist/amg01823-earthtouch-earthtouch-samsunggb/playlist.m3u8",
+                        "quality": "1080p", "user_agent": None, "referrer": None,
+                        "expected_fail": True},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
@@ -263,7 +290,53 @@ for _cid, _ov in OVERRIDES.items():
 # that works for trtworld) so the daily probe keeps trying if that changes.
 WATCHLIST = {
     "TRT2.tr": ["https://trt.daioncdn.net/trt2/master.m3u8?app=web"],
-    "TRTBelgesel.tr": ["https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
+    # TRT Belgesel: the -dai host is the one reported working (Nov 2025);
+    # both are TRT's own domains. iptv-org's only entry is the plain
+    # tv-trtbelgesel.medya host, which is in STREAM_BLOCKLIST (403 from AZ),
+    # and the daioncdn slug is one of the ones TRT does not publish.
+    "TRTBelgesel.tr": ["https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8",
+                       "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8",
+                       "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
+    # Pluto TV Nature's only iptv-org stream sits on a DACH feed tagged
+    # deu, so the language filter drops it before ranking ever sees it.
+    # Same jmp2.uk shape as the Pluto entries already carried, with the
+    # channel id read off the images.pluto.tv logo URL in iptv-org's data.
+    "PlutoTVNature.de": ["https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8"],
+    # Documentary+ backup only; the LINEAR-887 feed it publishes on today
+    # is healthy, and ranking prefers whichever answers.
+    "DocumentaryPlus.us": ["https://ef79b15c8c7c46c7a9de9d33001dbd07.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-859-DOCUMENTARYPLUS-DOCUMENTARYPLUS/mt/documentaryplus/859/hls/master/playlist.m3u8"],
+    # Travelxp's official wurl Rakuten-DE playout, as a second candidate
+    # behind the Samsung-India one that 403s. Both come from iptv-org's
+    # provider files (<country>_<provider>.m3u), where the entries carry
+    # no tvg-id at all -- nothing keys them to a channel, so hand-keying
+    # here is the only way they can ever be found. The Rakuten-DE feed may
+    # carry German audio; pending a verdict once it plays. Earth Touch TV
+    # came in the same way and has since been pinned as an OVERRIDE.
+    "Travelxp.in": ["https://amg00416-amg00416c9-samsung-in-4882.playouts.now.amagi.tv/playlist/amg00416-travelxp-travelxphd-samsungin/playlist.m3u8",
+                    "https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8"],
+    # ---- SUBSTITUTES bench, last-known-good URLs -------------------------
+    # Bench readiness must not depend on iptv-org churn: a reserve that
+    # vanishes upstream would silently stop being able to cover. Each of
+    # these is the URL the channel was last published on. Upstream still
+    # lists every one of them today, the Pluto/jmp2 ones included, so all
+    # of these copies are deduped and latent by design -- they arm only if
+    # iptv-org drops the URL. Latent is the intended resting state; do not
+    # read a deduped entry as a dead one.
+    "BBCEarth.uk": ["https://pb-zjy36qhp8e8cz.akamaized.net/BBC_Earth_US.m3u8"],
+    "SmithsonianChannelSelects.us": ["https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8"],
+    "CuriosityNOW.de": ["https://amg00170-amg00170c4-samsung-gb-4232.playouts.now.amagi.tv/playlist.m3u8"],
+    "TerraMaterWILD.de": ["https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8"],
+    "CNAOriginals.sg": ["https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8"],
+    "NHKWorldJapan.jp": ["https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8"],
+    "WildEarth.za": ["https://dqga3jatxofgx.cloudfront.net/WildEarth.m3u8"],
+    "RTDocumentary.ru": ["https://rt-rtd.rttv.com/dvr/rtdoc/playlist.m3u8"],
+    "WaterBear.ch": ["https://amg01415-waterbearnetwor-waterbear-samsunguk-1h0y8.amagi.tv/playlist/amg01415-waterbearnetwor-waterbear-samsunguk/playlist.m3u8"],
+    "LoveThePlanet.es": ["https://amg01821-lovetv-amg01821c8-xumo-us-3443.playouts.now.amagi.tv/playlist.m3u8"],
+    "AutenticHistory.de": ["https://9e754fa707344ccca6d84955c8fcaf36.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RlaxxTV-eu_AutenticHistory/playlist.m3u8"],
+    "ChinaTravel.cn": ["https://fastlive.cctvplus.com/out/v1/ca6f9297b7314a63959435028af287fc/index.m3u8"],
+    "PlutoTVScience.us": ["https://jmp2.uk/plu-563a970aa1a1f7fe7c9daad7.m3u8"],
+    "PlutoTVHistory.de": ["https://jmp2.uk/plu-5d4af1803e7983b391d73b13.m3u8"],
+    # ----------------------------------------------------------------------
     # cnnturk.com's own player. 403 from Azerbaijan today while Dream Turk
     # on the same duhnet CDN answers, so it is channel-level geo-blocking,
     # not a dead link -- probed daily so it joins the moment that lifts.
@@ -281,9 +354,12 @@ WATCHLIST = {
 }
 watchlist_live = {}
 for _cid, _urls in WATCHLIST.items():
+    _known = {s["url"] for s in by.get(_cid, [])}
     for _u in _urls:
         if not (url_allowed(_u) and not looks_tokenized(_u)):
             continue
+        if _u in _known:
+            continue  # iptv-org already carries it; no need to probe twice
         if state["watchlist"].get(_u, {}).get("fails", 0) >= PRUNE_AFTER:
             continue  # pruned: dead for PRUNE_AFTER runs, see run summary
         watchlist_live[_u] = _cid
@@ -344,6 +420,21 @@ NICHE_SKIP = re.compile(
     r"college|campus|horse|equestrian|rodeo|poker|billiard|fishing|"
     r"hunting|cornhole|pickleball", re.I)
 
+# Channels the iptv-org database has no entry for at all. Their ids are
+# written in the shape iptv-org would use, so upstream data merges
+# seamlessly the day the channel is added -- setdefault means the real
+# record always wins over this stub. Without the stub, display_name()
+# would print the raw id and channels.get(cid) would hand None to code
+# that expects a channel record.
+LOCAL_CHANNELS = {
+    "EarthTouchTV.za":    "Earth Touch TV",
+    "DWDocumentary.de":   "DW Documentary",
+    "WildNature.ca":      "Wild Nature",
+    "PlexDocumentary.us": "Plex Documentary",
+}
+for _cid, _name in LOCAL_CHANNELS.items():
+    channels.setdefault(_cid, {"id": _cid, "name": _name})
+
 # A locked group contains exactly these channels, in exactly this order,
 # and AUTO_RULES never touch it. Use it for a group that is curated rather
 # than grown -- the ordering is editorial, so nothing may be appended,
@@ -379,6 +470,32 @@ LOCKED_GROUPS = {
         "MTVBiggestPop.us",
         "PowerTurkAkustik.tr", "PowerTurkSlow.tr", "PowerTurkTaptaze.tr",
     ],
+    "Sənədli": [
+        "TRTBelgesel.tr",       # 1  WATCHLIST candidates, probe pending
+        "LoveNature.ca",        # 2  live, 2160p
+        "EarthTouchTV.za",      # 3  live (override: Samsung-UK playout,
+                                #    Baku-verified, 403s from the runner)
+        "CGTNDocumentary.cn",   # 4  live
+        "DWDocumentary.de",     # 5  waiting: YouTube-only brand, no linear
+                                #    feed exists
+        "Travelxp.in",          # 6  live on the Rakuten-DE wurl playout;
+                                #    the Samsung-India one 403s. Audio
+                                #    language pending a user verdict
+        "DocumentaryPlus.us",   # 7  live (promoted from auto)
+        "AdventureEarth.de",    # 8  live (promoted from auto)
+        "Getfactual.us",        # 9  live via Get.factual's Samsung-UK feed
+                                #    (its own CloudFront origin), which
+                                #    iptv-org carries -- not waiting on any
+                                #    Pluto relist
+        "WildNature.ca",        # 10 waiting: no reachable feed; identity
+                                #    pending user verdict
+        "NatureTime.ca",        # 11 live (feed is the Love Nature AU playout
+                                #    labelled NatureTime -- user to verify
+                                #    the content in VLC)
+        "PlutoTVNature.de",     # 12 WATCHLIST candidate, probe pending
+        "PlexDocumentary.us",   # 13 waiting: no such linear channel exists;
+                                #    pending user verdict
+    ],
     "Beynəlxalq Xəbər": [
         "TRTWorld.tr",          # 1
         "BBCNews.uk",           # 2  (override: BBC's own worldwide CDN)
@@ -392,10 +509,39 @@ LOCKED_GROUPS = {
     ],
 }
 
+# An ordered bench for a locked group. A locked group publishes exactly its
+# members, so a member with no working stream simply leaves the group one
+# shorter; SUBSTITUTES lets a named reserve cover that seat without ever
+# touching membership. Each run, as many bench channels enter as there are
+# hidden members, taken in bench order and skipping any bench channel with
+# no working stream of its own. They render AFTER the members, so the
+# editorial order of positions 1..N never reshuffles, and they step back on
+# the run their cover is no longer needed. A starter never loses its claim
+# on its position -- the bench covers, it does not replace.
+# Bench channels are stream-hunted exactly like waiting members (daily
+# iptv-org refresh plus WATCHLIST probing), so one enters the day a stream
+# surfaces. Meant for locked groups; a bench on a grown group would just
+# race its own auto-adds.
+SUBSTITUTES = {
+    # Ranks 1-2 are the two Turkish documentary channels that used to sit
+    # in PICKS; both are streamless today (TGRT Belgesel's only known URL
+    # is in STREAM_BLOCKLIST, the mediatriple broadcast is gone, and DMAX
+    # has no candidate at all), so cover starts at rank 3 in practice.
+    # Everything from rank 3 down is a former Sənədli auto-add kept on as
+    # a known-good reserve rather than lost when the group was locked.
+    "Sənədli": ["TGRTBelgesel.tr", "DMAX.tr", "BBCEarth.uk",
+                "SmithsonianChannelSelects.us", "CuriosityNOW.de",
+                "TerraMaterWILD.de", "CNAOriginals.sg", "NHKWorldJapan.jp",
+                "WildEarth.za", "RTDocumentary.ru", "WaterBear.ch",
+                "LoveThePlanet.es", "AutenticHistory.de", "ChinaTravel.cn",
+                "PlutoTVScience.us", "PlutoTVHistory.de"],
+}
+bench_ids = {cid for _bench in SUBSTITUTES.values() for cid in _bench}
+
 # Ceiling on auto-adds per group. PICKS entries never count against a cap
 # and are never displaced -- caps only trim the automatic tail. Groups
 # absent from this dict are uncapped.
-AUTO_CAP = {"İdman": 40, "Sənədli": 25}
+AUTO_CAP = {"İdman": 40}
 # Azərbaycan is deliberately uncapped: its sweep is monthly and additive,
 # so there is no tail to trim.
 # Hard ceiling on the whole playlist. Auto-adds are trimmed lowest-rank
@@ -443,10 +589,11 @@ def is_pay_tv(cid, c):
 # catch-alls -- otherwise the later rules could never fire.
 AUTO_RULES = [
     ("İdman",           lambda cid, c, L: "sports" in categories_of(c)),
-    ("Sənədli",         lambda cid, c, L: "documentary" in categories_of(c) and bool(L & ALLOWED_LANGS)),
-    # The only remaining route for a genuinely new channel outside İdman and
-    # Sənədli. Runs monthly, not daily -- see AZ_SWEEP_DAYS. EXCLUDE always
-    # wins, so a hand-removed Azerbaijani channel can never come back.
+    # Sənədli used to have a rule here; the group is locked now, so it is
+    # curated by hand and the rules engine has no route into it.
+    # The only remaining route for a genuinely new channel outside İdman.
+    # Runs monthly, not daily -- see AZ_SWEEP_DAYS. EXCLUDE always wins,
+    # so a hand-removed Azerbaijani channel can never come back.
     ("Azərbaycan 🇦🇿",   lambda cid, c, L: c.get("country") == "AZ"),
 ]
 AZ_SWEEP_GROUP = "Azərbaycan 🇦🇿"
@@ -558,13 +705,14 @@ PICKS = {
 "İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
 "Uşaq": LOCKED_GROUPS["Uşaq"],
 "Musiqi": LOCKED_GROUPS["Musiqi"],
-"Sənədli": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVParisLOriginal.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
+"Sənədli": LOCKED_GROUPS["Sənədli"],
 "· russia": LOCKED_GROUPS["· russia"],
 "Beynəlxalq Xəbər": LOCKED_GROUPS["Beynəlxalq Xəbər"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
-# StartTV, DMAX...) are kept on purpose: they join automatically the day
-# a working stream appears, and are listed in WAITING.md meanwhile.
+# StartTV...) are kept on purpose: they join automatically the day a
+# working stream appears, and are listed in WAITING.md meanwhile. The
+# same is true of the SUBSTITUTES bench, which is probed alongside them.
 # CBCSport/IdmanTV are dual-grouped on purpose (Azərbaycan + İdman).
 
 RENAME = {"Russia1.ru": "russia 1", "EuronewsRussian.fr": "Euronews russian",
@@ -746,6 +894,10 @@ def discover(log):
 skip_check = os.environ.get("SKIP_CHECK") == "1"
 TODAY = datetime.date.today()
 all_ids = {cid for idl in PICKS.values() for cid in idl}
+# Bench channels are not playlist members, but they are hunted for streams
+# exactly like waiting members so a substitute can enter the day one
+# surfaces. Everything that probes or retains works off this set.
+probe_ids = all_ids | bench_ids
 previous = load_previous()
 prev_waiting_names = load_prev_waiting()
 
@@ -777,7 +929,7 @@ def auto_eligible_group(cid, count=False):
     rejects it. Gates are identical for newcomers and incumbents."""
     global skip_paytv, skip_gate, skip_niche, skip_script
     c = channels.get(cid)
-    if c is None or cid in all_ids or cid in EXCLUDE:
+    if c is None or cid in probe_ids or cid in EXCLUDE:
         return None
     group = auto_group_for(cid, c)
     if group is None:
@@ -813,17 +965,18 @@ prev_streams = {
     cid: {"url": p["url"], "feed": None,
           "user_agent": opt_value(p["opts"], "#EXTVLCOPT:http-user-agent"),
           "referrer": opt_value(p["opts"], "#EXTVLCOPT:http-referrer")}
-    for cid, p in previous.items() if cid in all_ids}
+    for cid, p in previous.items() if cid in probe_ids}
 
 candidates = []
-for cid in all_ids:
+for cid in probe_ids:
     candidates.extend(by.get(cid, []))
     candidates.extend(disc_by.get(cid, []))
 candidates.extend(prev_streams.values())
 for _group, _pool in auto_candidates.values():
     candidates.extend(_pool)
 status, detail_of = {}, {}
-override_warnings = []
+override_warnings = []   # pinned despite an unexpected probe failure
+override_expected = []   # pinned, flagged expected_fail: known vantage noise
 if not skip_check:
     with ThreadPoolExecutor(max_workers=24) as ex:
         for s, (st, det) in zip(candidates, ex.map(probe, candidates)):
@@ -857,7 +1010,9 @@ def best_working(cid):
     # runner's vantage point than the stream. Warn instead.
     ov = OVERRIDES.get(cid)
     if ov is not None:
-        override_warnings.append(f"{cid} (probe={status.get(skey(ov), 'unprobed')})")
+        _det = status.get(skey(ov), "unprobed")
+        (override_expected if ov.get("expected_fail")
+         else override_warnings).append(f"{cid} (probe={_det})")
         return ov
     return None
 
@@ -977,44 +1132,84 @@ published = set()
 published_urls = set()
 adopted = {}   # cid -> page it was discovered on
 retained, stale, no_stream, unknown_id = [], [], [], []
+bench_rows = []       # (cid, group, bench rank, state) for the report
+substituted = {}      # group -> bench ids standing in this run
+hidden_members = {}   # group -> members that published nothing this run
+
+def entry_for(cid):
+    """Resolve one hand-curated entry to ((name, opts, url), source), or
+    (None, reason) when there is nothing to publish. Deliberately free of
+    side effects -- the caller records the diagnostics, so a bench channel
+    can be tested for readiness without polluting the pick-level reports."""
+    best = best_working(cid)
+    prev = previous.get(cid)
+    if best is not None and cid in channels:
+        q = best.get("quality")
+        opts = []
+        if best.get("user_agent"):
+            opts.append(f'#EXTVLCOPT:http-user-agent={best["user_agent"]}')
+        if best.get("referrer"):
+            opts.append(f'#EXTVLCOPT:http-referrer={best["referrer"]}')
+        return (display_name(cid) + (f" ({q})" if q else ""),
+                opts, best["url"]), "live"
+    if prev and retained_usable(cid):
+        # last-known-good, and it still answers: keep the channel
+        return (prev["name"], prev["opts"], prev["url"]), "retained"
+    if prev:
+        return None, "stale"          # retained URL went dead -> hide it
+    if cid not in channels:
+        return None, "unknown id"
+    return None, ("no stream" if (by.get(cid) or disc_by.get(cid))
+                  else "no candidates")
+
+def emit(group, cid, fields, source):
+    """Append one resolved entry to a group's hand-curated block."""
+    disp, opts, url = fields
+    if source == "retained":
+        retained.append(cid)
+    if cid in discovered and url in discovered[cid]:
+        adopted[cid] = discovered[cid][url]
+    picks_lines.setdefault(group, []).append(
+        f'#EXTINF:-1 tvg-id="{cid}" tvg-logo="{logos.get(cid,"")}" '
+        f'group-title="{group}",{disp}')
+    picks_lines[group].extend(opts)
+    picks_lines[group].append(url)
+    published.add(cid)
+    published_urls.add(url)
+
 for group, idl in PICKS.items():
+    placed = 0
     for cid in idl:
-        best = best_working(cid)
-        prev = previous.get(cid)
-        if best is not None and cid in channels:
-            disp = display_name(cid)
-            q = best.get("quality")
-            disp = disp + (f" ({q})" if q else "")
-            opts = []
-            if best.get("user_agent"):
-                opts.append(f'#EXTVLCOPT:http-user-agent={best["user_agent"]}')
-            if best.get("referrer"):
-                opts.append(f'#EXTVLCOPT:http-referrer={best["referrer"]}')
-            url = best["url"]
-            if cid in discovered and url in discovered[cid]:
-                adopted[cid] = discovered[cid][url]
-        elif prev and retained_usable(cid):
-            # last-known-good, and it still answers: keep the channel
-            disp, opts, url = prev["name"], prev["opts"], prev["url"]
-            retained.append(cid)
-        elif prev:
-            stale.append(cid)  # retained URL went dead -> hide it this run
-            continue
-        elif cid not in channels:
-            unknown_id.append(cid)
-            continue
-        else:
-            if by.get(cid) or disc_by.get(cid):
+        fields, source = entry_for(cid)
+        if fields is None:
+            if source == "stale":
+                stale.append(cid)
+            elif source == "unknown id":
+                unknown_id.append(cid)
+            elif source == "no stream":
                 no_stream.append(cid)
             continue
-        picks_lines.setdefault(group, []).append(
-            f'#EXTINF:-1 tvg-id="{cid}" tvg-logo="{logos.get(cid,"")}" '
-            f'group-title="{group}",{disp}')
-        picks_lines[group].extend(opts)
-        picks_lines[group].append(url)
-        published.add(cid)
-        published_urls.add(url)
+        emit(group, cid, fields, source)
         count += 1
+        placed += 1
+    # ---- substitutes: cover hidden members, never displace them ----------
+    # One seat per member that published nothing this run, filled in bench
+    # order and rendered after the members, so positions 1..N never move.
+    # The seat is held only while the cover is needed.
+    seats = len(idl) - placed
+    hidden_members[group] = seats
+    for pos, cid in enumerate(SUBSTITUTES.get(group, []), 1):
+        fields, source = entry_for(cid)
+        if fields is None:
+            bench_rows.append((cid, group, pos, "streamless"))
+        elif seats <= 0 or cid in published:
+            bench_rows.append((cid, group, pos, "ready"))
+        else:
+            emit(group, cid, fields, source)
+            count += 1
+            seats -= 1
+            substituted.setdefault(group, []).append(cid)
+            bench_rows.append((cid, group, pos, "in play"))
 
 # ---- global ceiling: trim lowest-ranked auto-adds, never PICKS ----
 picks_count = count
@@ -1079,6 +1274,15 @@ def candidate_summary(cid):
     reasons = sorted({detail_of.get(skey(s), "unprobed") for s in cands})
     return len(cands), ", ".join(reasons)
 
+def bench_status_text(cid, state):
+    """A bench channel reads like the waiting members it sits alongside, so
+    a streamless one borrows the waiting list's own reason."""
+    if state == "streamless":
+        return f"streamless - {candidate_summary(cid)[1]}"
+    if state == "ready":
+        return "ready - no seat needed this run"
+    return "in play - covering a hidden member"
+
 waiting_rows = []
 for cid in sorted(all_ids, key=lambda c: display_name(c).lower()):
     if cid in published or cid in OVERRIDES:
@@ -1115,6 +1319,18 @@ def render_report():
         out += [f"| {c} | {g} | {n} | {w} |" for c, g, n, w in waiting_rows]
     else:
         out.append("_Nothing waiting - every channel has a working stream._")
+    out += ["", "## Substitutes", "",
+            "The bench for a locked group. One substitute enters for each",
+            "member with no working stream, in bench order, and steps back",
+            "when the member returns. Membership and the editorial order of",
+            "the group itself never change.", ""]
+    if bench_rows:
+        out += ["| Substitute | Group | Bench rank | Status |",
+                "| --- | --- | --- | --- |"]
+        out += [f"| {display_name(c)} | {g} | {p} | {bench_status_text(c, s)} |"
+                for c, g, p, s in bench_rows]
+    else:
+        out.append("_None._")
     out += ["", "## Alternates found", "",
             "Working streams found on a broadcaster's own site for channels",
             "that are already live. Listed only; never swapped in.", ""]
@@ -1225,8 +1441,14 @@ report("Dropped (last-known-good URL no longer responds)", stale)
 report("Dropped (no working stream and no previous entry)", no_stream)
 report("Skipped (id not in channels.json)", unknown_id)
 report("WARNING: override kept despite failed probe", override_warnings)
+report("Override kept (expected vantage-fail, verified from Baku)",
+       override_expected)
+# a flagged override that starts passing means the flag has gone stale
+report("NOTE: expected_fail override now passes the probe (flag is stale)",
+       [c for c, o in OVERRIDES.items() if o.get("expected_fail")
+        and status.get(skey(o)) == "ok"])
 report("Blocklisted (only stream(s) removed by STREAM_BLOCKLIST)",
-       [cid for cid in all_ids if cid in blocked_ids
+       [cid for cid in probe_ids if cid in blocked_ids
         and not by.get(cid) and not disc_by.get(cid)])
 if discovery_log:
     print("Discovery:")
@@ -1246,7 +1468,17 @@ for _n, _g, _i in auto_rows:
     print(f"  + {_i:34} {_n[:36]:36} -> {_g}")
 print(f"AZ new-channel sweep: {'ACTIVE today' if az_sweep_active else 'dormant'}; "
       f"next AZ discovery: {next_az_discovery.isoformat()}")
-print(f"Frozen groups: {len(LOCKED_GROUPS)}; machine-managed: İdman, Sənədli")
+print(f"Frozen groups: {len(LOCKED_GROUPS)}; machine-managed: İdman")
+for _g, _bench in SUBSTITUTES.items():
+    _act = substituted.get(_g, [])
+    print(f"Substitutes {_g}: {len(_act)} of {len(_bench)} in play; "
+          f"{hidden_members.get(_g, 0)} member(s) hidden")
+    for _c, _bg, _pos, _st in bench_rows:
+        if _bg == _g:
+            print(f"    {_pos}. {display_name(_c)[:28]:28} "
+                  f"{bench_status_text(_c, _st)}")
+print(f"Overrides: {len(OVERRIDES)} pinned; {len(override_expected)} expected "
+      f"vantage-fail, {len(override_warnings)} unexpected failure(s)")
 print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
       f"{skip_gate}, niche sports {skip_niche}, non-Latin name {skip_script}, "
       f"over cap {capped_out}")
