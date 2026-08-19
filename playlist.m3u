@@ -233,14 +233,14 @@ https://d1nhni5l2n8hjt.cloudfront.net/gf.m3u8
 https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="PlutoTVNature.de" tvg-logo="https://i.imgur.com/PtWUmss.png" group-title="Sənədli",Pluto TV Nature
 https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8
-#EXTINF:-1 tvg-id="BBCEarth.uk" tvg-logo="https://i.imgur.com/nGSsUd4.png" group-title="Sənədli",BBC Earth (1080p)
-https://amg00793-amg00793c6-firetv-us-4067.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="SmithsonianChannelSelects.us" tvg-logo="https://i.imgur.com/Kt5j8Vr.png" group-title="Sənədli",Smithsonian Channel Selects
 https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8
 #EXTINF:-1 tvg-id="CuriosityNOW.de" tvg-logo="https://i.imgur.com/gJ9eMaG.png" group-title="Sənədli",Curiosity NOW
 https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8
 #EXTINF:-1 tvg-id="TerraMaterWILD.de" tvg-logo="https://d3b6luslimvglo.cloudfront.net/images/79/rlaxximages/channels-rescaled/icon-white/terramaterwild_white.png" group-title="Sənədli",Terra Mater WILD (1080p)
 https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8
+#EXTINF:-1 tvg-id="CNAOriginals.sg" tvg-logo="https://i.imgur.com/hlFQTrB.png" group-title="Sənədli",CNA Originals (1080p)
+https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="ChannelOne.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/pervyj-hd.png" group-title="· russia",Channel One (720p)
 https://edge1.1internet.tv/dash-live2/streams/1tv-dvr/1tvdash.mpd
 #EXTINF:-1 tvg-id="Russia1.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/rossiya-1-hd.png" group-title="· russia",russia 1 (1080p)

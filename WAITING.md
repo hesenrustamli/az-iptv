@@ -39,16 +39,16 @@ the group itself never change.
 | --- | --- | --- | --- |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
-| BBC Earth | Sənədli | 3 | in play - covering a hidden member |
+| BBC Earth | Sənədli | 3 | runner-alive, no Baku pass on record (failed here) |
 | Smithsonian Channel Selects | Sənədli | 4 | in play - covering a hidden member |
 | Curiosity NOW | Sənədli | 5 | in play - covering a hidden member |
 | Terra Mater WILD | Sənədli | 6 | in play - covering a hidden member |
-| CNA Originals | Sənədli | 7 | ready - no seat needed this run |
+| CNA Originals | Sənədli | 7 | in play - covering a hidden member |
 | NHK World-Japan | Sənədli | 8 | ready - no seat needed this run |
 | WildEarth | Sənədli | 9 | ready - no seat needed this run |
 | RT Documentary | Sənədli | 10 | ready - no seat needed this run |
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
-| Love The Planet | Sənədli | 12 | ready - no seat needed this run |
+| Love The Planet | Sənədli | 12 | runner-alive, no Baku pass on record (failed here) |
 | Autentic History | Sənədli | 13 | ready - no seat needed this run |
 | China Travel | Sənədli | 14 | ready - no seat needed this run |
 | Pluto TV Science | Sənədli | 15 | ready - no seat needed this run |
