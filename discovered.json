@@ -3,7 +3,7 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 16
+        "fails": 17
       }
     }
   },
@@ -12,7 +12,7 @@
       "fails": 0
     },
     "https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8": {
-      "fails": 8
+      "fails": 9
     },
     "https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8": {
       "fails": 0
@@ -24,22 +24,22 @@
       "fails": 7
     },
     "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web": {
-      "fails": 3
+      "fails": 4
     },
     "https://trt.daioncdn.net/trt2/master.m3u8?app=web": {
-      "fails": 9
+      "fails": 10
     },
     "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web": {
-      "fails": 9
+      "fails": 10
     },
     "https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web": {
-      "fails": 3
+      "fails": 4
     },
     "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8": {
-      "fails": 1
+      "fails": 2
     },
     "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8": {
-      "fails": 1
+      "fails": 2
     }
   }
 }
