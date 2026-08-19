@@ -856,8 +856,10 @@ try:
 except ValueError:
     _last_az = None
 az_sweep_active = _last_az is None or (TODAY - _last_az).days >= AZ_SWEEP_DAYS
-next_az_discovery = (TODAY if az_sweep_active
-                     else _last_az + datetime.timedelta(days=AZ_SWEEP_DAYS))
+# On an active run the state is restamped to today, so the next window is
+# today + AZ_SWEEP_DAYS -- not today, which is the window just consumed.
+next_az_discovery = ((TODAY if az_sweep_active else _last_az)
+                     + datetime.timedelta(days=AZ_SWEEP_DAYS))
 # First ever run: seed incumbency from whatever the published playlist
 # already carries that PICKS does not account for.
 if not incumbents:
