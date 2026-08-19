@@ -124,7 +124,16 @@ BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
              # Deliberately NOT "samsunguk": WaterBear and INWILD ride that
              # slug and neither vantage has been measured, so it stays open.
              "samsung-gb",
-             "samsunggb"]
+             "samsunggb",
+             # Pirate restreamers. Both PASS from Baku -- which is the whole
+             # point: a Baku pass proves a stream is watchable and says
+             # nothing about whether it is legal to carry, and a pirate
+             # restream passes by its nature. Ranking would happily promote
+             # them, so legality has to be enforced separately from
+             # reachability. Host-level, so every path on them is excluded.
+             "ayakkabiparti.lol",   # serves natgeo/viasat pay-channel rips
+             "freem3u.xyz"]         # promoted from a single-URL blocklist
+                                    # entry: the whole host is an aggregator
 # Confirmed dead, geo-blocked from inside Azerbaijan, or not a legal free
 # feed. Excluded as candidates, from retention, and from discovery, so they
 # cannot come back. The channel ids stay in PICKS and rejoin automatically
@@ -148,8 +157,6 @@ STREAM_BLOCKLIST = {
     # akamaized host as official at 2160p, so it would outrank Travelxp's
     # legitimate Samsung-India playout and get pinned as the pick.
     "https://deltatesttatasky.akamaized.net/out/i/968284.m3u8",
-    # pirate aggregator host, violates source policy (was History Asia)
-    "https://freem3u.xyz/api/live/play.m3u8?vid=9856",
     # ISP test endpoint leaking FilmBox's pay channel DocuBox
     "https://dash3.antik.sk/live/test_docubox_medium_atk/playlist.m3u8",
     # passes US runner, 403 from Azerbaijan (reverse vantage split)
@@ -755,6 +762,31 @@ OFFICIAL = ["trt.com.tr", "daioncdn", "baku.tv", "itv.az", "atv.az",
             "xezerxeber.az", "yodacdn", "mncdn", "akamaized", "trt.com",
             "bloomberg.com", "nhkworld.jp", "cgtn.com", "cosmonova",
             "nbcuni.com"]
+# Shapes that correlate with restreams and leaked origins. Report-only: this
+# names candidates for a HUMAN legality ruling and blocks nothing by itself,
+# because provenance is a judgement no probe can make. A ruling is enforced by
+# adding to STREAM_BLOCKLIST or BAD_HOSTS, after which the URL stops being a
+# candidate at all and drops off this list.
+SUSPECT_TLDS = (".lol", ".xyz", ".icu", ".sbs")
+
+def suspect_reason(url):
+    """Why this URL deserves a human look, or None."""
+    try:
+        parts = urllib.parse.urlsplit(url)
+    except ValueError:
+        return "unparsable URL"
+    host = (parts.hostname or "").lower()
+    if host.endswith(SUSPECT_TLDS):
+        return f".{host.rsplit('.', 1)[-1]} TLD"
+    if re.fullmatch(r"\d{1,3}(?:\.\d{1,3}){3}", host):
+        return "bare IP host"
+    # startswith, not "in": FAST manifests are full of /latest/ segments, and
+    # matching those buries the real hits. The leaks seen so far all begin the
+    # segment with test -- test_docubox_medium_atk, test_uatv, test_bbc_world.
+    if any(seg.lower().startswith("test") for seg in parts.path.split("/") if seg):
+        return "'test' path segment"
+    return None
+
 def qscore(s):
     q = s.get("quality") or ""
     try: return int(q.replace("p", "").replace("i", ""))
@@ -1643,6 +1675,30 @@ if watchlist_suppressed:
     print(f"WATCHLIST URLs suppressed by a host rule ({len(watchlist_suppressed)}):")
     for _c, _u in watchlist_suppressed:
         print(f"  - {display_name(_c)}: {_u[:88]}")
+# ---- suspicious hosts: named for a human ruling, never acted on ----------
+# Everything a channel of ours could publish is scanned, including auto-add
+# pools. A URL already ruled on is gone from the pools by then, so this list
+# is exactly the set still awaiting judgement.
+_pools = {c: by.get(c, []) + disc_by.get(c, []) for c in probe_ids}
+for _c, (_g, _pl) in auto_candidates.items():
+    _pools.setdefault(_c, []).extend(_pl)
+suspect_rows, _seen_sus = [], set()
+for _c in sorted(_pools, key=lambda c: display_name(c).lower()):
+    for _s in _pools[_c]:
+        _why = suspect_reason(_s["url"])
+        if _why and (_c, _s["url"]) not in _seen_sus:
+            _seen_sus.add((_c, _s["url"]))
+            suspect_rows.append((display_name(_c), _why, _s["url"],
+                                 _s["url"] in published_urls))
+if suspect_rows:
+    _pub = sum(1 for r in suspect_rows if r[3])
+    print(f"Suspicious hosts awaiting a human legality ruling "
+          f"({len(suspect_rows)}; {_pub} currently published). A Baku pass "
+          f"proves watchability, not legitimacy:")
+    for _n2, _why, _u, _isp in sorted(suspect_rows, key=lambda r: (not r[3], r[0])):
+        print(f"  {'PUBLISHED' if _isp else 'candidate':10} {_n2[:26]:26} "
+              f"[{_why}] {_u[:74]}")
+
 _ok = sum(1 for v in baku_pref.values() if v > 0)
 print(f"Baku vantage: {len(baku_raw)} URL(s) on record ({_ok} pass, "
       f"{len(baku_raw) - _ok} fail), all biasing rank -- no expiry"

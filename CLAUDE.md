@@ -20,6 +20,14 @@ Player URL (Televizo etc.):
 
 - **Legal, free, official streams only.** Never carry a pirated feed of a pay
   channel. `PAY_TV_BLOCK` enforces this for anything automatic.
+- **A Baku pass proves watchability, never legitimacy.** `BAKU.json` answers
+  one question — can the viewer open this stream — and a pirate restream
+  passes it *by its nature*, often better than the legitimate feed. So
+  reachability and legality are enforced by different machinery: ranking and
+  the seat gate decide what works, while **legality rulings are human** and are
+  enforced through `STREAM_BLOCKLIST` and `BAD_HOSTS`. Never let a Baku pass,
+  a high rank, or a healthy probe stand in for provenance. The suspicious-host
+  audit line (§3) is how a suspect reaches the human.
 - **Static URLs only.** Never write a token-refreshing scraper. A URL carrying a
   per-session token is never adopted — see `looks_tokenized()`.
 - **Two sources, ever:** the iptv-org database, and a broadcaster's own domain
@@ -118,7 +126,19 @@ counts, not just the hostname. Beyond the two dead CDNs it now carries
 three — Curiosity NOW, Earth Touch, NatureTime — passing the US runner and
 403ing from Baku, so the slug family is a rule rather than a URL-at-a-time
 chase. `samsunguk` is deliberately **not** matched: WaterBear and INWILD ride
-it and neither vantage has been measured.
+it and neither vantage has been measured. It also carries two pirate
+restreamers at host level, `ayakkabiparti.lol` and `freem3u.xyz` (the latter
+promoted from a single-URL blocklist entry). Both **pass from Baku** — which is
+the point: see the legitimacy rule in §2.
+
+**Suspicious-host audit** — each run names, in the summary only, every
+candidate URL in our channels' pools whose shape correlates with a restream or
+a leaked origin: a `.lol` / `.xyz` / `.icu` / `.sbs` TLD, a bare-IP host, or a
+`test` path segment. It **blocks nothing** — provenance is a judgement no probe
+can make, so the line exists to put suspects in front of a person. A ruling is
+enforced by adding to `STREAM_BLOCKLIST` or `BAD_HOSTS`, after which the URL
+stops being a candidate and drops off the list by itself. Entries flagged
+`PUBLISHED` are the urgent ones: they are live right now.
 
 **`PAY_TV_BLOCK`** — subscription broadcasters, matched case-insensitively
 against channel name and network. Free-to-air Match! is deliberately absent while
