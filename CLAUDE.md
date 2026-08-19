@@ -61,7 +61,10 @@ carries the flag today.
 working entry for, and last-known-good URLs for bench channels so their
 readiness does not depend on iptv-org churn. Probed daily like anything else,
 joining the day they start answering; dropped after `PRUNE_AFTER = 60`
-consecutive fails. A URL iptv-org already carries for that channel is skipped
+consecutive fails. An entry is a bare URL, or `("url", "quality")` when the
+resolution is known from iptv-org's label but the probe cannot report it —
+quality only affects ranking and the display suffix, and never overrides a
+probe result. A URL iptv-org already carries for that channel is skipped
 rather than probed twice, and activates by itself the day upstream drops it.
 Entries bypass the feed-language filter, which is how a channel whose only
 upstream feed is tagged (say) `deu` can still be carried.
@@ -194,7 +197,10 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 - `WAITING.md` — channels with no working stream, the `SUBSTITUTES` bench with
   rank and status, alternates found, and every channel added by `AUTO_RULES`.
   Regenerated each run. Its first table is parsed back on the next run to spot
-  returning channels, so no other table may use a `| Channel ` header.
+  returning channels, so no other table may use a `| Channel ` header, and
+  bench names are subtracted from that comparison — a channel moving onto the
+  bench leaves the waiting table without having gained a stream, and would
+  otherwise be announced as "is back".
 - `auto_state.json` — `incumbents` (sticky auto-slots + fail counts) and
   `last_az_discovery`.
 - `discovered.json` — `discovered` (per-channel URLs found on official pages,

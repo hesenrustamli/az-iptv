@@ -142,6 +142,14 @@ STREAM_BLOCKLIST = {
     "https://freem3u.xyz/api/live/play.m3u8?vid=9856",
     # ISP test endpoint leaking FilmBox's pay channel DocuBox
     "https://dash3.antik.sk/live/test_docubox_medium_atk/playlist.m3u8",
+    # passes US runner, 403 from Azerbaijan (reverse vantage split)
+    "https://amg00170-amg00170c4-samsung-gb-4232.playouts.now.amagi.tv/playlist.m3u8",
+    # 1080p wins ranking on the US runner but 403s from Azerbaijan;
+    # the Rakuten-DE feed passes both vantages
+    "https://amg00416-amg00416c9-samsung-in-4882.playouts.now.amagi.tv/playlist/amg00416-travelxp-travelxphd-samsungin/playlist.m3u8",
+    # upstream mislabels Love Nature Australia playouts under NatureTime.ca
+    "https://amg00090-blueantllc-lovenature-au-samsungau-wggcn.amagi.tv/playlist/amg00090-blueantllc-lovenature-au-samsungau/playlist.m3u8",
+    "https://amg00090-blueantllc-lovenatureau-samsungnz-r3iaz.amagi.tv/playlist/amg00090-blueantllc-lovenatureau-samsungnz/playlist.m3u8",
 }
 
 # Query parameters that mark a URL as per-session. Such URLs are never
@@ -277,6 +285,13 @@ OVERRIDES = {
     "EarthTouchTV.za": {"url": "https://amg01823-earthtouch-amg01823c1-samsung-gb-862.playouts.now.amagi.tv/playlist/amg01823-earthtouch-earthtouch-samsunggb/playlist.m3u8",
                         "quality": "1080p", "user_agent": None, "referrer": None,
                         "expected_fail": True},
+    # TRT Belgesel on TRT's own -dai host. Answers 200 with a manifest from
+    # Azerbaijan; the runner failed all three candidates the same morning
+    # ("404 not found, server error, unreachable"), so the vantage split is
+    # measured, not assumed. Quality per iptv-org's label for the channel.
+    "TRTBelgesel.tr": {"url": "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8",
+                       "quality": "720p", "user_agent": None, "referrer": None,
+                       "expected_fail": True},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
@@ -294,8 +309,8 @@ WATCHLIST = {
     # both are TRT's own domains. iptv-org's only entry is the plain
     # tv-trtbelgesel.medya host, which is in STREAM_BLOCKLIST (403 from AZ),
     # and the daioncdn slug is one of the ones TRT does not publish.
-    "TRTBelgesel.tr": ["https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8",
-                       "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8",
+    # The -dai host is pinned in OVERRIDES now; these two stay as backups.
+    "TRTBelgesel.tr": ["https://tv-trtbelgesel.live.trt.com.tr/master.m3u8",
                        "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
     # Pluto TV Nature's only iptv-org stream sits on a DACH feed tagged
     # deu, so the language filter drops it before ranking ever sees it.
@@ -312,8 +327,18 @@ WATCHLIST = {
     # here is the only way they can ever be found. The Rakuten-DE feed may
     # carry German audio; pending a verdict once it plays. Earth Touch TV
     # came in the same way and has since been pinned as an OVERRIDE.
-    "Travelxp.in": ["https://amg00416-amg00416c9-samsung-in-4882.playouts.now.amagi.tv/playlist/amg00416-travelxp-travelxphd-samsungin/playlist.m3u8",
-                    "https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8"],
+    # The Samsung-India playout that used to head this list is in
+    # STREAM_BLOCKLIST now: it outranked everything on the runner and 403s
+    # from Azerbaijan, so it published as a channel nobody in Baku could watch.
+    "Travelxp.in": ["https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8"],
+    # NatureTime's genuine slugs. The two blocklisted URLs above carry
+    # "lovenature-au" in the path: upstream files Love Nature Australia
+    # playouts under NatureTime.ca, so ranking kept picking the wrong
+    # channel's feed. These two name naturetime and answer from Azerbaijan.
+    # ("url", "quality") labels a candidate whose resolution is known from
+    # iptv-org but which the probe cannot report; a bare string means unknown.
+    "NatureTime.ca": [("https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8", "1080p"),
+                      "https://amg00090-blueantmedia-naturetime-samsungse-axgcn.amagi.tv/playlist/amg00090-blueantmedia-naturetime-samsungse/playlist.m3u8"],
     # ---- SUBSTITUTES bench, last-known-good URLs -------------------------
     # Bench readiness must not depend on iptv-org churn: a reserve that
     # vanishes upstream would silently stop being able to cover. Each of
@@ -324,7 +349,11 @@ WATCHLIST = {
     # read a deduped entry as a dead one.
     "BBCEarth.uk": ["https://pb-zjy36qhp8e8cz.akamaized.net/BBC_Earth_US.m3u8"],
     "SmithsonianChannelSelects.us": ["https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8"],
-    "CuriosityNOW.de": ["https://amg00170-amg00170c4-samsung-gb-4232.playouts.now.amagi.tv/playlist.m3u8"],
+    # The samsung-gb playout this used to name is in STREAM_BLOCKLIST now
+    # (200 for the runner, 403 from Azerbaijan). This rakuten-us playout is
+    # the same channel and answers 200 from Azerbaijan. Hand-keyed: the
+    # provider file entry carries no tvg-id.
+    "CuriosityNOW.de": ["https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8"],
     "TerraMaterWILD.de": ["https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8"],
     "CNAOriginals.sg": ["https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8"],
     "NHKWorldJapan.jp": ["https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8"],
@@ -352,10 +381,14 @@ WATCHLIST = {
     # is reachable. It holds position 3 as a waiting pick; add a verified
     # static URL here if one ever appears.
 }
+# An entry is a bare URL, or ("url", "quality") when the resolution is known
+# from iptv-org's label. Quality only affects ranking and the display suffix;
+# it is never trusted over a probe, because it is not measured here.
 watchlist_live = {}
 for _cid, _urls in WATCHLIST.items():
     _known = {s["url"] for s in by.get(_cid, [])}
-    for _u in _urls:
+    for _entry in _urls:
+        _u, _q = _entry if isinstance(_entry, tuple) else (_entry, None)
         if not (url_allowed(_u) and not looks_tokenized(_u)):
             continue
         if _u in _known:
@@ -364,7 +397,7 @@ for _cid, _urls in WATCHLIST.items():
             continue  # pruned: dead for PRUNE_AFTER runs, see run summary
         watchlist_live[_u] = _cid
         by.setdefault(_cid, []).append(
-            {"url": _u, "quality": None, "user_agent": None,
+            {"url": _u, "quality": _q, "user_agent": None,
              "referrer": None, "feed": None})
 
 # ---------------------------------------------------------------------
@@ -1406,7 +1439,11 @@ if summary_path:
 
 # ---------------- commit message hint ----------------
 new_waiting_names = {r[0] for r in waiting_rows}
-returned = sorted(prev_waiting_names - new_waiting_names)
+# A channel that moved from the waiting table onto the SUBSTITUTES bench
+# leaves new_waiting_names without having gained a stream, and would read as
+# "is back". Bench members are reported in their own table, never here.
+bench_names = {display_name(c) for c, _g, _p, _s in bench_rows}
+returned = sorted(prev_waiting_names - new_waiting_names - bench_names)
 parts, detail = [], []
 if new_auto:
     names = ", ".join(r[0] for r in new_auto[:4])
@@ -1443,9 +1480,12 @@ report("Skipped (id not in channels.json)", unknown_id)
 report("WARNING: override kept despite failed probe", override_warnings)
 report("Override kept (expected vantage-fail, verified from Baku)",
        override_expected)
-# a flagged override that starts passing means the flag has gone stale
-report("NOTE: expected_fail override now passes the probe (flag is stale)",
-       [c for c, o in OVERRIDES.items() if o.get("expected_fail")
+# A flagged override that starts passing ON THE RUNNER means the flag has
+# gone stale. Only the runner can tell: expected_fail marks a stream that
+# works from Baku, so on a local preview it passes by definition and the
+# check would fire every single run.
+report("NOTE: expected_fail override now passes the runner's probe (flag is stale)",
+       [c for c, o in OVERRIDES.items() if IS_CI and o.get("expected_fail")
         and status.get(skey(o)) == "ok"])
 report("Blocklisted (only stream(s) removed by STREAM_BLOCKLIST)",
        [cid for cid in probe_ids if cid in blocked_ids
