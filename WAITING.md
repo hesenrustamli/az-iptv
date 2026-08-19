@@ -16,8 +16,10 @@ right now. Every one is re-probed on each run and rejoins
 | CNN International | Beynəlxalq Xəbər | 0 | no candidate URLs |
 | CNN Turk | Xəbər – Türkiyə | 1 | 403 forbidden |
 | DW Documentary | Sənədli | 0 | no candidate URLs |
+| Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Futbol | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
+| Kanal 35 | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | Olympic Channel | İdman | 3 | 403 forbidden |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
@@ -40,7 +42,7 @@ the group itself never change.
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
 | Smithsonian Channel Selects | Sənədli | 4 | in play - covering a hidden member |
 | Curiosity NOW | Sənədli | 5 | in play - covering a hidden member |
-| Terra Mater WILD | Sənədli | 6 | ready - no seat needed this run |
+| Terra Mater WILD | Sənədli | 6 | in play - covering a hidden member |
 | CNA Originals | Sənədli | 7 | ready - no seat needed this run |
 | NHK World-Japan | Sənədli | 8 | ready - no seat needed this run |
 | WildEarth | Sənədli | 9 | ready - no seat needed this run |
