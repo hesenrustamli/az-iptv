@@ -223,6 +223,11 @@ OVERRIDES = {
     # shortener stays in the candidate pool as a fallback, not blocklisted.
     "SkyNews.ie": {"url": "https://xumo-drct-skynews-nc91a.fast.nbcuni.com/live/master.m3u8",
                    "quality": "1080p", "user_agent": None, "referrer": None},
+    # showtv.com.tr/canli-yayin serves this with st= and e= session params
+    # appended; dropping those two leaves a static URL that still answers
+    # from Azerbaijan, so Show TV enters as a working pick, not a waiting one.
+    "ShowTV.tr": {"url": "https://ciner.daioncdn.net/showtv/showtv.m3u8?ce=3&app=4bc856ef-4c68-4a94-bc87-37dfaaa66558",
+                  "quality": "1080p", "user_agent": None, "referrer": None},
 }
 for _cid, _ov in OVERRIDES.items():
     by[_cid] = [_ov] + by.get(_cid, [])
@@ -281,6 +286,11 @@ EXCLUDE = {
     # state broadcasters that backfilled Beynəlxalq Xəbər; seats refill by
     # ranking as usual
     "RT.ru", "RTIndia.in", "Telesur.ve",
+    # hand-removed in the per-group policy overhaul; EXCLUDE so neither the
+    # İdman/Sənədli rules nor the monthly AZ sweep can ever bring them back
+    "AlvinChannelTV.az", "TRTTurk.tr", "HaberturkTV.tr", "BloombergHT.tr",
+    "FinansTurkTV.tr", "Haber61TV.tr", "LifeTV.tr", "TRTArabi.tr",
+    "TurkHaberTV.tr", "KralPopTV.tr", "MBCFM.ae", "Number1Ask.tr",
 }
 
 # Subscription broadcasters. Never auto-added from any source -- carrying
@@ -310,6 +320,36 @@ NICHE_SKIP = re.compile(
 # than grown -- the ordering is editorial, so nothing may be appended,
 # reordered or displaced by ranking.
 LOCKED_GROUPS = {
+    # Frozen: membership is hand-curated. No AUTO_RULE may add to these,
+    # and nothing is reordered or displaced by ranking. Stream healing and
+    # waiting-list returns still run daily for every member.
+    "Ukrayna": ["FREEDOM.ua", "Pershyi.ua"],
+    "Uşaq": ["TRTCocuk.tr", "MinikaCocuk.tr", "MinikaGo.tr",
+             "TRTDiyanetCocuk.tr", "Carousel.ru",
+             "BabyFirst.us"],                       # promoted from auto
+    "· russia": ["ChannelOne.ru", "Russia1.ru", "NTV.ru", "STS.ru",
+                 "RENTV.ru", "Che.ru"],
+    "Türkiyə – Ümumi": [
+        "TRT1.tr", "ATV.tr", "KanalD.tr", "StarTV.tr", "NOWTV.tr", "TV8.tr",
+        "Kanal7.tr", "TRTAvaz.tr",
+        "ShowTV.tr",        # override: token-free form of its own player URL
+        "TV85.tr",          # waiting: no reachable official source exists
+        "BeyazTV.tr", "TRT2.tr",                    # waiting upstream
+    ],
+    "Xəbər – Türkiyə": [
+        "TRTHaber.tr", "HaberGlobal.tr", "AHaber.tr", "TGRTHaber.tr",
+        "NTV.tr", "24TV.tr", "360.tr", "TVNET.tr", "HalkTV.tr", "CNBCe.tr",
+        "ASTV.tr", "DHA.tr", "GuneydoguTV.tr",      # promoted from auto
+        "CNNTurk.tr",                               # waiting: 403 from AZ
+    ],
+    "Musiqi": [
+        "TRTMuzik.tr", "PowerTurkTV.tr", "Number1TV.tr", "DreamTurk.tr",
+        # MBC FM is removed and Musiqi is frozen, so the international seat
+        # it held disappears rather than refilling. MTV Biggest Pop is the
+        # survivor and becomes a permanent pick.
+        "MTVBiggestPop.us",
+        "PowerTurkAkustik.tr", "PowerTurkSlow.tr", "PowerTurkTaptaze.tr",
+    ],
     "Beynəlxalq Xəbər": [
         "TRTWorld.tr",          # 1
         "BBCNews.uk",           # 2  (override: BBC's own worldwide CDN)
@@ -326,19 +366,15 @@ LOCKED_GROUPS = {
 # Ceiling on auto-adds per group. PICKS entries never count against a cap
 # and are never displaced -- caps only trim the automatic tail. Groups
 # absent from this dict are uncapped.
-AUTO_CAP = {"İdman": 40, "Sənədli": 25, "Xəbər – Türkiyə": 12,
-            "Beynəlxalq Xəbər": 12, "Musiqi": 12, "Uşaq": 8}
+AUTO_CAP = {"İdman": 40, "Sənədli": 25}
+# Azərbaycan is deliberately uncapped: its sweep is monthly and additive,
+# so there is no tail to trim.
 # Hard ceiling on the whole playlist. Auto-adds are trimmed lowest-rank
 # first to stay under it; PICKS entries and OVERRIDES are never trimmed.
 TOTAL_MAX = 199
 # An incumbent auto-add keeps its slot until it has failed this many runs
 # in a row, so a single bad probe does not churn the playlist.
 STICKY_FAILS = 2
-# Musiqi accepts international (non-AZ/TR) music channels too, but only
-# this many seats at once -- there are hundreds of candidates, and the
-# group is meant to stay mostly Azerbaijani and Turkish. Sticky slots
-# apply: incumbents hold a seat, better-ranked newcomers wait for one.
-INTL_MUSIC_CAP = 2
 
 def categories_of(c):
     return {x.lower() for x in (c.get("categories") or [])}
@@ -377,22 +413,16 @@ def is_pay_tv(cid, c):
 # wins, so the country-specific rules are listed before the broad
 # catch-alls -- otherwise the later rules could never fire.
 AUTO_RULES = [
-    ("İdman",            lambda cid, c, L: "sports" in categories_of(c)),
-    ("Xəbər – Türkiyə",  lambda cid, c, L: c.get("country") == "TR" and "news" in categories_of(c)),
-    ("Musiqi",           lambda cid, c, L: c.get("country") in ("TR", "AZ") and "music" in categories_of(c)),
-    ("Uşaq",             lambda cid, c, L: "kids" in categories_of(c) and bool(L & {"aze", "tur"})),
-    ("Sənədli",          lambda cid, c, L: "documentary" in categories_of(c) and bool(L & ALLOWED_LANGS)),
-    ("Azərbaycan 🇦🇿",    lambda cid, c, L: c.get("country") == "AZ"),
-    # International music, last so it only claims channels no earlier rule
-    # wanted -- widening this can then only open slots, never move an
-    # existing entry between groups. Held to INTL_MUSIC_CAP seats.
-    ("Musiqi",           lambda cid, c, L: "music" in categories_of(c)),
+    ("İdman",           lambda cid, c, L: "sports" in categories_of(c)),
+    ("Sənədli",         lambda cid, c, L: "documentary" in categories_of(c) and bool(L & ALLOWED_LANGS)),
+    # The only remaining route for a genuinely new channel outside İdman and
+    # Sənədli. Runs monthly, not daily -- see AZ_SWEEP_DAYS. EXCLUDE always
+    # wins, so a hand-removed Azerbaijani channel can never come back.
+    ("Azərbaycan 🇦🇿",   lambda cid, c, L: c.get("country") == "AZ"),
 ]
+AZ_SWEEP_GROUP = "Azərbaycan 🇦🇿"
+AZ_SWEEP_DAYS = 28        # minimum days between new-channel sweeps
 
-def is_intl_music(cid):
-    c = channels.get(cid) or {}
-    return (c.get("country") not in ("AZ", "TR")
-            and "music" in categories_of(c))
 # Probing every stream of every matching channel would dominate the run,
 # so only this many best-ranked streams per auto-candidate are checked.
 AUTO_PROBE_PER_CHANNEL = 2
@@ -490,18 +520,17 @@ def probe(stream):
         return "dead", "unreachable"
 
 PICKS = {
-"Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","IdmanTV.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","AlvinChannelTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az","AzadTV.az","ARB.az"],
-"Ukrayna": ["FREEDOM.ua","Pershyi.ua"],
-"Türkiyə – Ümumi": ["TRT1.tr","ATV.tr","KanalD.tr","StarTV.tr","NOWTV.tr","TV8.tr","Kanal7.tr","BeyazTV.tr","TRTAvaz.tr","TRTTurk.tr","TRT2.tr"],
-"Xəbər – Türkiyə": ["TRTHaber.tr","HaberGlobal.tr","AHaber.tr","HaberturkTV.tr","TGRTHaber.tr","NTV.tr","24TV.tr","360.tr","TVNET.tr","HalkTV.tr","BloombergHT.tr","CNBCe.tr","CNNTurk.tr"],
+# Azərbaycan is NOT frozen: it is the one group still open to new channels,
+# via the monthly AZ sweep below. Alvin is in EXCLUDE so it cannot return.
+"Azərbaycan 🇦🇿": ["AzTV.az","IctimaiTV.az","XezerTV.az","CBCSport.az","IdmanTV.az","BakuTV.az","APATv.az","AnewZTV.az","MedeniyyetTV.az","KanalS.az","Kanal35.az","NaxcivanTV.az","GunAzTV.us","AzStarTV.ca","SpaceTV.az","ARB24.az","ARBGunes.az","StartTV.az","AzadTV.az","ARB.az"],
+"Ukrayna": LOCKED_GROUPS["Ukrayna"],
+"Türkiyə – Ümumi": LOCKED_GROUPS["Türkiyə – Ümumi"],
+"Xəbər – Türkiyə": LOCKED_GROUPS["Xəbər – Türkiyə"],
 "İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
-"Uşaq": ["TRTCocuk.tr","MinikaCocuk.tr","MinikaGo.tr","TRTDiyanetCocuk.tr","Carousel.ru"],
-"Musiqi": ["TRTMuzik.tr","KralPopTV.tr","PowerTurkTV.tr","Number1TV.tr","DreamTurk.tr"],
+"Uşaq": LOCKED_GROUPS["Uşaq"],
+"Musiqi": LOCKED_GROUPS["Musiqi"],
 "Sənədli": ["TRTBelgesel.tr","TGRTBelgesel.tr","CGTNDocumentary.cn","FashionTVParisLOriginal.fr","LoveNature.ca","SmithsonianChannelSelects.us","DMAX.tr","WildEarth.za","NatureTime.ca","INWILD.nl","PlutoTVScience.us","PlutoTVAdventure.us"],
-"· russia": ["ChannelOne.ru","Russia1.ru","NTV.ru","STS.ru","RENTV.ru","Che.ru"],
-# TRT World repair path if tv-trtworld.medya.trt.com.tr ever geo-blocks
-# the way TRT 2 and TRT Belgesel do:
-#   https://trt.daioncdn.net/trtworld/master.m3u8?app=web   (verified 200)
+"· russia": LOCKED_GROUPS["· russia"],
 "Beynəlxalq Xəbər": LOCKED_GROUPS["Beynəlxalq Xəbər"],
 }
 # Streamless ids (IdmanTV, AzadTV, ARB, SpaceTV, ARB24, ARBGunes,
@@ -554,16 +583,17 @@ def load_previous(path=PLAYLIST):
     return prev
 
 def load_auto_state(path=AUTO_STATE_FILE):
-    """{"incumbents": {cid: {"group": str, "fails": int}}}"""
+    """{"incumbents": {cid: {...}}, "last_az_discovery": "YYYY-MM-DD"}"""
     try:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
         inc = (data or {}).get("incumbents") or {}
         return {"incumbents": {c: {"group": (v or {}).get("group", ""),
                                    "fails": int((v or {}).get("fails", 0) or 0)}
-                               for c, v in inc.items() if isinstance(v, dict)}}
+                               for c, v in inc.items() if isinstance(v, dict)},
+                "last_az_discovery": (data or {}).get("last_az_discovery") or ""}
     except (FileNotFoundError, ValueError):
-        return {"incumbents": {}}
+        return {"incumbents": {}, "last_az_discovery": ""}
 
 def opt_value(opts, key):
     for o in opts:
@@ -685,6 +715,7 @@ def discover(log):
 
 # ---------------- probe everything ----------------
 skip_check = os.environ.get("SKIP_CHECK") == "1"
+TODAY = datetime.date.today()
 all_ids = {cid for idl in PICKS.values() for cid in idl}
 previous = load_previous()
 prev_waiting_names = load_prev_waiting()
@@ -817,6 +848,16 @@ def retained_usable(cid):
 # streams actually passes the probe.
 auto_state = load_auto_state()
 incumbents = auto_state["incumbents"]
+# New-channel discovery for Azərbaycan is monthly. Everything else about
+# that group -- stream healing, retention, WAITING.md probing, and the daily
+# SOURCES scrape for channels already waiting -- stays on the daily cycle.
+try:
+    _last_az = datetime.date.fromisoformat(auto_state.get("last_az_discovery") or "")
+except ValueError:
+    _last_az = None
+az_sweep_active = _last_az is None or (TODAY - _last_az).days >= AZ_SWEEP_DAYS
+next_az_discovery = (TODAY if az_sweep_active
+                     else _last_az + datetime.timedelta(days=AZ_SWEEP_DAYS))
 # First ever run: seed incumbency from whatever the published playlist
 # already carries that PICKS does not account for.
 if not incumbents:
@@ -862,7 +903,6 @@ for _cid in sorted(incumbents):
 
 # ---- newcomers fill whatever room the caps leave ----
 capped_out = 0
-intl_music_waiting = 0
 for _group in sorted({g for g, _ in eligible.values()}):
     _held = [c for c, (g, _s) in auto_add.items() if g == _group]
     _cap = AUTO_CAP.get(_group)
@@ -874,37 +914,12 @@ for _group in sorted({g for g, _ in eligible.values()}):
             incumbents.pop(_cid, None)
             capped_out += 1
         _held = _held[:_cap]
-    # International music gets its own hard ceiling inside Musiqi. Trim
-    # incumbents first if the sub-cap was lowered, lowest rank first.
-    _intl_room = None
-    if _group == "Musiqi":
-        _intl_held = [c for c in _held if is_intl_music(c)]
-        if len(_intl_held) > INTL_MUSIC_CAP:
-            _intl_held.sort(key=lambda c: auto_rank_key(
-                c, (eligible.get(c) or (None, None))[1]))
-            for _cid in _intl_held[INTL_MUSIC_CAP:]:
-                vacated.append((_cid, f"over the international music cap "
-                                      f"of {INTL_MUSIC_CAP}"))
-                auto_add.pop(_cid, None)
-                incumbents.pop(_cid, None)
-                _held.remove(_cid)
-            _intl_held = _intl_held[:INTL_MUSIC_CAP]
-        _intl_room = max(0, INTL_MUSIC_CAP - len(_intl_held))
-
     _room = None if _cap is None else max(0, _cap - len(_held))
     _new = [(c, s) for c, (g, s) in eligible.items()
             if g == _group and c not in auto_add]
+    if _group == AZ_SWEEP_GROUP and not az_sweep_active:
+        _new = []      # monthly sweep dormant; incumbents still hold slots
     _new.sort(key=lambda r: auto_rank_key(r[0], r[1]))
-    if _intl_room is not None:
-        _kept = []
-        for _cid, _hit in _new:
-            if is_intl_music(_cid):
-                if _intl_room <= 0:
-                    intl_music_waiting += 1
-                    continue
-                _intl_room -= 1
-            _kept.append((_cid, _hit))
-        _new = _kept
     if _room is not None and len(_new) > _room:
         capped_out += len(_new) - _room
         _new = _new[:_room]
@@ -1126,7 +1141,9 @@ if WRITE:
                   f, indent=2, ensure_ascii=False)
         f.write("\n")
     with open(AUTO_STATE_FILE, "w", encoding="utf-8") as f:
-        json.dump({"incumbents": {c: incumbents[c] for c in sorted(incumbents)}},
+        json.dump({"incumbents": {c: incumbents[c] for c in sorted(incumbents)},
+                   "last_az_discovery": (TODAY.isoformat() if az_sweep_active
+                                         else (auto_state.get("last_az_discovery") or ""))},
                   f, indent=2, ensure_ascii=False)
         f.write("\n")
 
@@ -1196,18 +1213,14 @@ for _g in sorted(_per_group, key=lambda k: -_per_group[k]):
     print(f"    {_g:20} {_per_group[_g]}{f' / cap {cap}' if cap else ''}")
 for _n, _g, _i in auto_rows:
     print(f"  + {_i:34} {_n[:36]:36} -> {_g}")
+print(f"AZ new-channel sweep: {'ACTIVE today' if az_sweep_active else 'dormant'}; "
+      f"next AZ discovery: {next_az_discovery.isoformat()}")
+print(f"Frozen groups: {len(LOCKED_GROUPS)}; machine-managed: İdman, Sənədli")
 print(f"Skipped: pay-TV {skip_paytv}, below country level / closed / nsfw "
       f"{skip_gate}, niche sports {skip_niche}, non-Latin name {skip_script}, "
       f"over cap {capped_out}")
 print(f"Total {count} / ceiling {TOTAL_MAX} "
       f"({picks_count} from PICKS, {len(auto_add)} auto)")
-_intl_seats = sorted((c for c in auto_add if is_intl_music(c)),
-                     key=lambda c: display_name(c).lower())
-print(f"International music seats: {len(_intl_seats)} / {INTL_MUSIC_CAP} "
-      f"({intl_music_waiting} candidate(s) waiting for a vacancy)")
-for _cid in _intl_seats:
-    _c = channels.get(_cid) or {}
-    print(f"  * {display_name(_cid)} ({_cid}, {_c.get('country')})")
 if vacated:
     print(f"Vacated {len(vacated)} auto-slot(s):")
     for _cid, _why in vacated:
