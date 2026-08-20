@@ -19,6 +19,18 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "http://145.239.5.177/329/index.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "http://149.71.34.166:8002/play/a012/index.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "http://149.71.34.166:8002/play/a013/index.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
   "http://162.250.201.58:6211/pk/ONEGOLF/index.m3u8": {
     "ok": false,
     "ts": "2026-08-20"
@@ -61,6 +73,14 @@
   },
   "http://190.11.225.124:5000/live/usa_hd/playlist.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "http://193.239.186.231/BBC1/index.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "http://193.46.58.239:8080/BBCOneHD/index.m3u8": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "http://1hskrdto.rocketcdn.com/fenerbahcetv.smil/playlist.m3u8": {
@@ -192,6 +212,10 @@
     "ts": "2026-08-20"
   },
   "http://88.212.15.19/live/uatlmvixrr/index.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -747,15 +771,43 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://amg00861-amg00861c7-firetv-us-4725.playouts.now.amagi.tv/playlist.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://amg00861-amg00861c7-stirr-us-8227.playouts.now.amagi.tv/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://amg00861-terncloud-amg00861c6-cineverse-us-964.playouts.now.amagi.tv/playlist/amg00861-terninternationalfast-introublehd-cineverseus/playlist.m3u8": {
     "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://amg00861-terninternation-inwild-samsungau-3qrga.amagi.tv/playlist/amg00861-terninternation-inwild-samsungau/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://amg00861-terninternation-inwild-samsunguk-w5wic.amagi.tv/playlist/amg00861-terninternation-inwild-samsunguk/playlist.m3u8": {
+    "ok": true,
     "ts": "2026-08-20"
   },
   "https://amg00966-amg00966c10-amgplt0081.playout.now3.amagi.tv/playlist/amg00966-amg00966c10-amgplt0081/playlist.m3u8": {
     "ok": false,
     "ts": "2026-08-20"
   },
+  "https://amg01074-fueltv-amg01074c1-firetv-us-3150.playouts.now.amagi.tv/playlist.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://amg01074-fueltv-amg01074c1-stirr-us-4214.playouts.now.amagi.tv/playlist.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
   "https://amg01074-fueltv-fueltvau-samsungau-g09kq.amagi.tv/playlist/amg01074-fueltv-fueltvau-samsungau/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://amg01074-fueltv-fueltvemeaen-rakuten-b6j62.amagi.tv/hls/amagi_hls_data_rakutenAA-fueltvemeaen/CDN/master.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -769,6 +821,10 @@
   },
   "https://amg01082-cna-amg01082c1-vidaa-gb-7580.playouts.now.amagi.tv/playlist.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://amg01131-tracetv-amg01131c2-stirr-us-4392.playouts.now.amagi.tv/playlist.m3u8": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "https://amg01269-amg01269c1-distrotv-us-5379.playouts.now.amagi.tv/playlist/amg01269-willowtvfast-willowplus-distrotvus/playlist.m3u8": {
@@ -785,6 +841,18 @@
   },
   "https://amg01314-amg01314c7-distrotv-us-10219.playouts.now.amagi.tv/playlist/amg01314-cgtn-cgtnchinatravel-distrotvus/playlist.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://amg01314-amg01314c8-distrotv-us-10218.playouts.now.amagi.tv/playlist/amg01314-cgtn-cgtndiscoveringchina-distrotvus/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://amg01370-italiansportcom-sportitalia-rakuten-3hmdb.amagi.tv/hls/amagi_hls_data_rakutenAA-sportitalia-rakuten/CDN/master.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://amg01370-italiansportcom-sportitalia-rakuten-3hmdb.amagi.tv/hls/amagi_hls_data_sportitaliaAAA-sportitalia-rakuten/CDN/playlist.m3u8": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "https://amg01415-waterbearnetwor-waterbear-samsunguk-1h0y8.amagi.tv/playlist/amg01415-waterbearnetwor-waterbear-samsunguk/playlist.m3u8": {
@@ -991,6 +1059,10 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://channels.trace.plus/Traceprod/TRACE_SPORT_STARS_sd/index.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://ciner.daioncdn.net/ht-spor/ht-spor.m3u8?app=web": {
     "ok": true,
     "ts": "2026-08-20"
@@ -1035,6 +1107,10 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://d1m1xk35ma8qfl.cloudfront.net/master.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://d1nhni5l2n8hjt.cloudfront.net/gf.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
@@ -1068,6 +1144,10 @@
     "ts": "2026-08-20"
   },
   "https://d36r8jifhgsk5j.cloudfront.net/Willow_TV1080p.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://d382r3rgbxdixq.cloudfront.net/scheduler/scheduleMaster/418.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1179,7 +1259,19 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://e85541db4ae943d9b5a09477d6b1d8ab.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RakutenTV-eu_Jail/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://edge1.1internet.tv/dash-live2/streams/1tv-dvr/1tvdash.mpd": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://edge59.dc.beltelecom.by/ngtrk/smil:belarus5int.smil/playlist.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1188,6 +1280,10 @@
     "ts": "2026-08-20"
   },
   "https://english-livebkali.cgtn.com/live/doccgtn.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://fastlive.cctvplus.com/out/v1/8442c3bfd4c64a3984389328f6087879/index.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1227,6 +1323,14 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-5812be1c249444e05d09cc50.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-5adf96e3e738977e2c31cb04.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
@@ -1243,7 +1347,27 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-5d4ae94ef1a1bbb350ca41bb.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-5d4af1803e7983b391d73b13.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-5d9492c77ea6f99188738ff1.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-5dbc2f98777f2e0009934ae7.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-5ddf8ea0d000120009bcad83.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-5ddf930548ff9b00090d5686.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1263,11 +1387,31 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-600acaff5f2d6e000745effb.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-603fde9026ecbf0007752c2c.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-60807fd5db701400078219c2.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-60d39387706fe50007fda8e8.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-61c097ec8bb1830008e3f962.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-61c0b438244e50000758083b.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-61c1e51354d923000731bf78.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1276,6 +1420,30 @@
     "ts": "2026-08-20"
   },
   "https://jmp2.uk/plu-61de96114757070008d33cae.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-625e8cb585ef320007806caf.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-62b1e2498261390007f25c98.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-62b30b0060a9ca0007d628b4.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-62cd74e38f6f0d000798cd93.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-62e9289f8d467f0007fbc701.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-62e92a58f3e4290007290c96.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1299,6 +1467,10 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-6462190b7cb4b1000862dd60.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-64f6163a30ab3300083d870e.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
@@ -1311,11 +1483,23 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-6549306c83595c000815a696.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-655b7cbb2c46f300086f0afa.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-655f2d713944b60008bc7e90.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-656535fc2c46f30008870fae.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-65a7b0814a10d800085ff2df.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1328,6 +1512,10 @@
     "ts": "2026-08-20"
   },
   "https://jmp2.uk/plu-65d92a8c8b24c80008e285c0.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-660be37e7bcd860008793a6a.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1379,6 +1567,10 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-677d3a424bd63600082f7baf.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-685029cda1e091e16ff57fc8.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
@@ -1399,11 +1591,23 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-68ac56363efb41cd979a8005.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-68dfa3e2cc3c6cd904052c41.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://jmp2.uk/plu-692ebafce72f03e07e7df985.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://jmp2.uk/plu-696e02423b9ce349c90edef9.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://jmp2.uk/plu-6972546cc62833833a187f50.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1433,6 +1637,14 @@
   },
   "https://live-3.otcnet.ru/sportivny/index.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-cpu-a/supertennis/index.m3u8": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "https://live-hls-apps-aje-fa.getaj.net/AJE/index.m3u8": {
@@ -1612,6 +1824,14 @@
     "ts": "2026-08-20"
   },
   "https://news.cgtn.com/resource/live/document/cgtn-doc.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus5.smil/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus5int.smil/playlist.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1816,7 +2036,7 @@
     "ts": "2026-08-20"
   },
   "https://str2.yodacdn.net/kanal35/index.m3u8": {
-    "ok": false,
+    "ok": true,
     "ts": "2026-08-20"
   },
   "https://str2.yodacdn.net/ntv/video.m3u8": {
@@ -1843,7 +2063,15 @@
     "ok": true,
     "ts": "2026-08-20"
   },
+  "https://stream8.cinerama.uz/1004/tracks-v1a1/mono.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://stream8.cinerama.uz/1015/tracks-v1a1/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://stream8.cinerama.uz/1016/tracks-v1a1/mono.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1872,6 +2100,10 @@
     "ts": "2026-08-20"
   },
   "https://stream8.cinerama.uz/1229/tracks-v1a1/mono.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://stream8.cinerama.uz/1274/tracks-v1a1/mono.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -1925,6 +2157,14 @@
   },
   "https://streaming.thestream.cyou/live/554.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://streaming.thestream.cyou/live/7001.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://streams.comclark.com/live_input/nudge_sports/playlist.m3u8": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "https://streams.comclark.com/pknhd/premier_football/playlist.m3u8": {
@@ -2007,6 +2247,14 @@
     "ok": false,
     "ts": "2026-08-20"
   },
+  "https://trace-sportstars-samsungnz.amagi.tv/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://tracesportstars-klowdtv.amagi.tv/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
   "https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
@@ -2044,7 +2292,7 @@
     "ts": "2026-08-20"
   },
   "https://tv-trt1.medya.trt.com.tr/master.m3u8": {
-    "ok": false,
+    "ok": true,
     "ts": "2026-08-20"
   },
   "https://tv-trt2.medya.trt.com.tr/master.m3u8": {
@@ -2112,6 +2360,10 @@
     "ts": "2026-08-20"
   },
   "https://tvnet-live.lg.mncdn.com/tvnet/tvnet/playlist.m3u8": {
+    "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://tvpi.travny.workers.dev/tvpsport.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
@@ -2487,11 +2739,151 @@
     "ok": false,
     "ts": "2026-08-20"
   },
+  "https://vs-cmaf-push-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_london/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-push-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_london/iptv_hd_abr_v1.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-push-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_london/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
   "https://vs-cmaf-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/hevc_iptv_mse_v0.mpd": {
     "ok": false,
     "ts": "2026-08-20"
   },
   "https://vs-cmaf-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/iptv_hd_abr_v1.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_four_hd/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_channel_islands/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_channel_islands/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east_midlands/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east_midlands/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east_yorkshire/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east_yorkshire/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_north_east/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_north_east/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_north_west/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_north_west/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_northern_ireland_hd/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_northern_ireland_hd/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_scotland_hd/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_scotland_hd/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south_east/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south_east/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south_west/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south_west/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_wales_hd/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_wales_hd/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_west/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_west/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_west_midlands/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_west_midlands/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_yorks/hevc_iptv_mse_v0.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_yorks/pc_hd_abr_v2.mpd": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-cmaf-pushb-uk.live.fastly.md.bbci.co.uk/x=4/i=urn:bbc:pips:service:bbc_four_hd/iptv_hd_abr_v1.mpd": {
     "ok": false,
     "ts": "2026-08-20"
   },
@@ -2503,12 +2895,80 @@
     "ok": false,
     "ts": "2026-08-20"
   },
+  "https://vs-hls-push-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_london/mobile_wifi_main_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-push-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_london/mobile_wifi_main_sd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
   "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_hd_abr_v2.m3u8": {
     "ok": true,
     "ts": "2026-08-20"
   },
   "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_sd_abr_v2.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_four_hd/mobile_wifi_main_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_four_hd/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_east_yorkshire/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_north_east/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_northern_ireland_hd/mobile_wifi_main_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_scotland_hd/mobile_wifi_main_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_scotland_hd/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south_east/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_south_west/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_wales_hd/mobile_wifi_main_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_wales_hd/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_west/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_west_midlands/pc_hd_abr_v2.m3u8": {
+    "ok": false,
+    "ts": "2026-08-20"
+  },
+  "https://vs-hls-pushb-uk-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_one_yorks/pc_hd_abr_v2.m3u8": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "https://waw2.artiyerelmedya.net/astv/bant1/playlist.m3u8": {
@@ -2533,6 +2993,10 @@
   },
   "https://www.xezerxeber.az/stream/index.m3u8": {
     "ok": true,
+    "ts": "2026-08-20"
+  },
+  "https://xemzi.short.gy/1000011": {
+    "ok": false,
     "ts": "2026-08-20"
   },
   "https://xemzi.short.gy/1000015": {

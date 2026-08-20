@@ -104,9 +104,24 @@ channel is never swapped out from under itself — only a would-be-waiting chann
 adopts a discovered URL.
 
 **`AUTO_RULES`** — ordered `(group, predicate)` list evaluated against the whole
-iptv-org database; first match wins. Only two rules remain: İdman (sports) and
-Azərbaycan (country AZ, monthly). Sənədli had one until the group was locked.
-`auto_group_for()` skips any group in `LOCKED_GROUPS`.
+iptv-org database; first match wins. **One rule remains**: Azərbaycan (country
+AZ, monthly). İdman and Sənədli each had one until their groups were locked;
+those predicates now live in `BENCH_RULES`, where they build a reserve instead
+of adding members. `auto_group_for()` skips any group in `LOCKED_GROUPS`.
+
+**`BENCH_RULES` — the self-curating bench.** A locked group's bench extends
+itself below its hand-ranked names: any channel the group's retired
+`AUTO_RULE` would have matched, still passing the same gates (`EXCLUDE`,
+`PAY_TV_BLOCK`, `notable()`, `NICHE_SKIP` for İdman, `latin_only()`, and the
+legality host rules through `url_allowed()`), ordered by the same
+`auto_rank_key`. Hand ranks keep **absolute priority**; auto entries extend
+strictly below them, so Sənədli's 16 curated names are never displaced by
+ranking. İdman's bench is entirely self-curated — `SUBSTITUTES["İdman"]` is
+empty on purpose. An auto bench member can take a **seat, never a position**:
+membership stays editorial and only a human edits `LOCKED_GROUPS`. Depth is
+capped at one per member plus `BENCH_AUTO_MARGIN = 10`, because a group can
+never seat more substitutes than it has members and an uncapped bench would
+probe the whole database each run to fill seats that cannot exist.
 
 **`EXCLUDE`** — ids that must never be auto-added, whatever the rules say. Seeded
 with every channel removed by hand, so the rules engine cannot quietly undo
@@ -140,6 +155,17 @@ enforced by adding to `STREAM_BLOCKLIST` or `BAD_HOSTS`, after which the URL
 stops being a candidate and drops off the list by itself. Entries flagged
 `PUBLISHED` are the urgent ones: they are live right now.
 
+**Free-to-air on an unofficial mirror is a KEEP.** The audit lists FTA mirrors
+and always will — a bare-IP host serving a public broadcaster trips the same
+shape test as a restream. They are **ruled keep** unless the user says
+otherwise: never blocklist or re-source a working stream of a free channel
+without a new ruling from the user. Only **pay channels on pirate hosts** are
+hard-blocked. Standing keeps on record: Belarus 5, M4 Sport, FREEDOM,
+Carousel, and `cinerama.uz` (Zo'r TV, MTRK Sport, Futbol TV). Rulings already
+made the other way, for the pay-leak class: GolTV Latin America's bare-IP URL,
+Fast&FunBox on an ISP `test` endpoint, `freeott.top` (Football ru) and
+`streamhostingcdn.top` (Sportdigital FUSSBALL).
+
 **`PAY_TV_BLOCK`** — subscription broadcasters, matched case-insensitively
 against channel name and network. Free-to-air Match! is deliberately absent while
 the premium Match! tiers are listed.
@@ -150,8 +176,8 @@ closed/NSFW and anything whose `broadcast_area` is only city `ct/` or subdivisio
 `s/` level) → `NICHE_SKIP` (İdman only) → `latin_only()`. Note that
 `broadcast_area`, `languages` and `format` live on the **feed**, not the channel.
 
-**`AUTO_CAP` + `TOTAL_MAX`** — `{"İdman": 40}`, other groups
-uncapped; `TOTAL_MAX = 199` is a hard ceiling on the whole playlist. The build
+**`AUTO_CAP` + `TOTAL_MAX`** — `AUTO_CAP` is now empty: no group is
+machine-managed, so there is no automatic tail to trim; `TOTAL_MAX = 199` is a hard ceiling on the whole playlist. The build
 runs in two passes so the ceiling knows how many slots `PICKS` occupies, then
 trims auto-adds lowest-rank-first. `PICKS` entries and `OVERRIDES` are never
 trimmed or displaced.
@@ -164,7 +190,7 @@ Incumbency lives in `auto_state.json`.
 
 **`LOCKED_GROUPS`** — a locked group contains exactly these ids in exactly this
 order. No `AUTO_RULE` may add to it and nothing is reordered or displaced by
-ranking, because the ordering is editorial. Eight groups are frozen this way.
+ranking, because the ordering is editorial. Nine groups are frozen this way.
 Stream healing, retention and daily `WAITING.md` probing still run for every
 member — freezing stops growth, not maintenance.
 
@@ -191,7 +217,8 @@ stream-hunted exactly like waiting members (daily iptv-org refresh plus
 `in play` / `ready` / `gated` / `streamless` status, separately from waiting
 starters; the gated line reads `runner-alive, no Baku pass on record`.
 Meant for locked groups; a bench on a grown group would race its own auto-adds.
-Only Sənədli has one today (15 deep).
+Sənədli and İdman both have one: Sənədli is 16 hand ranks plus a self-curated
+extension, İdman is entirely self-curated (see `BENCH_RULES`).
 
 **`BAKU.json`** — committed vantage data, `{url: {"ok", "ts"}}`. The runner is
 in the US and the viewer is in Baku, so a CI probe answers a different question
@@ -238,10 +265,10 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 | Ukrayna | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Türkiyə – Ümumi | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Xəbər – Türkiyə | frozen | heal, retain, probe waiting members | add, reorder, displace |
-| İdman | machine-managed, cap 40 | add/trim/vacate per rules, caps, stickiness | drop a `PICKS` entry or an override |
+| İdman | frozen, order is editorial (1–35), self-curating bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
 | Uşaq | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Musiqi | frozen | heal, retain, probe waiting members | add, reorder, displace |
-| Sənədli | frozen, order is editorial (1–13), 16-deep bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
+| Sənədli | frozen, order is editorial (1–13), 16 hand ranks + self-curated bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
 | · russia | frozen | heal, retain, probe waiting members | add, reorder, displace, rename the group |
 | Beynəlxalq Xəbər | frozen, order is editorial (1–9) | heal, retain, probe waiting members | add, reorder, displace |
 

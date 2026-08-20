@@ -132,8 +132,10 @@ BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
              # them, so legality has to be enforced separately from
              # reachability. Host-level, so every path on them is excluded.
              "ayakkabiparti.lol",   # serves natgeo/viasat pay-channel rips
-             "freem3u.xyz"]         # promoted from a single-URL blocklist
+             "freem3u.xyz",         # promoted from a single-URL blocklist
                                     # entry: the whole host is an aggregator
+             "freeott.top",         # only known host for pay-TV Football ru
+             "streamhostingcdn.top"]  # ditto Sportdigital FUSSBALL
 # Confirmed dead, geo-blocked from inside Azerbaijan, or not a legal free
 # feed. Excluded as candidates, from retention, and from discovery, so they
 # cannot come back. The channel ids stay in PICKS and rejoin automatically
@@ -164,6 +166,10 @@ STREAM_BLOCKLIST = {
     # 1080p wins ranking on the US runner but 403s from Azerbaijan;
     # the Rakuten-DE feed passes both vantages
     "https://amg00416-amg00416c9-samsung-in-4882.playouts.now.amagi.tv/playlist/amg00416-travelxp-travelxphd-samsungin/playlist.m3u8",
+    # pay channel leak (GolTV Latin America, bare-IP restream host)
+    "http://177.234.249.178:8888/GOLTV/index.m3u8",
+    # SPI pay leak on an ISP test endpoint, same class as DocuBox
+    "https://dash3.antik.sk/live/test_fast_and_funbox_medium_atk/playlist.m3u8",
     # NatureTime: passes US runner, 403 from Baku (vantage split)
     "https://amg01515-amg01515c43-samsung-gb-9038.playouts.now.amagi.tv/playlist.m3u8",
     # BBC Earth: same split, measured this round
@@ -413,6 +419,26 @@ WATCHLIST = {
     # iptv-org but which the probe cannot report; a bare string means unknown.
     "NatureTime.ca": [("https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8", "1080p"),
                       "https://amg00090-blueantmedia-naturetime-samsungse-axgcn.amagi.tv/playlist/amg00090-blueantmedia-naturetime-samsungse/playlist.m3u8"],
+    # ---- locked İdman members, hand-keyed from the Baku hunt -------------
+    # Every URL below returned a manifest from Baku on the day it was added.
+    # Most of these channels' upstream feeds are tagged in a language outside
+    # ALLOWED_LANGS (ita, pol, fra, uzb...), so the language filter drops them
+    # before ranking ever sees them -- a WATCHLIST entry is the only route in.
+    # Several ride unofficial mirrors. They are free-to-air channels, and the
+    # standing ruling is that an FTA channel on a mirror is a KEEP: it is
+    # named by the suspicious-host audit for a human, never auto-dropped.
+    "TRTSpor.tr": [("https://corestream.siteyaptim.live/trt-spor/index.m3u8", "720p")],
+    "ZorTV.uz": [("https://stream8.cinerama.uz/1016/tracks-v1a1/mono.m3u8", "576p")],
+    "Sport.uz": ["https://stream8.cinerama.uz/1004/tracks-v1a1/mono.m3u8"],
+    "TVPSport.pl": [("https://tvpi.travny.workers.dev/tvpsport.m3u8", "1080p"),
+                    ("http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8", "1080p")],
+    "Sportitalia.it": [("https://amg01370-italiansportcom-sportitalia-rakuten-3hmdb.amagi.tv/hls/amagi_hls_data_rakutenAA-sportitalia-rakuten/CDN/master.m3u8", "1080p"),
+                       ("https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8", "1080p")],
+    # SuperTennix is SuperTennis's own OTT. The outgest UUID may prove
+    # ephemeral; it answered from Baku the day it was added, and the daily
+    # probe will retire it if it stops.
+    "SuperTennis.it": [("https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8", "1080p")],
+    "LaUne.be": [("http://145.239.5.177/329/index.m3u8", "720p")],
     # ---- SUBSTITUTES bench, last-known-good URLs -------------------------
     # Bench readiness must not depend on iptv-org churn: a reserve that
     # vanishes upstream would silently stop being able to cover. Each of
@@ -610,6 +636,50 @@ LOCKED_GROUPS = {
         "PlexDocumentary.us",   # 13 waiting: no such linear channel exists;
                                 #    pending user verdict
     ],
+    # Order is editorial. Positions 9 and 13 are user-ruled keeps: their
+    # current streams are free-to-air channels on unofficial mirrors and must
+    # not be re-sourced or blocklisted without a new ruling (see §2).
+    "İdman": [
+        "CBCSport.az",           # 1  dual-grouped, also in Azərbaycan
+        "IdmanTV.az",            # 2  dual-grouped; waiting, no candidate
+                                 #    exists anywhere yet
+        "TRTSpor.tr",            # 3
+        "TRTSporYildiz.tr",      # 4
+        "TRT3.tr",               # 5
+        "ASpor.tr",              # 6
+        "HTSporTV.tr",           # 7
+        "beINSPORTSXTRA.us",     # 8  the free FAST tier, not pay beIN
+        "Belarus5.by",           # 9  user-ruled keep: leave its stream alone
+        "Football.ru",           # 10 waiting: pay channel, only known host is
+                                 #    pirate (freeott.top -> BAD_HOSTS)
+        "NHLNetwork.us",         # 11 NHL's own FAST playout
+        "SportdigitalFUSSBALL.de",  # 12 waiting: same class as 10
+                                 #    (streamhostingcdn.top -> BAD_HOSTS)
+        "M4Sport.hu",            # 13 user-ruled keep: leave its stream alone
+        "LEquipe.fr",            # 14
+        "QazSport.kz",           # 15
+        "ZorTV.uz",              # 16
+        "Sport.uz",              # 17 Uzbek MTRK's Sport channel; RENAME gives
+                                 #    it a name that is not just "Sport"
+        "RTSHSport.al",          # 18
+        "TVPSport.pl",           # 19
+        "Sport1.de",             # 20 German free-to-air SPORT1
+        "Sportitalia.it",        # 21
+        "RaiSport.it",           # 22
+        "SuperTennis.it",        # 23
+        "RedBullTV.at",          # 24
+        "PlutoTVSports.us",      # 25
+        "RTP2.pt",               # 26
+        "SIC.pt",                # 27
+        "Canal11.pt",            # 28
+        "RTE2.ie",               # 29
+        "BBCOne.uk",             # 30
+        "ITV1.uk",               # 31 ITV's main channel, rebranded ITV1
+        "ZDF.de",                # 32
+        "ORF1.at",               # 33
+        "ServusTV.at",           # 34
+        "LaUne.be",              # 35 RTBF La Une
+    ],
     "Beynəlxalq Xəbər": [
         "TRTWorld.tr",          # 1
         "BBCNews.uk",           # 2  (override: BBC's own worldwide CDN)
@@ -637,6 +707,9 @@ LOCKED_GROUPS = {
 # surfaces. Meant for locked groups; a bench on a grown group would just
 # race its own auto-adds.
 SUBSTITUTES = {
+    # İdman's bench is entirely self-curating: no hand ranks, so every
+    # reserve comes from BENCH_RULES below, ordered by auto_rank_key.
+    "İdman": [],
     # Ranks 1-2 are the two Turkish documentary channels that used to sit
     # in PICKS; both are streamless today (TGRT Belgesel's only known URL
     # is in STREAM_BLOCKLIST, the mediatriple broadcast is gone, and DMAX
@@ -650,12 +723,29 @@ SUBSTITUTES = {
                 "LoveThePlanet.es", "AutenticHistory.de", "ChinaTravel.cn",
                 "PlutoTVScience.us", "PlutoTVHistory.de"],
 }
+# A locked group's bench curates itself below the hand-ranked names. The
+# predicate is the group's retired AUTO_RULE: what used to earn membership now
+# earns a place in the reserve, judged by the same gates (notability,
+# PAY_TV_BLOCK, niche sports, Latin script, and the legality host rules via
+# url_allowed) and ordered by the same auto_rank_key. Hand ranks keep absolute
+# priority; auto entries extend strictly below them. An auto bench member can
+# take a SEAT, never a position -- membership stays editorial.
+BENCH_RULES = {
+    "İdman":   lambda cid, c, L: "sports" in categories_of(c),
+    "Sənədli": lambda cid, c, L: "documentary" in categories_of(c)
+                                 and bool(L & ALLOWED_LANGS),
+}
+# A group can never seat more substitutes than it has members, so the auto
+# extension stops there plus a margin for entries that turn out streamless or
+# Baku-gated. Without a bound the bench would probe every sports channel in
+# the database every run to fill seats that cannot exist.
+BENCH_AUTO_MARGIN = 10
 bench_ids = {cid for _bench in SUBSTITUTES.values() for cid in _bench}
 
 # Ceiling on auto-adds per group. PICKS entries never count against a cap
 # and are never displaced -- caps only trim the automatic tail. Groups
 # absent from this dict are uncapped.
-AUTO_CAP = {"İdman": 40}
+AUTO_CAP = {}     # nothing is machine-managed any more; see BENCH_RULES
 # Azərbaycan is deliberately uncapped: its sweep is monthly and additive,
 # so there is no tail to trim.
 # Hard ceiling on the whole playlist. Auto-adds are trimmed lowest-rank
@@ -702,9 +792,10 @@ def is_pay_tv(cid, c):
 # wins, so the country-specific rules are listed before the broad
 # catch-alls -- otherwise the later rules could never fire.
 AUTO_RULES = [
-    ("İdman",           lambda cid, c, L: "sports" in categories_of(c)),
-    # Sənədli used to have a rule here; the group is locked now, so it is
-    # curated by hand and the rules engine has no route into it.
+    # İdman and Sənədli used to have rules here. Both groups are locked now,
+    # so they are curated by hand and the rules engine has no route into
+    # either -- their old predicates live on in BENCH_RULES, where they build
+    # a bench instead of adding members.
     # The only remaining route for a genuinely new channel outside İdman.
     # Runs monthly, not daily -- see AZ_SWEEP_DAYS. EXCLUDE always wins,
     # so a hand-removed Azerbaijani channel can never come back.
@@ -847,7 +938,7 @@ PICKS = {
 "Ukrayna": LOCKED_GROUPS["Ukrayna"],
 "Türkiyə – Ümumi": LOCKED_GROUPS["Türkiyə – Ümumi"],
 "Xəbər – Türkiyə": LOCKED_GROUPS["Xəbər – Türkiyə"],
-"İdman": ["CBCSport.az","IdmanTV.az","ASpor.tr","TRT3.tr","TRTSporYildiz.tr","HTSporTV.tr","FBTV.tr","RedBullTV.at","beINSPORTSXTRA.us","FIFAPlus.uk","CBSSportsGolazoNetwork.us","Stadium.us","FuboSportsNetwork.us","Unbeaten.us","Futbol.tj","FutbolTV.uz","UzReportTV.uz","QazSport.kz","M4Sport.hu","Teledeporte.es","OlympicChannel.es"],
+"İdman": LOCKED_GROUPS["İdman"],
 "Uşaq": LOCKED_GROUPS["Uşaq"],
 "Musiqi": LOCKED_GROUPS["Musiqi"],
 "Sənədli": LOCKED_GROUPS["Sənədli"],
@@ -861,6 +952,8 @@ PICKS = {
 # CBCSport/IdmanTV are dual-grouped on purpose (Azərbaycan + İdman).
 
 RENAME = {"Russia1.ru": "russia 1", "EuronewsRussian.fr": "Euronews russian",
+          # iptv-org calls it just "Sport"; name the broadcaster
+          "Sport.uz": "MTRK Sport",
           # carried under the Paris L'Original feed; keep the plain name
           "FashionTVParisLOriginal.fr": "Fashion TV"}
 
@@ -1039,6 +1132,48 @@ def discover(log):
 skip_check = os.environ.get("SKIP_CHECK") == "1"
 TODAY = datetime.date.today()
 all_ids = {cid for idl in PICKS.values() for cid in idl}
+
+def auto_rank_key(cid, stream=None):
+    return (-reach_score(cid),
+            -max(chan_format.get(cid, 0), qscore(stream) if stream else 0),
+            display_name(cid).lower())
+
+def bench_auto_for(group, pred, members):
+    """Channels the group's retired AUTO_RULE would have matched, still
+    passing every gate, ranked and cut to a depth that can actually be
+    seated. Hand-ranked names are excluded -- they already have a rank."""
+    out = []
+    for cid, c in channels.items():
+        if cid in all_ids or cid in hand_bench_ids or cid in EXCLUDE:
+            continue
+        if not any(url_allowed(s["url"]) for s in by.get(cid, [])):
+            continue                      # nothing legal to offer
+        try:
+            if not pred(cid, c, chan_langs.get(cid, set())):
+                continue
+        except Exception:
+            continue
+        if is_pay_tv(cid, c) or not notable(cid, c):
+            continue
+        if group == "İdman" and NICHE_SKIP.search(c.get("name") or ""):
+            continue
+        if not latin_only(c.get("name") or ""):
+            continue
+        out.append(cid)
+    out.sort(key=auto_rank_key)
+    return out[:len(members) + BENCH_AUTO_MARGIN]
+
+hand_bench_ids = {c for b in SUBSTITUTES.values() for c in b}
+# group -> full bench: hand ranks first, then the self-curated extension
+bench_of, bench_auto_count = {}, {}
+for _g, _idl in PICKS.items():
+    _hand = list(SUBSTITUTES.get(_g, []))
+    _auto = (bench_auto_for(_g, BENCH_RULES[_g], _idl)
+             if _g in BENCH_RULES else [])
+    bench_auto_count[_g] = len(_auto)
+    if _hand or _auto:
+        bench_of[_g] = _hand + _auto
+bench_ids = {c for b in bench_of.values() for c in b}
 # Bench channels are not playlist members, but they are hunted for streams
 # exactly like waiting members so a substitute can enter the day one
 # surfaces. Everything that probes or retains works off this set.
@@ -1202,11 +1337,6 @@ for _cid, (_group, _pool) in auto_candidates.items():
     if _hit is not None:
         eligible[_cid] = (_group, _hit)
 
-def auto_rank_key(cid, stream=None):
-    return (-reach_score(cid),
-            -max(chan_format.get(cid, 0), qscore(stream) if stream else 0),
-            display_name(cid).lower())
-
 # ---- sticky incumbents: hold the slot unless something really changed ----
 auto_add = {}          # cid -> (group, stream or None => retain previous url)
 vacated = []
@@ -1353,7 +1483,7 @@ for group, idl in PICKS.items():
     # falls through to the next rank meeting both. Starters are untouched:
     # editorial picks publish best-effort, with BAKU steering only which of
     # their URLs is chosen, through ranking.
-    for pos, cid in enumerate(SUBSTITUTES.get(group, []), 1):
+    for pos, cid in enumerate(bench_of.get(group, []), 1):
         fields, source = entry_for(cid)
         if fields is None:
             bench_rows.append((cid, group, pos, "streamless"))
@@ -1491,8 +1621,20 @@ def render_report():
     if bench_rows:
         out += ["| Substitute | Group | Bench rank | Status |",
                 "| --- | --- | --- | --- |"]
-        out += [f"| {display_name(c)} | {g} | {p} | {bench_status_text(c, s)} |"
-                for c, g, p, s in bench_rows]
+        shown = {}
+        hidden_tail = {}
+        for c, g, p, s in bench_rows:
+            # every seated substitute is listed; the unseated tail is capped
+            # so a self-curated bench cannot bury the rest of the report
+            if s != "in play" and shown.get(g, 0) >= 12:
+                hidden_tail[g] = hidden_tail.get(g, 0) + 1
+                continue
+            shown[g] = shown.get(g, 0) + 1
+            out.append(f"| {display_name(c)} | {g} | {p} | "
+                       f"{bench_status_text(c, s)} |")
+        for g in sorted(hidden_tail):
+            out.append(f"| _+{hidden_tail[g]} more_ | {g} | | "
+                       f"_self-curated tail, not shown_ |")
     else:
         out.append("_None._")
     out += ["", "## Alternates found", "",
@@ -1657,15 +1799,26 @@ for _n, _g, _i in auto_rows:
     print(f"  + {_i:34} {_n[:36]:36} -> {_g}")
 print(f"AZ new-channel sweep: {'ACTIVE today' if az_sweep_active else 'dormant'}; "
       f"next AZ discovery: {next_az_discovery.isoformat()}")
-print(f"Frozen groups: {len(LOCKED_GROUPS)}; machine-managed: İdman")
-for _g, _bench in SUBSTITUTES.items():
+print(f"Frozen groups: {len(LOCKED_GROUPS)}; no group is machine-managed")
+for _g, _bench in bench_of.items():
     _act = substituted.get(_g, [])
-    print(f"Substitutes {_g}: {len(_act)} of {len(_bench)} in play; "
+    print(f"Substitutes {_g}: {len(_act)} of {len(_bench)} in play "
+          f"({len(SUBSTITUTES.get(_g, []))} hand-ranked + "
+          f"{bench_auto_count.get(_g, 0)} self-curated); "
           f"{hidden_members.get(_g, 0)} member(s) hidden")
+    _shown = 0
     for _c, _bg, _pos, _st in bench_rows:
-        if _bg == _g:
-            print(f"    {_pos}. {display_name(_c)[:28]:28} "
-                  f"{bench_status_text(_c, _st)}")
+        if _bg != _g:
+            continue
+        # every seated substitute, then enough of the tail to see what is next
+        if _st != "in play" and _shown >= 12:
+            continue
+        _shown += 1
+        print(f"    {_pos}. {display_name(_c)[:28]:28} "
+              f"{bench_status_text(_c, _st)}")
+    _rest = len(_bench) - _shown
+    if _rest > 0:
+        print(f"    ... and {_rest} more on the bench")
 print(f"Overrides: {len(OVERRIDES)} pinned; {len(override_expected)} expected "
       f"vantage-fail, {len(override_warnings)} unexpected failure(s)")
 if override_blocked:
