@@ -22,15 +22,14 @@ right now. Every one is re-probed on each run and rejoins
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 1 | unreachable |
 | L'Equipe | İdman | 0 | no candidate URLs |
-| ORF 1 | İdman | 0 | no candidate URLs |
+| ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
-| RTP 2 | İdman | 0 | no candidate URLs |
-| RTSH Sport | İdman | 0 | no candidate URLs |
-| ServusTV | İdman | 0 | no candidate URLs |
-| SIC | İdman | 0 | no candidate URLs |
+| RTSH Sport | İdman | 1 | unreachable |
+| ServusTV | İdman | 1 | 403 forbidden |
+| SIC | İdman | 1 | 403 forbidden |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Sport1 | İdman | 0 | no candidate URLs |
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
@@ -38,7 +37,7 @@ right now. Every one is re-probed on each run and rejoins
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
-| ZDF | İdman | 0 | no candidate URLs |
+| ZDF | İdman | 1 | 403 forbidden |
 
 ## Substitutes
 
@@ -49,25 +48,24 @@ the group itself never change.
 
 | Substitute | Group | Bench rank | Status |
 | --- | --- | --- | --- |
-| FightBox | İdman | 1 | in play - covering a hidden member |
-| FloHockey | İdman | 2 | in play - covering a hidden member |
-| FloRacing | İdman | 3 | in play - covering a hidden member |
-| FUEL TV | İdman | 4 | in play - covering a hidden member |
-| RACER International | İdman | 5 | in play - covering a hidden member |
-| Trace Sport Stars | İdman | 6 | in play - covering a hidden member |
-| FIFA+ | İdman | 7 | in play - covering a hidden member |
-| FIFA+ Women | İdman | 8 | in play - covering a hidden member |
-| Glory Kickboxing | İdman | 9 | in play - covering a hidden member |
-| SKI TV | İdman | 10 | streamless - unreachable |
-| Sport | İdman | 11 | streamless - unreachable |
-| Racer Network | İdman | 12 | in play - covering a hidden member |
-| Racer Select | İdman | 13 | in play - covering a hidden member |
-| Willow Sports | İdman | 14 | in play - covering a hidden member |
-| Pluto TV Snooker 900 | İdman | 15 | in play - covering a hidden member |
-| Pluto TV Snooker 900 | İdman | 16 | in play - covering a hidden member |
-| Pluto TV Sport | İdman | 17 | in play - covering a hidden member |
-| Sport 1 Baltic | İdman | 18 | in play - covering a hidden member |
-| Strongman | İdman | 19 | in play - covering a hidden member |
+| FloHockey | İdman | 1 | in play - covering a hidden member |
+| FloRacing | İdman | 2 | in play - covering a hidden member |
+| FUEL TV | İdman | 3 | in play - covering a hidden member |
+| RACER International | İdman | 4 | in play - covering a hidden member |
+| Trace Sport Stars | İdman | 5 | in play - covering a hidden member |
+| FIFA+ | İdman | 6 | in play - covering a hidden member |
+| FIFA+ Women | İdman | 7 | in play - covering a hidden member |
+| Glory Kickboxing | İdman | 8 | in play - covering a hidden member |
+| SKI TV | İdman | 9 | streamless - unreachable |
+| Sport | İdman | 10 | streamless - 403 forbidden |
+| Racer Network | İdman | 11 | in play - covering a hidden member |
+| Racer Select | İdman | 12 | in play - covering a hidden member |
+| Willow Sports | İdman | 13 | in play - covering a hidden member |
+| Pluto TV Snooker 900 | İdman | 14 | in play - covering a hidden member |
+| Pluto TV Sport | İdman | 15 | in play - covering a hidden member |
+| Strongman | İdman | 16 | in play - covering a hidden member |
+| ACC Network | İdman | 18 | in play - covering a hidden member |
+| Cricket Gold | İdman | 19 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -81,7 +79,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+26 more_ | İdman | | _self-curated tail, not shown_ |
+| _+27 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
