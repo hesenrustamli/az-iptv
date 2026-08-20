@@ -28,6 +28,13 @@ Player URL (Televizo etc.):
   enforced through `STREAM_BLOCKLIST` and `BAD_HOSTS`. Never let a Baku pass,
   a high rank, or a healthy probe stand in for provenance. The suspicious-host
   audit line (§3) is how a suspect reaches the human.
+- **URLs enter code by machine copy only.** A stream URL is added to
+  `generate_playlist.py` by copying it from recorded probe or hunt output —
+  never retyped from memory, and never reconstructed from truncated console
+  text. Two URLs were reconstructed from an 80-column console dump in the
+  İdman build; both were wrong, and one silently cost a channel its stream
+  until it was caught against the saved hunt data. Save the hunt results to a
+  file and copy from the file.
 - **Static URLs only.** Never write a token-refreshing scraper. A URL carrying a
   per-session token is never adopted — see `looks_tokenized()`.
 - **Two sources, ever:** the iptv-org database, and a broadcaster's own domain

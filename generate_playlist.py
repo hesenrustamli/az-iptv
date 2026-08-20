@@ -135,7 +135,10 @@ BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
              "freem3u.xyz",         # promoted from a single-URL blocklist
                                     # entry: the whole host is an aggregator
              "freeott.top",         # only known host for pay-TV Football ru
-             "streamhostingcdn.top"]  # ditto Sportdigital FUSSBALL
+             "streamhostingcdn.top",  # ditto Sportdigital FUSSBALL
+             "mcquack.net"]         # joke-domain restream serving pay
+                                    # Sport 1 Baltic; host-level. QazSport
+                                    # falls back to its own qazcdn edge.
 # Confirmed dead, geo-blocked from inside Azerbaijan, or not a legal free
 # feed. Excluded as candidates, from retention, and from discovery, so they
 # cannot come back. The channel ids stay in PICKS and rejoin automatically
@@ -166,6 +169,8 @@ STREAM_BLOCKLIST = {
     # 1080p wins ranking on the US runner but 403s from Azerbaijan;
     # the Rakuten-DE feed passes both vantages
     "https://amg00416-amg00416c9-samsung-in-4882.playouts.now.amagi.tv/playlist/amg00416-travelxp-travelxphd-samsungin/playlist.m3u8",
+    # ISP endpoint leaking SPI pay channel FightBox, DocuBox class
+    "https://webtvstream.bhtelecom.ba/fightbox.m3u8",
     # pay channel leak (GolTV Latin America, bare-IP restream host)
     "http://177.234.249.178:8888/GOLTV/index.m3u8",
     # SPI pay leak on an ISP test endpoint, same class as DocuBox
@@ -288,276 +293,6 @@ def baku_verdict(url):
     no-expiry note above."""
     e = baku_raw.get(url)
     return None if e is None else bool(e.get("ok"))
-
-by = {}
-blocked_ids = set()  # ids that lost at least one stream to the blocklist
-for s in get("streams.json"):
-    cid = s.get("channel")
-    if not cid or any(b in s["url"] for b in BAD_HOSTS):
-        continue
-    if s["url"] in STREAM_BLOCKLIST:
-        blocked_ids.add(cid)
-        continue
-    langs = feed_langs.get((cid, s.get("feed")))
-    if cid not in LANG_EXEMPT and langs and not (langs & ALLOWED_LANGS):
-        continue  # wrong-language feed (e.g. DW Arabic/Espanol)
-    by.setdefault(cid, []).append(s)
-
-# Official stream URLs taken from each broadcaster's own live page and
-# merged ahead of the iptv-org candidates, so ranking prefers them. Each
-# one is verified static (no per-session token) and still health-checked
-# like any other candidate -- but never dropped when the probe fails, see
-# best_working().
-# "expected_fail": True marks an override that is verified from Baku and
-# KNOWN to fail from the runner. Its daily failure is vantage noise, not
-# news, so it is reported on a quiet line and counted separately -- which
-# is the whole point: an unflagged override that starts failing still
-# stands out instead of being lost among the known-noisy ones. The run
-# also says so if a flagged override starts passing, since the flag is
-# then stale.
-OVERRIDES = {
-    # TRT's own CDN, the one tabii uses
-    "TRT1.tr": {"url": "https://trt.daioncdn.net/trt-1/master.m3u8?app=web",
-                "quality": "1080p", "user_agent": None, "referrer": None},
-    # cbcsport.az/live/ -- iptv-org's mn-nl host is stale (see
-    # STREAM_BLOCKLIST); this edge works and needs no Referer/User-Agent
-    "CBCSport.az": {"url": "https://cbcsports-live.lg.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
-                    "quality": "1080p", "user_agent": None, "referrer": None},
-    # atv.az/live -> Ant Media player on ATV's own server (the same host
-    # that already serves Kanal S). Needs no Referer/User-Agent.
-    "AzadTV.az": {"url": "https://lives.atv.az:5443/ATV_TV_STREAM/streams/atvcanli.m3u8",
-                  "quality": None, "user_agent": None, "referrer": None},
-    # BBC's own worldwide CDN. iptv-org's highest-ranked BBC News stream is
-    # a Samsung TV Plus US feed that 403s from Azerbaijan while passing from
-    # the runner, so ranking alone would keep picking an unwatchable stream.
-    # The "ww" edge works from both; the "uk" edge 403s outside the UK.
-    "BBCNews.uk": {"url": "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_hd_abr_v2.m3u8",
-                   "quality": "720p", "user_agent": None, "referrer": None},
-    # Sky News, pinned to the Xumo/NBCUniversal FAST host that
-    # xemzi.short.gy/1000018 resolves to -- one hop fewer, no query string,
-    # and Sky is a Comcast/NBCU channel so this is its own distributor. The
-    # shortener stays in the candidate pool as a fallback, not blocklisted.
-    "SkyNews.ie": {"url": "https://xumo-drct-skynews-nc91a.fast.nbcuni.com/live/master.m3u8",
-                   "quality": "1080p", "user_agent": None, "referrer": None},
-    # showtv.com.tr/canli-yayin serves this with st= and e= session params
-    # appended; dropping those two leaves a static URL that still answers
-    # from Azerbaijan, so Show TV enters as a working pick, not a waiting one.
-    "ShowTV.tr": {"url": "https://ciner.daioncdn.net/showtv/showtv.m3u8?ce=3&app=4bc856ef-4c68-4a94-bc87-37dfaaa66558",
-                  "quality": "1080p", "user_agent": None, "referrer": None},
-    # TRT Cocuk on TRT's own medya CDN. Verified 200 from Azerbaijan, but the
-    # runner reaches it only intermittently -- one failed probe was enough to
-    # drop it from the frozen Uşaq list. As an override it is never dropped
-    # on a failed probe; the run logs a warning instead.
-    "TRTCocuk.tr": {"url": "https://tv-trtcocuk.medya.trt.com.tr/master.m3u8",
-                    "quality": "1440p", "user_agent": None, "referrer": None},
-    # TRT Belgesel on TRT's own -dai host. Answers 200 with a manifest from
-    # Azerbaijan; the runner failed all three candidates the same morning
-    # ("404 not found, server error, unreachable"), so the vantage split is
-    # measured, not assumed. Quality per iptv-org's label for the channel.
-    "TRTBelgesel.tr": {"url": "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8",
-                       "quality": "720p", "user_agent": None, "referrer": None,
-                       "expected_fail": True},
-}
-# A pin is still subject to the host rules: BAD_HOSTS and STREAM_BLOCKLIST
-# record streams measured unusable, and "hand-verified" cannot outrank a
-# measurement. Anything dropped here is named in the run summary.
-override_blocked = []
-for _cid, _ov in OVERRIDES.items():
-    if not url_allowed(_ov["url"]):
-        override_blocked.append(_cid)
-        continue
-    by[_cid] = [_ov] + by.get(_cid, [])
-
-# Hand-found static candidates for channels iptv-org has no working entry
-# for. Probed every run like any other candidate; they simply join the
-# playlist the day they start answering. Never tokenized URLs.
-# TRT's daioncdn slugs are inconsistent: trt-1 and trtworld both work,
-# but trt2/trt-2 and trtbelgesel/trt-belgesel all 404 -- TRT simply does
-# not publish those two there. Kept on the unhyphenated form (the shape
-# that works for trtworld) so the daily probe keeps trying if that changes.
-WATCHLIST = {
-    "TRT2.tr": ["https://trt.daioncdn.net/trt2/master.m3u8?app=web"],
-    # TRT Belgesel: the -dai host is the one reported working (Nov 2025);
-    # both are TRT's own domains. iptv-org's only entry is the plain
-    # tv-trtbelgesel.medya host, which is in STREAM_BLOCKLIST (403 from AZ),
-    # and the daioncdn slug is one of the ones TRT does not publish.
-    # The -dai host is pinned in OVERRIDES now; these two stay as backups.
-    "TRTBelgesel.tr": ["https://tv-trtbelgesel.live.trt.com.tr/master.m3u8",
-                       "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
-    # Pluto TV Nature's only iptv-org stream sits on a DACH feed tagged
-    # deu, so the language filter drops it before ranking ever sees it.
-    # Same jmp2.uk shape as the Pluto entries already carried, with the
-    # channel id read off the images.pluto.tv logo URL in iptv-org's data.
-    "PlutoTVNature.de": ["https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8"],
-    # Documentary+ backup only; the LINEAR-887 feed it publishes on today
-    # is healthy, and ranking prefers whichever answers.
-    "DocumentaryPlus.us": ["https://ef79b15c8c7c46c7a9de9d33001dbd07.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-859-DOCUMENTARYPLUS-DOCUMENTARYPLUS/mt/documentaryplus/859/hls/master/playlist.m3u8"],
-    # Travelxp's official wurl Rakuten-DE playout, as a second candidate
-    # behind the Samsung-India one that 403s. Both come from iptv-org's
-    # provider files (<country>_<provider>.m3u), where the entries carry
-    # no tvg-id at all -- nothing keys them to a channel, so hand-keying
-    # here is the only way they can ever be found. The Rakuten-DE feed may
-    # carry German audio; pending a verdict once it plays. Earth Touch TV
-    # came in the same way and has since been pinned as an OVERRIDE.
-    # The Samsung-India playout that used to head this list is in
-    # STREAM_BLOCKLIST now: it outranked everything on the runner and 403s
-    # from Azerbaijan, so it published as a channel nobody in Baku could watch.
-    "Travelxp.in": ["https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8"],
-    # Earth Touch TV, demoted from OVERRIDES. Its pin claimed "Baku-verified"
-    # but no probe from any vantage ever passed: bare, VLC, Tizen, ExoPlayer,
-    # no-User-Agent, and Referer/Origin variants for samsungtvplus, wurl and
-    # amagi all returned 403 from Baku, and the runner 403s too. Kept here as
-    # the record of the only known URL -- currently INERT, because the
-    # samsung-gb BAD_HOSTS rule excludes it. It revives only if that rule is
-    # relaxed or the slug family starts answering.
-    "EarthTouchTV.za": ["https://amg01823-earthtouch-amg01823c1-samsung-gb-862.playouts.now.amagi.tv/playlist/amg01823-earthtouch-earthtouch-samsunggb/playlist.m3u8"],
-    # NatureTime's genuine slugs. The two blocklisted URLs above carry
-    # "lovenature-au" in the path: upstream files Love Nature Australia
-    # playouts under NatureTime.ca, so ranking kept picking the wrong
-    # channel's feed. These two name naturetime and answer from Azerbaijan.
-    # ("url", "quality") labels a candidate whose resolution is known from
-    # iptv-org but which the probe cannot report; a bare string means unknown.
-    "NatureTime.ca": [("https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8", "1080p"),
-                      "https://amg00090-blueantmedia-naturetime-samsungse-axgcn.amagi.tv/playlist/amg00090-blueantmedia-naturetime-samsungse/playlist.m3u8"],
-    # ---- locked İdman members, hand-keyed from the Baku hunt -------------
-    # Every URL below returned a manifest from Baku on the day it was added.
-    # Most of these channels' upstream feeds are tagged in a language outside
-    # ALLOWED_LANGS (ita, pol, fra, uzb...), so the language filter drops them
-    # before ranking ever sees them -- a WATCHLIST entry is the only route in.
-    # Several ride unofficial mirrors. They are free-to-air channels, and the
-    # standing ruling is that an FTA channel on a mirror is a KEEP: it is
-    # named by the suspicious-host audit for a human, never auto-dropped.
-    "TRTSpor.tr": [("https://corestream.siteyaptim.live/trt-spor/index.m3u8", "720p")],
-    "ZorTV.uz": [("https://stream8.cinerama.uz/1016/tracks-v1a1/mono.m3u8", "576p")],
-    "Sport.uz": ["https://stream8.cinerama.uz/1004/tracks-v1a1/mono.m3u8"],
-    "TVPSport.pl": [("https://tvpi.travny.workers.dev/tvpsport.m3u8", "1080p"),
-                    ("http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8", "1080p")],
-    "Sportitalia.it": [("https://amg01370-italiansportcom-sportitalia-rakuten-3hmdb.amagi.tv/hls/amagi_hls_data_rakutenAA-sportitalia-rakuten/CDN/master.m3u8", "1080p"),
-                       ("https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8", "1080p")],
-    # SuperTennix is SuperTennis's own OTT. The outgest UUID may prove
-    # ephemeral; it answered from Baku the day it was added, and the daily
-    # probe will retire it if it stops.
-    "SuperTennis.it": [("https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8", "1080p")],
-    "LaUne.be": [("http://145.239.5.177/329/index.m3u8", "720p")],
-    # ---- SUBSTITUTES bench, last-known-good URLs -------------------------
-    # Bench readiness must not depend on iptv-org churn: a reserve that
-    # vanishes upstream would silently stop being able to cover. Each of
-    # these is the URL the channel was last published on. Upstream still
-    # lists every one of them today, the Pluto/jmp2 ones included, so all
-    # of these copies are deduped and latent by design -- they arm only if
-    # iptv-org drops the URL. Latent is the intended resting state; do not
-    # read a deduped entry as a dead one.
-    "BBCEarth.uk": ["https://pb-zjy36qhp8e8cz.akamaized.net/BBC_Earth_US.m3u8"],
-    "SmithsonianChannelSelects.us": ["https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8"],
-    # The samsung-gb playout this used to name is in STREAM_BLOCKLIST now
-    # (200 for the runner, 403 from Azerbaijan). This rakuten-us playout is
-    # the same channel and answers 200 from Azerbaijan. Hand-keyed: the
-    # provider file entry carries no tvg-id.
-    "CuriosityNOW.de": ["https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8"],
-    "TerraMaterWILD.de": ["https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8"],
-    "CNAOriginals.sg": ["https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8"],
-    "NHKWorldJapan.jp": ["https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8"],
-    "WildEarth.za": ["https://dqga3jatxofgx.cloudfront.net/WildEarth.m3u8"],
-    "RTDocumentary.ru": ["https://rt-rtd.rttv.com/dvr/rtdoc/playlist.m3u8"],
-    "WaterBear.ch": ["https://amg01415-waterbearnetwor-waterbear-samsunguk-1h0y8.amagi.tv/playlist/amg01415-waterbearnetwor-waterbear-samsunguk/playlist.m3u8"],
-    "LoveThePlanet.es": ["https://amg01821-lovetv-amg01821c8-xumo-us-3443.playouts.now.amagi.tv/playlist.m3u8"],
-    "AutenticHistory.de": ["https://9e754fa707344ccca6d84955c8fcaf36.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RlaxxTV-eu_AutenticHistory/playlist.m3u8"],
-    "ChinaTravel.cn": ["https://fastlive.cctvplus.com/out/v1/ca6f9297b7314a63959435028af287fc/index.m3u8"],
-    "PlutoTVScience.us": ["https://jmp2.uk/plu-563a970aa1a1f7fe7c9daad7.m3u8"],
-    "PlutoTVHistory.de": ["https://jmp2.uk/plu-5d4af1803e7983b391d73b13.m3u8"],
-    # ----------------------------------------------------------------------
-    # cnnturk.com's own player. 403 from Azerbaijan today while Dream Turk
-    # on the same duhnet CDN answers, so it is channel-level geo-blocking,
-    # not a dead link -- probed daily so it joins the moment that lifts.
-    "CNNTurk.tr": ["https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8"],
-    # TRT Cocuk recovery seeds. Its only iptv-org stream is on the medya
-    # host that geo-blocks, and TRT's daioncdn slugs are inconsistent
-    # (trtworld unhyphenated works, trt-1 hyphenated works), so both
-    # spellings are seeded. Both 404 today; probed daily regardless.
-    "TRTCocuk.tr": ["https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web",
-                    "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web"],
-    # CNN International has no free official feed: cnn.com gates live behind
-    # a TV-provider login and no Pluto/Samsung/Rakuten/Xumo endpoint for it
-    # is reachable. It holds position 3 as a waiting pick; add a verified
-    # static URL here if one ever appears.
-}
-# An entry is a bare URL, or ("url", "quality") when the resolution is known
-# from iptv-org's label. Quality only affects ranking and the display suffix;
-# it is never trusted over a probe, because it is not measured here.
-watchlist_live = {}
-watchlist_suppressed = []
-for _cid, _urls in WATCHLIST.items():
-    _known = {s["url"] for s in by.get(_cid, [])}
-    for _entry in _urls:
-        _u, _q = _entry if isinstance(_entry, tuple) else (_entry, None)
-        if not url_allowed(_u):
-            # suppressed, not forgotten: named in the run summary so a
-            # WATCHLIST line cannot quietly become dead config
-            watchlist_suppressed.append((_cid, _u))
-            continue
-        if looks_tokenized(_u):
-            continue
-        if _u in _known:
-            continue  # iptv-org already carries it; no need to probe twice
-        if state["watchlist"].get(_u, {}).get("fails", 0) >= PRUNE_AFTER:
-            continue  # pruned: dead for PRUNE_AFTER runs, see run summary
-        watchlist_live[_u] = _cid
-        by.setdefault(_cid, []).append(
-            {"url": _u, "quality": _q, "user_agent": None,
-             "referrer": None, "feed": None})
-
-# ---------------------------------------------------------------------
-# SOURCE POLICY -- applies to SOURCES and AUTO_RULES alike, and is a hard
-# rule, not a preference. Streams may come from exactly two places:
-#   1. the iptv-org public database, and
-#   2. a broadcaster's own domain (its official live page).
-# Never add a scraper for an aggregator, a restream site, an IPTV portal,
-# or a third-party playlist dump, however convenient. Legal-only.
-# ---------------------------------------------------------------------
-
-# Channel ids that must never be auto-added, whatever AUTO_RULES says.
-# Seeded with channels that were deliberately removed by hand, so the
-# rules engine cannot quietly undo that curation.
-EXCLUDE = {
-    # dropped in the first cleanup
-    "AyazTV.az", "ELTV.az", "KapazTV.az", "VilayetTV.az", "KNMusicTV.az",
-    "TJKTV.tr",
-    # dropped in the Turkish music cleanup
-    "Number1Damar.tr", "Number1Dance.tr", "PowerDance.tr", "PowerLove.tr",
-    # dropped because it 403s from Azerbaijan
-    "CBSSportsHQ.us",
-    # state broadcasters that backfilled Beynəlxalq Xəbər; seats refill by
-    # ranking as usual
-    "RT.ru", "RTIndia.in", "Telesur.ve",
-    # hand-removed in the per-group policy overhaul; EXCLUDE so neither the
-    # İdman/Sənədli rules nor the monthly AZ sweep can ever bring them back
-    "AlvinChannelTV.az", "TRTTurk.tr", "HaberturkTV.tr", "BloombergHT.tr",
-    "FinansTurkTV.tr", "Haber61TV.tr", "LifeTV.tr", "TRTArabi.tr",
-    "TurkHaberTV.tr", "KralPopTV.tr", "MBCFM.ae", "Number1Ask.tr",
-    "CNBCe.tr", "GuneydoguTV.tr",
-}
-
-# Subscription broadcasters. Never auto-added from any source -- carrying
-# them would breach the legal-only rule in the SOURCE POLICY above.
-# Matched case-insensitively against the channel name and its network.
-# Free-to-air Match! (the main channel) is deliberately absent, so it can
-# land in İdman if a stream ever passes; the premium Match! tier is here.
-PAY_TV_BLOCK = {
-    "bein", "sky sport", "setanta", "eurosport", "discovery", "espn",
-    "fox sport", "dazn", "viaplay", "canal+", "supersport", "arena sport",
-    "match! futbol", "match! arena", "match! igra", "match! premier",
-    "match! ultra", "match! strana", "match! boets", "match! planeta",
-    "okko", "khl", "boks tv",
-    # same tier, added by judgement
-    "premier sport", "sportklub", "polsat sport", "digi sport",
-    "nova sport", "tnt sports", "optus sport", "sportsnet", "bt sport",
-    "movistar", "orange sport", "telekom sport", "ziggo sport",
-    "star sports", "ufc fight pass", "nba league pass", "nfl sunday ticket",
-}
-# Sports sub-genres that are not what this playlist is for. Sports only.
-NICHE_SKIP = re.compile(
-    r"college|campus|horse|equestrian|rodeo|poker|billiard|fishing|"
-    r"hunting|cornhole|pickleball", re.I)
 
 # Channels the iptv-org database has no entry for at all. Their ids are
 # written in the shape iptv-org would use, so upstream data merges
@@ -692,6 +427,295 @@ LOCKED_GROUPS = {
         "DW.de",                # 9  English feed
     ],
 }
+
+# Membership is the user's explicit choice, so a locked member is exempt from
+# the feed-language filter exactly as LANG_EXEMPT is: a feed tagged fra / ita
+# / pol / uzb must never hide the stream of a channel the user put in a
+# locked group by hand. This is why LOCKED_GROUPS is defined up here, above
+# the stream load, rather than beside the other curation config.
+LOCKED_MEMBER_IDS = {cid for _idl in LOCKED_GROUPS.values() for cid in _idl}
+
+by = {}
+blocked_ids = set()  # ids that lost at least one stream to the blocklist
+for s in get("streams.json"):
+    cid = s.get("channel")
+    if not cid or any(b in s["url"] for b in BAD_HOSTS):
+        continue
+    if s["url"] in STREAM_BLOCKLIST:
+        blocked_ids.add(cid)
+        continue
+    langs = feed_langs.get((cid, s.get("feed")))
+    if (cid not in LANG_EXEMPT and cid not in LOCKED_MEMBER_IDS
+            and langs and not (langs & ALLOWED_LANGS)):
+        continue  # wrong-language feed (e.g. DW Arabic/Espanol)
+    by.setdefault(cid, []).append(s)
+
+# Official stream URLs taken from each broadcaster's own live page and
+# merged ahead of the iptv-org candidates, so ranking prefers them. Each
+# one is verified static (no per-session token) and still health-checked
+# like any other candidate -- but never dropped when the probe fails, see
+# best_working().
+# "expected_fail": True marks an override that is verified from Baku and
+# KNOWN to fail from the runner. Its daily failure is vantage noise, not
+# news, so it is reported on a quiet line and counted separately -- which
+# is the whole point: an unflagged override that starts failing still
+# stands out instead of being lost among the known-noisy ones. The run
+# also says so if a flagged override starts passing, since the flag is
+# then stale.
+OVERRIDES = {
+    # TRT's own CDN, the one tabii uses
+    "TRT1.tr": {"url": "https://trt.daioncdn.net/trt-1/master.m3u8?app=web",
+                "quality": "1080p", "user_agent": None, "referrer": None},
+    # cbcsport.az/live/ -- iptv-org's mn-nl host is stale (see
+    # STREAM_BLOCKLIST); this edge works and needs no Referer/User-Agent
+    "CBCSport.az": {"url": "https://cbcsports-live.lg.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8",
+                    "quality": "1080p", "user_agent": None, "referrer": None},
+    # atv.az/live -> Ant Media player on ATV's own server (the same host
+    # that already serves Kanal S). Needs no Referer/User-Agent.
+    "AzadTV.az": {"url": "https://lives.atv.az:5443/ATV_TV_STREAM/streams/atvcanli.m3u8",
+                  "quality": None, "user_agent": None, "referrer": None},
+    # BBC's own worldwide CDN. iptv-org's highest-ranked BBC News stream is
+    # a Samsung TV Plus US feed that 403s from Azerbaijan while passing from
+    # the runner, so ranking alone would keep picking an unwatchable stream.
+    # The "ww" edge works from both; the "uk" edge 403s outside the UK.
+    "BBCNews.uk": {"url": "https://vs-hls-push-ww-live.akamaized.net/x=4/i=urn:bbc:pips:service:bbc_news_channel_hd/mobile_wifi_main_hd_abr_v2.m3u8",
+                   "quality": "720p", "user_agent": None, "referrer": None},
+    # Sky News, pinned to the Xumo/NBCUniversal FAST host that
+    # xemzi.short.gy/1000018 resolves to -- one hop fewer, no query string,
+    # and Sky is a Comcast/NBCU channel so this is its own distributor. The
+    # shortener stays in the candidate pool as a fallback, not blocklisted.
+    "SkyNews.ie": {"url": "https://xumo-drct-skynews-nc91a.fast.nbcuni.com/live/master.m3u8",
+                   "quality": "1080p", "user_agent": None, "referrer": None},
+    # showtv.com.tr/canli-yayin serves this with st= and e= session params
+    # appended; dropping those two leaves a static URL that still answers
+    # from Azerbaijan, so Show TV enters as a working pick, not a waiting one.
+    "ShowTV.tr": {"url": "https://ciner.daioncdn.net/showtv/showtv.m3u8?ce=3&app=4bc856ef-4c68-4a94-bc87-37dfaaa66558",
+                  "quality": "1080p", "user_agent": None, "referrer": None},
+    # TRT Cocuk on TRT's own medya CDN. Verified 200 from Azerbaijan, but the
+    # runner reaches it only intermittently -- one failed probe was enough to
+    # drop it from the frozen Uşaq list. As an override it is never dropped
+    # on a failed probe; the run logs a warning instead.
+    "TRTCocuk.tr": {"url": "https://tv-trtcocuk.medya.trt.com.tr/master.m3u8",
+                    "quality": "1440p", "user_agent": None, "referrer": None},
+    # TRT Belgesel on TRT's own -dai host. Answers 200 with a manifest from
+    # Azerbaijan; the runner failed all three candidates the same morning
+    # ("404 not found, server error, unreachable"), so the vantage split is
+    # measured, not assumed. Quality per iptv-org's label for the channel.
+    "TRTBelgesel.tr": {"url": "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8",
+                       "quality": "720p", "user_agent": None, "referrer": None,
+                       "expected_fail": True},
+}
+# A pin is still subject to the host rules: BAD_HOSTS and STREAM_BLOCKLIST
+# record streams measured unusable, and "hand-verified" cannot outrank a
+# measurement. Anything dropped here is named in the run summary.
+override_blocked = []
+for _cid, _ov in OVERRIDES.items():
+    if not url_allowed(_ov["url"]):
+        override_blocked.append(_cid)
+        continue
+    by[_cid] = [_ov] + by.get(_cid, [])
+
+# Hand-found static candidates for channels iptv-org has no working entry
+# for. Probed every run like any other candidate; they simply join the
+# playlist the day they start answering. Never tokenized URLs.
+# TRT's daioncdn slugs are inconsistent: trt-1 and trtworld both work,
+# but trt2/trt-2 and trtbelgesel/trt-belgesel all 404 -- TRT simply does
+# not publish those two there. Kept on the unhyphenated form (the shape
+# that works for trtworld) so the daily probe keeps trying if that changes.
+WATCHLIST = {
+    "TRT2.tr": ["https://trt.daioncdn.net/trt2/master.m3u8?app=web"],
+    # TRT Belgesel: the -dai host is the one reported working (Nov 2025);
+    # both are TRT's own domains. iptv-org's only entry is the plain
+    # tv-trtbelgesel.medya host, which is in STREAM_BLOCKLIST (403 from AZ),
+    # and the daioncdn slug is one of the ones TRT does not publish.
+    # The -dai host is pinned in OVERRIDES now; these two stay as backups.
+    "TRTBelgesel.tr": ["https://tv-trtbelgesel.live.trt.com.tr/master.m3u8",
+                       "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web"],
+    # Pluto TV Nature's only iptv-org stream sits on a DACH feed tagged
+    # deu, so the language filter drops it before ranking ever sees it.
+    # Same jmp2.uk shape as the Pluto entries already carried, with the
+    # channel id read off the images.pluto.tv logo URL in iptv-org's data.
+    "PlutoTVNature.de": ["https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8"],
+    # Documentary+ backup only; the LINEAR-887 feed it publishes on today
+    # is healthy, and ranking prefers whichever answers.
+    "DocumentaryPlus.us": ["https://ef79b15c8c7c46c7a9de9d33001dbd07.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-859-DOCUMENTARYPLUS-DOCUMENTARYPLUS/mt/documentaryplus/859/hls/master/playlist.m3u8"],
+    # Travelxp's official wurl Rakuten-DE playout, as a second candidate
+    # behind the Samsung-India one that 403s. Both come from iptv-org's
+    # provider files (<country>_<provider>.m3u), where the entries carry
+    # no tvg-id at all -- nothing keys them to a channel, so hand-keying
+    # here is the only way they can ever be found. The Rakuten-DE feed may
+    # carry German audio; pending a verdict once it plays. Earth Touch TV
+    # came in the same way and has since been pinned as an OVERRIDE.
+    # The Samsung-India playout that used to head this list is in
+    # STREAM_BLOCKLIST now: it outranked everything on the runner and 403s
+    # from Azerbaijan, so it published as a channel nobody in Baku could watch.
+    "Travelxp.in": ["https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8"],
+    # Earth Touch TV, demoted from OVERRIDES. Its pin claimed "Baku-verified"
+    # but no probe from any vantage ever passed: bare, VLC, Tizen, ExoPlayer,
+    # no-User-Agent, and Referer/Origin variants for samsungtvplus, wurl and
+    # amagi all returned 403 from Baku, and the runner 403s too. Kept here as
+    # the record of the only known URL -- currently INERT, because the
+    # samsung-gb BAD_HOSTS rule excludes it. It revives only if that rule is
+    # relaxed or the slug family starts answering.
+    "EarthTouchTV.za": ["https://amg01823-earthtouch-amg01823c1-samsung-gb-862.playouts.now.amagi.tv/playlist/amg01823-earthtouch-earthtouch-samsunggb/playlist.m3u8"],
+    # NatureTime's genuine slugs. The two blocklisted URLs above carry
+    # "lovenature-au" in the path: upstream files Love Nature Australia
+    # playouts under NatureTime.ca, so ranking kept picking the wrong
+    # channel's feed. These two name naturetime and answer from Azerbaijan.
+    # ("url", "quality") labels a candidate whose resolution is known from
+    # iptv-org but which the probe cannot report; a bare string means unknown.
+    "NatureTime.ca": [("https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8", "1080p"),
+                      "https://amg00090-blueantmedia-naturetime-samsungse-axgcn.amagi.tv/playlist/amg00090-blueantmedia-naturetime-samsungse/playlist.m3u8"],
+    # ---- locked İdman members, hand-keyed from the Baku hunt -------------
+    # Every URL below returned a manifest from Baku on the day it was added.
+    # These were the ONLY route in while the feed-language filter still hid
+    # these channels' upstream streams (tagged ita / pol / fra / uzb, outside
+    # ALLOWED_LANGS). Locked members are exempt from that filter now, so
+    # iptv-org carries most of these itself and the copies here are deduped
+    # and LATENT -- insurance that arms the day upstream drops a URL, not the
+    # thing keeping the channel alive. Several ride unofficial mirrors; the
+    # standing ruling is that an FTA channel on a mirror is a KEEP: it is
+    # named by the suspicious-host audit for a human, never auto-dropped.
+    "TRTSpor.tr": [("https://corestream.siteyaptim.live/trt-spor/index.m3u8", "720p")],
+    "ZorTV.uz": [("https://stream8.cinerama.uz/1016/tracks-v1a1/mono.m3u8", "576p")],
+    "Sport.uz": ["https://stream8.cinerama.uz/1004/tracks-v1a1/mono.m3u8"],
+    "TVPSport.pl": [("https://tvpi.travny.workers.dev/tvpsport.m3u8", "1080p"),
+                    ("http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8", "1080p")],
+    "Sportitalia.it": [("https://amg01370-italiansportcom-sportitalia-rakuten-3hmdb.amagi.tv/hls/amagi_hls_data_rakutenAA-sportitalia-rakuten/CDN/master.m3u8", "1080p"),
+                       ("https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8", "1080p")],
+    # SuperTennix is SuperTennis's own OTT. The outgest UUID may prove
+    # ephemeral; it answered from Baku the day it was added, and the daily
+    # probe will retire it if it stops.
+    "SuperTennis.it": [("https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8", "1080p")],
+    "LaUne.be": [("http://145.239.5.177/329/index.m3u8", "720p")],
+    # ---- SUBSTITUTES bench, last-known-good URLs -------------------------
+    # Bench readiness must not depend on iptv-org churn: a reserve that
+    # vanishes upstream would silently stop being able to cover. Each of
+    # these is the URL the channel was last published on. Upstream still
+    # lists every one of them today, the Pluto/jmp2 ones included, so all
+    # of these copies are deduped and latent by design -- they arm only if
+    # iptv-org drops the URL. Latent is the intended resting state; do not
+    # read a deduped entry as a dead one.
+    "BBCEarth.uk": ["https://pb-zjy36qhp8e8cz.akamaized.net/BBC_Earth_US.m3u8"],
+    "SmithsonianChannelSelects.us": ["https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8"],
+    # The samsung-gb playout this used to name is in STREAM_BLOCKLIST now
+    # (200 for the runner, 403 from Azerbaijan). This rakuten-us playout is
+    # the same channel and answers 200 from Azerbaijan. Hand-keyed: the
+    # provider file entry carries no tvg-id.
+    "CuriosityNOW.de": ["https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8"],
+    "TerraMaterWILD.de": ["https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8"],
+    "CNAOriginals.sg": ["https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8"],
+    "NHKWorldJapan.jp": ["https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8"],
+    "WildEarth.za": ["https://dqga3jatxofgx.cloudfront.net/WildEarth.m3u8"],
+    "RTDocumentary.ru": ["https://rt-rtd.rttv.com/dvr/rtdoc/playlist.m3u8"],
+    "WaterBear.ch": ["https://amg01415-waterbearnetwor-waterbear-samsunguk-1h0y8.amagi.tv/playlist/amg01415-waterbearnetwor-waterbear-samsunguk/playlist.m3u8"],
+    "LoveThePlanet.es": ["https://amg01821-lovetv-amg01821c8-xumo-us-3443.playouts.now.amagi.tv/playlist.m3u8"],
+    "AutenticHistory.de": ["https://9e754fa707344ccca6d84955c8fcaf36.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/RlaxxTV-eu_AutenticHistory/playlist.m3u8"],
+    "ChinaTravel.cn": ["https://fastlive.cctvplus.com/out/v1/ca6f9297b7314a63959435028af287fc/index.m3u8"],
+    "PlutoTVScience.us": ["https://jmp2.uk/plu-563a970aa1a1f7fe7c9daad7.m3u8"],
+    "PlutoTVHistory.de": ["https://jmp2.uk/plu-5d4af1803e7983b391d73b13.m3u8"],
+    # ----------------------------------------------------------------------
+    # cnnturk.com's own player. 403 from Azerbaijan today while Dream Turk
+    # on the same duhnet CDN answers, so it is channel-level geo-blocking,
+    # not a dead link -- probed daily so it joins the moment that lifts.
+    "CNNTurk.tr": ["https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8"],
+    # TRT Cocuk recovery seeds. Its only iptv-org stream is on the medya
+    # host that geo-blocks, and TRT's daioncdn slugs are inconsistent
+    # (trtworld unhyphenated works, trt-1 hyphenated works), so both
+    # spellings are seeded. Both 404 today; probed daily regardless.
+    "TRTCocuk.tr": ["https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web",
+                    "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web"],
+    # CNN International has no free official feed: cnn.com gates live behind
+    # a TV-provider login and no Pluto/Samsung/Rakuten/Xumo endpoint for it
+    # is reachable. It holds position 3 as a waiting pick; add a verified
+    # static URL here if one ever appears.
+}
+# An entry is a bare URL, or ("url", "quality") when the resolution is known
+# from iptv-org's label. Quality only affects ranking and the display suffix;
+# it is never trusted over a probe, because it is not measured here.
+watchlist_live = {}
+watchlist_suppressed = []
+for _cid, _urls in WATCHLIST.items():
+    _known = {s["url"] for s in by.get(_cid, [])}
+    for _entry in _urls:
+        _u, _q = _entry if isinstance(_entry, tuple) else (_entry, None)
+        if not url_allowed(_u):
+            # suppressed, not forgotten: named in the run summary so a
+            # WATCHLIST line cannot quietly become dead config
+            watchlist_suppressed.append((_cid, _u))
+            continue
+        if looks_tokenized(_u):
+            continue
+        if _u in _known:
+            continue  # iptv-org already carries it; no need to probe twice
+        if state["watchlist"].get(_u, {}).get("fails", 0) >= PRUNE_AFTER:
+            continue  # pruned: dead for PRUNE_AFTER runs, see run summary
+        watchlist_live[_u] = _cid
+        by.setdefault(_cid, []).append(
+            {"url": _u, "quality": _q, "user_agent": None,
+             "referrer": None, "feed": None})
+
+# ---------------------------------------------------------------------
+# SOURCE POLICY -- applies to SOURCES and AUTO_RULES alike, and is a hard
+# rule, not a preference. Streams may come from exactly two places:
+#   1. the iptv-org public database, and
+#   2. a broadcaster's own domain (its official live page).
+# Never add a scraper for an aggregator, a restream site, an IPTV portal,
+# or a third-party playlist dump, however convenient. Legal-only.
+# ---------------------------------------------------------------------
+
+# Channel ids that must never be auto-added, whatever AUTO_RULES says.
+# Seeded with channels that were deliberately removed by hand, so the
+# rules engine cannot quietly undo that curation.
+EXCLUDE = {
+    # dropped in the first cleanup
+    "AyazTV.az", "ELTV.az", "KapazTV.az", "VilayetTV.az", "KNMusicTV.az",
+    "TJKTV.tr",
+    # dropped in the Turkish music cleanup
+    "Number1Damar.tr", "Number1Dance.tr", "PowerDance.tr", "PowerLove.tr",
+    # dropped because it 403s from Azerbaijan
+    "CBSSportsHQ.us",
+    # state broadcasters that backfilled Beynəlxalq Xəbər; seats refill by
+    # ranking as usual
+    "RT.ru", "RTIndia.in", "Telesur.ve",
+    # hand-removed in the per-group policy overhaul; EXCLUDE so neither the
+    # İdman/Sənədli rules nor the monthly AZ sweep can ever bring them back
+    "AlvinChannelTV.az", "TRTTurk.tr", "HaberturkTV.tr", "BloombergHT.tr",
+    "FinansTurkTV.tr", "Haber61TV.tr", "LifeTV.tr", "TRTArabi.tr",
+    "TurkHaberTV.tr", "KralPopTV.tr", "MBCFM.ae", "Number1Ask.tr",
+    "CNBCe.tr", "GuneydoguTV.tr",
+    # duplicate tvg-id for one channel: .de and .se are the same Pluto
+    # Snooker 900 feed and both rank onto the bench, taking two seats for
+    # one channel. Keep .de.
+    "PlutoTVSnooker900.se",
+}
+
+# Subscription broadcasters. Never auto-added from any source -- carrying
+# them would breach the legal-only rule in the SOURCE POLICY above.
+# Matched case-insensitively against the channel name and its network.
+# Free-to-air Match! (the main channel) is deliberately absent, so it can
+# land in İdman if a stream ever passes; the premium Match! tier is here.
+PAY_TV_BLOCK = {
+    "bein", "sky sport", "setanta", "eurosport", "discovery", "espn",
+    "fox sport", "dazn", "viaplay", "canal+", "supersport", "arena sport",
+    "match! futbol", "match! arena", "match! igra", "match! premier",
+    "match! ultra", "match! strana", "match! boets", "match! planeta",
+    "okko", "khl", "boks tv",
+    # same tier, added by judgement
+    # SPI International's FilmBox pay stable. Third leak from it this week
+    # (DocuBox on an ISP test endpoint, Fast&FunBox on another, FightBox on
+    # a telco's web stream), so the whole family is named rather than chased
+    # one leaked URL at a time.
+    "fightbox", "docubox", "filmbox", "fashionbox", "gametoon",
+    "premier sport", "sportklub", "polsat sport", "digi sport",
+    "nova sport", "tnt sports", "optus sport", "sportsnet", "bt sport",
+    "movistar", "orange sport", "telekom sport", "ziggo sport",
+    "star sports", "ufc fight pass", "nba league pass", "nfl sunday ticket",
+}
+# Sports sub-genres that are not what this playlist is for. Sports only.
+NICHE_SKIP = re.compile(
+    r"college|campus|horse|equestrian|rodeo|poker|billiard|fishing|"
+    r"hunting|cornhole|pickleball", re.I)
 
 # An ordered bench for a locked group. A locked group publishes exactly its
 # members, so a member with no working stream simply leaves the group one
