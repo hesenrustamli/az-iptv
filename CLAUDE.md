@@ -183,6 +183,16 @@ closed/NSFW and anything whose `broadcast_area` is only city `ct/` or subdivisio
 `s/` level) → `NICHE_SKIP` (İdman only) → `latin_only()`. Note that
 `broadcast_area`, `languages` and `format` live on the **feed**, not the channel.
 
+**What counts as a probe pass** — `probe()` returns `ok` only for a **2xx
+response whose body starts with `#EXTM3U`**. A `Content-Type` header alone is
+never enough: RTP 2's own origin answered an empty `204` tagged `mpegurl`,
+which read as a pass, held a bench seat, and recorded a false `ok` in
+`BAKU.json` that the no-expiry rule would have kept forever. Requiring the
+manifest makes a flapping origin hide and heal like any other dead stream —
+the designed response — instead of publishing an entry that cannot play. The
+rule is one code path, so runner probes, local probes and what `BAKU.json`
+records all move together.
+
 **`AUTO_CAP` + `TOTAL_MAX`** — `AUTO_CAP` is now empty: no group is
 machine-managed, so there is no automatic tail to trim; `TOTAL_MAX = 199` is a hard ceiling on the whole playlist. The build
 runs in two passes so the ceiling knows how many slots `PICKS` occupies, then

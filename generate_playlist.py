@@ -933,10 +933,20 @@ def probe(stream):
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=12, context=SSL_CTX) as r:
             body = r.read(2048)
-            ctype = (r.headers.get("Content-Type") or "").lower()
-            if b"#EXTM3U" in body or "mpegurl" in ctype or "octet-stream" in ctype:
+            code = getattr(r, "status", None) or r.getcode()
+            # A pass requires 2xx AND a body that really is a playlist: HLS
+            # puts #EXTM3U on the first line, so anything else is not one.
+            # Content-Type is deliberately NOT trusted on its own -- RTP 2's
+            # own origin answered an empty 204 tagged as mpegurl, which read
+            # as a pass, held a seat and recorded a false ok in BAKU.json.
+            # Requiring the manifest makes a flapping origin hide and heal
+            # like any other dead stream, which is the designed response.
+            head = body.lstrip()
+            if head[:3] == bytes.fromhex("efbbbf"):   # UTF-8 BOM
+                head = head[3:].lstrip()
+            if 200 <= (code or 0) < 300 and head.startswith(b"#EXTM3U"):
                 return "ok", "ok"
-            return "dead", "not a manifest"
+            return "dead", "empty response" if not body.strip() else "not a manifest"
     except urllib.error.HTTPError as e:
         # 403/451 only earns the benefit of the doubt on AZ-facing hosts.
         # Anywhere else (and for 404/5xx) it means unusable from here.
