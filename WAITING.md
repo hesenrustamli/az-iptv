@@ -18,6 +18,7 @@ right now. Every one is re-probed on each run and rejoins
 | DW Documentary | Sənədli | 0 | no candidate URLs |
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Futbol | İdman | 1 | unreachable |
+| GunAz TV | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | Kanal 35 | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | Olympic Channel | İdman | 3 | 403 forbidden |
