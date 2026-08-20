@@ -3,25 +3,43 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 23
+        "fails": 24
       }
     }
   },
   "watchlist": {
+    "http://145.239.5.177/329/index.m3u8": {
+      "fails": 0
+    },
+    "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8": {
+      "fails": 0
+    },
     "https://amg00090-blueantmedia-naturetime-samsungse-axgcn.amagi.tv/playlist/amg00090-blueantmedia-naturetime-samsungse/playlist.m3u8": {
       "fails": 0
     },
     "https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8": {
       "fails": 0
     },
+    "https://amg01370-italiansportcom-sportitalia-rakuten-3hmdb.amagi.tv/hls/amagi_hls_data_rakutenAA-sportitalia-rakuten/CDN/master.m3u8": {
+      "fails": 0
+    },
     "https://bamusa-naturetime-emea-eng-rakuten.amagi.tv/playlist.m3u8": {
+      "fails": 0
+    },
+    "https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8": {
       "fails": 0
     },
     "https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8": {
       "fails": 0
     },
+    "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8": {
+      "fails": 0
+    },
     "https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8": {
-      "fails": 15
+      "fails": 16
+    },
+    "https://stream8.cinerama.uz/1004/tracks-v1a1/mono.m3u8": {
+      "fails": 0
     },
     "https://travelxp-travelxp-2-de.rakuten.wurl.tv/playlist.m3u8": {
       "fails": 0
@@ -33,22 +51,25 @@
       "fails": 7
     },
     "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web": {
-      "fails": 10
+      "fails": 11
     },
     "https://trt.daioncdn.net/trt2/master.m3u8?app=web": {
-      "fails": 16
+      "fails": 17
     },
     "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web": {
-      "fails": 16
+      "fails": 17
     },
     "https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web": {
-      "fails": 10
+      "fails": 11
     },
     "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8": {
       "fails": 2
     },
     "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8": {
-      "fails": 8
+      "fails": 9
+    },
+    "https://tvpi.travny.workers.dev/tvpsport.m3u8": {
+      "fails": 0
     }
   }
 }
