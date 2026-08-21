@@ -148,9 +148,10 @@ counts, not just the hostname. Beyond the two dead CDNs it now carries
 three — Curiosity NOW, Earth Touch, NatureTime — passing the US runner and
 403ing from Baku, so the slug family is a rule rather than a URL-at-a-time
 chase. `samsunguk` is deliberately **not** matched: WaterBear and INWILD ride
-it and neither vantage has been measured. It also carries two pirate
-restreamers at host level, `ayakkabiparti.lol` and `freem3u.xyz` (the latter
-promoted from a single-URL blocklist entry). Both **pass from Baku** — which is
+it and neither vantage has been measured. It also carries pirate restreamers
+at host level (`ayakkabiparti.lol`, `freem3u.xyz`, `freeott.top`,
+`streamhostingcdn.top`, `mcquack.net`) and the two slate-servers
+`kazmazpaz.ru` and `cinerama.uz`. All of them **pass from Baku** — which is
 the point: see the legitimacy rule in §2.
 
 **Suspicious-host audit** — each run names, in the summary only, every
@@ -162,13 +163,24 @@ enforced by adding to `STREAM_BLOCKLIST` or `BAD_HOSTS`, after which the URL
 stops being a candidate and drops off the list by itself. Entries flagged
 `PUBLISHED` are the urgent ones: they are live right now.
 
+**Subscribe-slate servers — probe-alive, content-dead.** A host can answer
+`200` with a genuine manifest and stream a "subscribe" card instead of the
+channel. No probe can tell the difference: the manifest rule checks that a
+playlist is a playlist, never what the video contains. Only the viewer can
+call it, and did. `kazmazpaz.ru` and `cinerama.uz` were ruled slate-servers on
+2026-08-21 and are in `BAD_HOSTS` at host level, all subdomains. This is a
+third failure class alongside unreachable and illegal, and the only sensor for
+it is the user — see the operating model in §5.
+
 **Free-to-air on an unofficial mirror is a KEEP.** The audit lists FTA mirrors
 and always will — a bare-IP host serving a public broadcaster trips the same
 shape test as a restream. They are **ruled keep** unless the user says
 otherwise: never blocklist or re-source a working stream of a free channel
 without a new ruling from the user. Only **pay channels on pirate hosts** are
 hard-blocked. Standing keeps on record: Belarus 5, M4 Sport, FREEDOM,
-Carousel, and `cinerama.uz` (Zo'r TV, MTRK Sport, Futbol TV). Rulings already
+Carousel. **The `cinerama.uz` keep is retired** — superseded by the
+slate-server ruling of 2026-08-21; Zo'r TV, MTRK Sport and Futbol TV lost
+their only candidate with it and wait honestly. Rulings already
 made the other way, for the pay-leak class: GolTV Latin America's bare-IP URL,
 Fast&FunBox on an ISP `test` endpoint, `freeott.top` (Football ru) and
 `streamhostingcdn.top` (Sportdigital FUSSBALL).
@@ -182,6 +194,22 @@ incumbents): `EXCLUDE` → rule match → `is_pay_tv()` → `notable()` (rejects
 closed/NSFW and anything whose `broadcast_area` is only city `ct/` or subdivision
 `s/` level) → `NICHE_SKIP` (İdman only) → `latin_only()`. Note that
 `broadcast_area`, `languages` and `format` live on the **feed**, not the channel.
+
+**`LANG_PIN` — per-member feed language.** The blanket locked-member exemption
+from the feed-language filter is right for a single-feed channel and wrong for
+a multilingual broadcaster: Al Jazeera, France 24 and DW each ship an Arabic
+feed that ranks level with the English one, and all three Beynəlxalq Xəbər
+seats silently ended up Arabic. A pin declares which feed a seat is for, and is
+checked two independent ways because either alone has already failed here:
+the candidate's iptv-org **feed tag** must carry the pinned language
+(`...@English` / feed language `eng`), **and** its URL must not contain a slug
+marking the wrong feed (`/AJA`, `/AJD`, `F24_AR`, `F24_FR`, `dwamdstream103`).
+The slug test is what catches a *retained* last-known-good URL, which carries
+no feed tag at all. The pin is applied after every merge, so iptv-org
+candidates, `OVERRIDES` and `WATCHLIST` all face it, and `retained_usable()`
+honours it too. Pinned today: `AlJazeera.qa`, `France24.fr`, `DW.de` → `eng`.
+Unpinned members, **Euronews Russian included**, are untouched. A pinned member
+whose pool empties waits honestly.
 
 **What counts as a probe pass** — `probe()` returns `ok` only for a **2xx
 response whose body starts with `#EXTM3U`**. A `Content-Type` header alone is

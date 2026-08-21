@@ -136,9 +136,17 @@ BAD_HOSTS = ["raw.githubusercontent.com",       # dead restream repo
                                     # entry: the whole host is an aggregator
              "freeott.top",         # only known host for pay-TV Football ru
              "streamhostingcdn.top",  # ditto Sportdigital FUSSBALL
-             "mcquack.net"]         # joke-domain restream serving pay
+             "mcquack.net",         # joke-domain restream serving pay
                                     # Sport 1 Baltic; host-level. QazSport
                                     # falls back to its own qazcdn edge.
+             # Subscribe-slate servers: they answer 200 with a real manifest
+             # and play a "subscribe" card instead of the channel, so no
+             # probe can tell them from a working stream -- only the viewer
+             # can, and did (user ruling 2026-08-21). All subdomains.
+             "kazmazpaz.ru",
+             "cinerama.uz",
+             # bare-IP mirror of pay-cable ACC Network
+             "23.239.31.26"]
 # Confirmed dead, geo-blocked from inside Azerbaijan, or not a legal free
 # feed. Excluded as candidates, from retention, and from discovery, so they
 # cannot come back. The channel ids stay in PICKS and rejoin automatically
@@ -435,6 +443,38 @@ LOCKED_GROUPS = {
 # the stream load, rather than beside the other curation config.
 LOCKED_MEMBER_IDS = {cid for _idl in LOCKED_GROUPS.values() for cid in _idl}
 
+# Per-member feed-language pin. The blanket exemption above lets EVERY feed of
+# a locked member through, which is right for a channel with one feed and
+# wrong for a multilingual broadcaster: Al Jazeera, France 24 and DW each ship
+# an Arabic feed that ranks level with the English one, and all three seats
+# ended up Arabic. A pin says which feed the seat is for. Two independent
+# tests, because either alone has failed here before:
+#   feed   -- the candidate's iptv-org feed tag must carry the pinned
+#             language (tvg-id "...@English" / feed language eng)
+#   reject -- URL slugs that mark the wrong feed, which also catches a
+#             last-known-good retention that carries no feed tag at all
+# Unpinned members, Euronews Russian included, are untouched.
+LANG_PIN = {
+    "AlJazeera.qa": {"lang": "eng", "reject": ("/AJA", "/AJD")},
+    "France24.fr":  {"lang": "eng", "reject": ("F24_AR", "F24_FR")},
+    "DW.de":        {"lang": "eng", "reject": ("dwamdstream103",)},
+}
+
+def lang_pin_ok(cid, stream):
+    """Is this candidate allowed to hold a pinned member's seat?"""
+    pin = LANG_PIN.get(cid)
+    if pin is None:
+        return True
+    if any(tok in stream["url"] for tok in pin["reject"]):
+        return False
+    feed = stream.get("feed")
+    if feed is None:
+        return True          # hand-added URL: no upstream tag, slug rule stands
+    langs = feed_langs.get((cid, feed))
+    if not langs:
+        return False         # an untagged upstream feed cannot satisfy a pin
+    return pin["lang"] in langs
+
 by = {}
 blocked_ids = set()  # ids that lost at least one stream to the blocklist
 for s in get("streams.json"):
@@ -655,6 +695,19 @@ for _cid, _urls in WATCHLIST.items():
             {"url": _u, "quality": _q, "user_agent": None,
              "referrer": None, "feed": None})
 
+# Applied after every merge above, so iptv-org candidates, OVERRIDES and
+# WATCHLIST entries all face the same pin. A pinned member whose pool empties
+# waits honestly rather than seating the wrong language.
+pin_dropped = {}
+for _cid in LANG_PIN:
+    _pool = by.get(_cid)
+    if not _pool:
+        continue
+    _keep = [s for s in _pool if lang_pin_ok(_cid, s)]
+    if len(_keep) != len(_pool):
+        pin_dropped[_cid] = len(_pool) - len(_keep)
+    by[_cid] = _keep
+
 # ---------------------------------------------------------------------
 # SOURCE POLICY -- applies to SOURCES and AUTO_RULES alike, and is a hard
 # rule, not a preference. Streams may come from exactly two places:
@@ -688,6 +741,18 @@ EXCLUDE = {
     # Snooker 900 feed and both rank onto the bench, taking two seats for
     # one channel. Keep .de.
     "PlutoTVSnooker900.se",
+    # İdman bench cull, user ruling 2026-08-21: watched and rejected, never
+    # to be seated again. FloHockey and Pluto TV Sport are deliberately NOT
+    # here -- they survived the same review.
+    # all three Snooker twins: the ruling is the channel, not an id, and
+    # excluding .de/.se alone simply let .us take the seat
+    "CricketGold.au", "Strongman.us",
+    "PlutoTVSnooker900.de", "PlutoTVSnooker900.us",
+    "RacerSelect.us", "RacerNetwork.us", "GloryKickboxing.us",
+    "RACERInternational.pl", "FloRacing.us",
+    # US pay cable with no legal free linear feed; its only source was a
+    # bare-IP mirror, now in BAD_HOSTS too. Standing pay-channel rule.
+    "ACCNetwork.us",
 }
 
 # Subscription broadcasters. Never auto-added from any source -- carrying
@@ -876,7 +941,10 @@ SOURCES = {
 OFFICIAL = ["trt.com.tr", "daioncdn", "baku.tv", "itv.az", "atv.az",
             "xezerxeber.az", "yodacdn", "mncdn", "akamaized", "trt.com",
             "bloomberg.com", "nhkworld.jp", "cgtn.com", "cosmonova",
-            "nbcuni.com"]
+            "nbcuni.com",
+            # Al Jazeera's and France 24's own streaming domains, so a
+            # pinned English seat heals to the broadcaster before a mirror
+            "getaj.net", "france24.com"]
 # Shapes that correlate with restreams and leaked origins. Report-only: this
 # names candidates for a HUMAN legality ruling and blocks nothing by itself,
 # because provenance is a judgement no probe can make. A ruling is enforced by
@@ -1336,6 +1404,8 @@ def retained_usable(cid):
     s = prev_streams.get(cid)
     if s is None:
         return False
+    if not lang_pin_ok(cid, s):
+        return False        # wrong-language feed cannot hold a pinned seat
     if skip_check:
         return True
     if az_facing((urllib.parse.urlsplit(s["url"]).hostname or "").lower()):
@@ -1858,6 +1928,9 @@ print(f"Overrides: {len(OVERRIDES)} pinned; {len(override_expected)} expected "
 if override_blocked:
     print(f"Overrides dropped by a host rule / blocklist: "
           f"{', '.join(sorted(override_blocked))}")
+if pin_dropped:
+    print("LANG_PIN dropped wrong-language candidates: "
+          + ", ".join(f"{display_name(c)} -{k}" for c, k in sorted(pin_dropped.items())))
 if watchlist_suppressed:
     print(f"WATCHLIST URLs suppressed by a host rule ({len(watchlist_suppressed)}):")
     for _c, _u in watchlist_suppressed:
