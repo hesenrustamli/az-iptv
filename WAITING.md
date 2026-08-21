@@ -64,18 +64,18 @@ the group itself never change.
 | Golf Channel | İdman | 10 | streamless - not a manifest |
 | F1 Channel | İdman | 11 | runner-alive, no Baku pass on record (failed here) |
 | Fubo Sports Network | İdman | 12 | in play - covering a hidden member |
-| MMA-TV.com | İdman | 13 | in play - covering a hidden member |
-| NBC Sports NOW | İdman | 15 | in play - covering a hidden member |
-| Real Madrid TV English | İdman | 17 | in play - covering a hidden member |
-| Talent TV | İdman | 19 | in play - covering a hidden member |
-| Teledeporte | İdman | 20 | in play - covering a hidden member |
-| Brondby TV | İdman | 23 | in play - covering a hidden member |
-| FCK Lovinderne | İdman | 24 | in play - covering a hidden member |
-| Golazo Network | İdman | 25 | in play - covering a hidden member |
-| Pluto TV Competition | İdman | 26 | in play - covering a hidden member |
-| Pluto TV Handboll Highlights | İdman | 27 | in play - covering a hidden member |
-| Pluto TV Handboll Live | İdman | 28 | in play - covering a hidden member |
-| Vital Drive | İdman | 29 | in play - covering a hidden member |
+| NBC Sports NOW | İdman | 14 | in play - covering a hidden member |
+| Golazo Network | İdman | 19 | in play - covering a hidden member |
+| Pluto TV Competition | İdman | 20 | in play - covering a hidden member |
+| Hub Sports 1 | İdman | 25 | in play - covering a hidden member |
+| InTrouble | İdman | 26 | in play - covering a hidden member |
+| Kozoom TV | İdman | 27 | in play - covering a hidden member |
+| KTV Sport | İdman | 28 | in play - covering a hidden member |
+| Monster Jam | İdman | 29 | in play - covering a hidden member |
+| Nautical Channel | İdman | 30 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 32 | in play - covering a hidden member |
+| PFL MMA | İdman | 34 | in play - covering a hidden member |
+| S Sport | İdman | 36 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -89,7 +89,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+21 more_ | İdman | | _self-curated tail, not shown_ |
+| _+20 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
