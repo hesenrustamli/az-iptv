@@ -421,7 +421,9 @@ LOCKED_GROUPS = {
         "ZDF.de",                # 32
         "ORF1.at",               # 33
         "ServusTV.at",           # 34
-        "LaUne.be",              # 35 RTBF La Une
+        # RTBF La Une held seat 35 until the user ruling of 2026-08-21.
+        # The lock is 34 members now; it is in EXCLUDE so the self-curating
+        # pool can never seat it back.
     ],
     "Beynəlxalq Xəbər": [
         "TRTWorld.tr",          # 1
@@ -753,7 +755,36 @@ EXCLUDE = {
     # US pay cable with no legal free linear feed; its only source was a
     # bare-IP mirror, now in BAD_HOSTS too. Standing pay-channel rule.
     "ACCNetwork.us",
+    # İdman cull round 2, user ruling 2026-08-21. Dropped from the lock:
+    "LaUne.be",
+    # Watched and rejected off the bench. Real Madrid TV is excluded on
+    # BOTH its feeds per the Snooker precedent -- excluding only the seated
+    # id lets the sibling walk into the seat it just vacated.
+    "VitalDrive.ru", "PlutoTVHandbollLive.se",
+    "PlutoTVHandbollHighlights.se", "FCKLovinderne.se", "BrondbyTV.se",
+    "Teledeporte.es", "TalentTV.lk",
+    "RealMadridTV.es", "RealMadridTVEnglish.es", "MMATVcom.ru",
 }
+
+# Display names the user has vetoed on screen. EXCLUDE stops one tvg-id; this
+# stops the NAME, so a same-named channel from another country cannot walk
+# into the seat the vetoed one just left. That is exactly the trap the three
+# Pluto Snooker twins sprang: excluding .de and .se simply promoted .us.
+# Matched on a punctuation- and case-insensitive key, so the Nordic spellings
+# the user reads on screen and the ASCII ones iptv-org stores both hit.
+BENCH_NAME_BAN = {
+    "Vital Drive", "Pluto TV Handboll Live", "Pluto TV Handboll Highlights",
+    "FCK Lovinderne", "FCK Løvinderne", "Brondby TV", "Brøndby TV",
+    "Teledeporte", "Talent TV", "Real Madrid TV", "Real Madrid TV English",
+    "MMA-TV.com", "Pluto TV Snooker 900", "ACC Network", "Cricket Gold",
+    "Strongman", "Racer Select", "Racer Network", "Glory Kickboxing",
+    "RACER International", "FloRacing",
+}
+
+def _ban_key(s):
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+BENCH_NAME_BANNED = {_ban_key(x) for x in BENCH_NAME_BAN}
 
 # Subscription broadcasters. Never auto-added from any source -- carrying
 # them would breach the legal-only rule in the SOURCE POLICY above.
@@ -1261,6 +1292,8 @@ def bench_auto_for(group, pred, members):
             continue
         if not latin_only(c.get("name") or ""):
             continue
+        if _ban_key(display_name(cid)) in BENCH_NAME_BANNED:
+            continue          # name vetoed on screen, whatever the tvg-id
         out.append(cid)
     out.sort(key=auto_rank_key)
     return out[:len(members) + BENCH_AUTO_MARGIN]

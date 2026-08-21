@@ -133,7 +133,30 @@ probe the whole database each run to fill seats that cannot exist.
 **`EXCLUDE`** — ids that must never be auto-added, whatever the rules say. Seeded
 with every channel removed by hand, so the rules engine cannot quietly undo
 curation. **Deleting a channel means adding its id here**, not just removing it
-from `PICKS`.
+from `PICKS`. A ruling is about a **channel, not a tvg-id**: iptv-org often
+carries the same channel under several ids, so exclude *every* variant.
+Pluto TV Snooker 900 has three (`.de`, `.se`, `.us`) and excluding two simply
+promoted the third into the seat it had just vacated; Real Madrid TV has two.
+
+**`BENCH_NAME_BAN` — vetoes by name.** `EXCLUDE` stops one id; this stops the
+**display name**, so a same-named channel from another country cannot walk
+into a seat the user has already rejected on screen. It is applied in
+`bench_auto_for()` only — pool level, never membership — and matched on a
+punctuation- and case-insensitive key, so the Nordic spellings the user reads
+(`Brøndby TV`, `FCK Løvinderne`) and the ASCII ones iptv-org stores both hit.
+This is the general form of the Snooker lesson above: exclude the ids *and*
+ban the name.
+
+**İdman lock, user rulings 2026-08-21.** Seat 35 (RTBF La Une) was removed —
+the lock is 34 members, editorial order otherwise unchanged, so the pool cap
+follows at 34 + `BENCH_AUTO_MARGIN`. Culled off the bench for good across two
+rounds: Cricket Gold, Strongman, Pluto TV Snooker 900 (all three ids), Racer
+Select, Racer Network, Glory Kickboxing, RACER International, FloRacing, ACC
+Network, then Vital Drive, both Pluto Handboll feeds, FCK Løvinderne, Brøndby
+TV, Teledeporte, Talent TV, Real Madrid TV (both feeds) and MMA-TV.com.
+Deliberately kept: FloHockey, FUEL TV, Trace Sport Stars, FIFA+, FIFA+ Women,
+Willow Sports, Pluto TV Sport, Pluto TV Competition, Golazo Network, NBC
+Sports NOW, Fubo Sports Network.
 
 **`STREAM_BLOCKLIST`** — individual URLs that must never be carried: dead,
 geo-blocked from Azerbaijan, **or not a legal free feed**. The last case is not
@@ -310,7 +333,7 @@ and waiting-list probing stay **daily for every group, no exceptions**.
 | Ukrayna | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Türkiyə – Ümumi | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Xəbər – Türkiyə | frozen | heal, retain, probe waiting members | add, reorder, displace |
-| İdman | frozen, order is editorial (1–35), self-curating bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
+| İdman | frozen, order is editorial (1–34), self-curating bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
 | Uşaq | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Musiqi | frozen | heal, retain, probe waiting members | add, reorder, displace |
 | Sənədli | frozen, order is editorial (1–13), 16 hand ranks + self-curated bench | heal, retain, probe waiting members; seat a substitute per hidden member | add, reorder, displace, auto-add anything |
