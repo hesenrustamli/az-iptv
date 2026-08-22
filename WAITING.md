@@ -28,7 +28,6 @@ right now. Every one is re-probed on each run and rejoins
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
-| RTP 2 | İdman | 1 | empty response |
 | RTSH Sport | İdman | 1 | unreachable |
 | ServusTV | İdman | 1 | 403 forbidden |
 | SIC | İdman | 1 | 403 forbidden |
@@ -38,7 +37,6 @@ right now. Every one is re-probed on each run and rejoins
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
-| TVP Sport | İdman | 1 | 403 forbidden |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
 | ZDF | İdman | 1 | 403 forbidden |
 | Zo'r TV | İdman | 0 | no candidate URLs |
@@ -61,21 +59,19 @@ the group itself never change.
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
-| Golf Channel | İdman | 10 | streamless - not a manifest |
+| Golf Channel | İdman | 10 | streamless - 404 not found |
 | F1 Channel | İdman | 11 | runner-alive, no Baku pass on record (failed here) |
 | Fubo Sports Network | İdman | 12 | in play - covering a hidden member |
 | NBC Sports NOW | İdman | 14 | in play - covering a hidden member |
-| Golazo Network | İdman | 19 | in play - covering a hidden member |
-| Pluto TV Competition | İdman | 20 | in play - covering a hidden member |
-| Hub Sports 1 | İdman | 25 | in play - covering a hidden member |
-| InTrouble | İdman | 26 | in play - covering a hidden member |
-| Kozoom TV | İdman | 27 | in play - covering a hidden member |
-| KTV Sport | İdman | 28 | in play - covering a hidden member |
-| Monster Jam | İdman | 29 | in play - covering a hidden member |
-| Nautical Channel | İdman | 30 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 32 | in play - covering a hidden member |
-| PFL MMA | İdman | 34 | in play - covering a hidden member |
-| S Sport | İdman | 36 | in play - covering a hidden member |
+| Golazo Network | İdman | 18 | in play - covering a hidden member |
+| Pluto TV Competition | İdman | 19 | in play - covering a hidden member |
+| Hub Sports 1 | İdman | 23 | in play - covering a hidden member |
+| InTrouble | İdman | 24 | in play - covering a hidden member |
+| Kozoom TV | İdman | 25 | in play - covering a hidden member |
+| KTV Sport | İdman | 26 | in play - covering a hidden member |
+| Monster Jam | İdman | 27 | in play - covering a hidden member |
+| Nautical Channel | İdman | 28 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 30 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -89,7 +85,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+20 more_ | İdman | | _self-curated tail, not shown_ |
+| _+22 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
