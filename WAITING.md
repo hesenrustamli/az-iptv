@@ -20,7 +20,7 @@ right now. Every one is re-probed on each run and rejoins
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
-| ITV1 | İdman | 1 | unreachable |
+| ITV1 | İdman | 1 | not a manifest |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | ORF 1 | İdman | 1 | server error |
@@ -60,7 +60,7 @@ the group itself never change.
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
-| Golf Channel | İdman | 10 | streamless - not a manifest |
+| Golf Channel | İdman | 10 | streamless - 404 not found |
 | F1 Channel | İdman | 11 | runner-alive, no Baku pass on record (failed here) |
 | Fubo Sports Network | İdman | 12 | in play - covering a hidden member |
 | NBC Sports NOW | İdman | 14 | in play - covering a hidden member |
