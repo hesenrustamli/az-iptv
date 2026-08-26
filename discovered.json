@@ -3,13 +3,13 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 33
+        "fails": 34
       }
     }
   },
   "watchlist": {
     "http://145.239.5.177/329/index.m3u8": {
-      "fails": 5
+      "fails": 6
     },
     "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8": {
       "fails": 0
@@ -36,7 +36,7 @@
       "fails": 0
     },
     "https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8": {
-      "fails": 25
+      "fails": 26
     },
     "https://stream8.cinerama.uz/1004/tracks-v1a1/mono.m3u8": {
       "fails": 0
@@ -51,22 +51,22 @@
       "fails": 7
     },
     "https://trt.daioncdn.net/trt-cocuk/master.m3u8?app=web": {
-      "fails": 20
+      "fails": 21
     },
     "https://trt.daioncdn.net/trt2/master.m3u8?app=web": {
-      "fails": 26
+      "fails": 27
     },
     "https://trt.daioncdn.net/trtbelgesel/master.m3u8?app=web": {
-      "fails": 26
+      "fails": 27
     },
     "https://trt.daioncdn.net/trtcocuk/master.m3u8?app=web": {
-      "fails": 20
+      "fails": 21
     },
     "https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8": {
       "fails": 2
     },
     "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8": {
-      "fails": 18
+      "fails": 19
     },
     "https://tvpi.travny.workers.dev/tvpsport.m3u8": {
       "fails": 0
