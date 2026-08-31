@@ -61,7 +61,7 @@ the group itself never change.
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
-| Golf Channel | İdman | 10 | streamless - 404 not found |
+| Golf Channel | İdman | 10 | streamless - 403 forbidden |
 | F1 Channel | İdman | 11 | runner-alive, no Baku pass on record (failed here) |
 | Fubo Sports Network | İdman | 12 | in play - covering a hidden member |
 | NBC Sports NOW | İdman | 14 | in play - covering a hidden member |
