@@ -67,15 +67,15 @@ the group itself never change.
 | NBC Sports NOW | İdman | 14 | in play - covering a hidden member |
 | Golazo Network | İdman | 18 | in play - covering a hidden member |
 | Pluto TV Competition | İdman | 19 | in play - covering a hidden member |
-| InTrouble | İdman | 23 | in play - covering a hidden member |
-| Kozoom TV | İdman | 24 | in play - covering a hidden member |
-| KTV Sport | İdman | 25 | in play - covering a hidden member |
-| Monster Jam | İdman | 26 | in play - covering a hidden member |
-| Nautical Channel | İdman | 27 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 29 | in play - covering a hidden member |
-| PFL MMA | İdman | 31 | in play - covering a hidden member |
-| Sky Racing 1 | İdman | 36 | in play - covering a hidden member |
-| Sky Racing 2 | İdman | 37 | in play - covering a hidden member |
+| REV'N Action | İdman | 20 | in play - covering a hidden member |
+| InTrouble | İdman | 24 | in play - covering a hidden member |
+| Kozoom TV | İdman | 25 | in play - covering a hidden member |
+| KTV Sport | İdman | 26 | in play - covering a hidden member |
+| Monster Jam | İdman | 27 | in play - covering a hidden member |
+| Nautical Channel | İdman | 28 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 30 | in play - covering a hidden member |
+| PFL MMA | İdman | 32 | in play - covering a hidden member |
+| Sky Racing 1 | İdman | 37 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
