@@ -13,7 +13,6 @@ right now. Every one is re-probed on each run and rejoins
 | BBC One | İdman | 50 | 403 forbidden |
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
-| Che! | · russia | 1 | unreachable |
 | CNN International | Beynəlxalq Xəbər | 0 | no candidate URLs |
 | CNN Turk | Xəbər – Türkiyə | 1 | 403 forbidden |
 | DW Documentary | Sənədli | 0 | no candidate URLs |
