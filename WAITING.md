@@ -62,12 +62,13 @@ the group itself never change.
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
 | Golf Channel | İdman | 10 | streamless - 403 forbidden |
-| F1 Channel | İdman | 11 | runner-alive, no Baku pass on record (failed here) |
-| Fubo Sports Network | İdman | 12 | in play - covering a hidden member |
-| NBC Sports NOW | İdman | 14 | in play - covering a hidden member |
-| Golazo Network | İdman | 19 | in play - covering a hidden member |
-| Pluto TV Competition | İdman | 20 | in play - covering a hidden member |
-| REV'N Action | İdman | 21 | in play - covering a hidden member |
+| Extreme Sports Channel | İdman | 11 | runner-alive, no Baku pass on record (never measured here) |
+| F1 Channel | İdman | 12 | runner-alive, no Baku pass on record (failed here) |
+| Fubo Sports Network | İdman | 13 | in play - covering a hidden member |
+| NBC Sports NOW | İdman | 15 | in play - covering a hidden member |
+| Golazo Network | İdman | 20 | in play - covering a hidden member |
+| Pluto TV Competition | İdman | 21 | in play - covering a hidden member |
+| REV'N Action | İdman | 22 | in play - covering a hidden member |
 | InTrouble | İdman | 25 | in play - covering a hidden member |
 | Kozoom TV | İdman | 26 | in play - covering a hidden member |
 | KTV Sport | İdman | 27 | in play - covering a hidden member |
@@ -90,7 +91,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+19 more_ | İdman | | _self-curated tail, not shown_ |
+| _+18 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
