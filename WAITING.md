@@ -66,18 +66,18 @@ the group itself never change.
 | F1 Channel | İdman | 12 | runner-alive, no Baku pass on record (failed here) |
 | Fubo Sports Network | İdman | 13 | in play - covering a hidden member |
 | NBC Sports NOW | İdman | 15 | in play - covering a hidden member |
-| Golazo Network | İdman | 20 | in play - covering a hidden member |
-| Pluto TV Competition | İdman | 21 | in play - covering a hidden member |
-| REV'N Action | İdman | 22 | in play - covering a hidden member |
-| InTrouble | İdman | 25 | in play - covering a hidden member |
-| Kozoom TV | İdman | 26 | in play - covering a hidden member |
-| KTV Sport | İdman | 27 | in play - covering a hidden member |
-| Monster Jam | İdman | 28 | in play - covering a hidden member |
-| Nautical Channel | İdman | 29 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 31 | in play - covering a hidden member |
-| PFL MMA | İdman | 33 | in play - covering a hidden member |
-| Sky Racing 1 | İdman | 38 | in play - covering a hidden member |
-| Sky Racing 2 | İdman | 39 | in play - covering a hidden member |
+| Golazo Network | İdman | 23 | in play - covering a hidden member |
+| Pluto TV Competition | İdman | 24 | in play - covering a hidden member |
+| REV'N Action | İdman | 25 | in play - covering a hidden member |
+| InTrouble | İdman | 28 | in play - covering a hidden member |
+| Kozoom TV | İdman | 29 | in play - covering a hidden member |
+| KTV Sport | İdman | 30 | in play - covering a hidden member |
+| Monster Jam | İdman | 31 | in play - covering a hidden member |
+| Nautical Channel | İdman | 32 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 34 | in play - covering a hidden member |
+| PFL MMA | İdman | 36 | in play - covering a hidden member |
+| Sky Racing 1 | İdman | 41 | in play - covering a hidden member |
+| Sky Racing 2 | İdman | 42 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
