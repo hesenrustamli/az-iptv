@@ -82,7 +82,7 @@ https://ciner.daioncdn.net/ht-spor/ht-spor.m3u8?app=web
 #EXTINF:-1 tvg-id="beINSPORTSXTRA.us" tvg-logo="https://upload.wikimedia.org/wikipedia/en/f/f2/Cheddar_2019.png" group-title="İdman",beIN SPORTS XTRA (1080p)
 https://bein-xtra-bein.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="Belarus5.by" tvg-logo="https://i.imgur.com/NJsRFud.png" group-title="İdman",Belarus-5 (1080p)
-http://178.124.179.122:8080/BT5/index.m3u8
+https://edge59.dc.beltelecom.by/ngtrk/smil:belarus5int.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="NHLNetwork.us" tvg-logo="https://i.imgur.com/UNZ8bef.png" group-title="İdman",NHL Network (1080p)
 https://nhl-firetv.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="M4Sport.hu" tvg-logo="https://i.imgur.com/TQ4uJZk.png" group-title="İdman",M4 Sport (1080p)
@@ -96,9 +96,6 @@ https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8
 https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8
 #EXTINF:-1 tvg-id="RedBullTV.at" tvg-logo="https://i.postimg.cc/8c78JM28/image.png" group-title="İdman",Red Bull TV (1080p)
 https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
-#EXTINF:-1 tvg-id="RTP2.pt" tvg-logo="https://cdn-images.rtp.pt/common/img/channels/logos/color/horizontal/rtp2_2026.png" group-title="İdman",RTP 2 (720p)
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0
-https://streaming-live.rtp.pt/liverepeater/rtp2HD.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="FloHockey.us" tvg-logo="https://images.fubo.tv/channel-config-ui/station-logos/on-dark/flohockey-white.png" group-title="İdman",FloHockey (1080p)
 https://amg02278-amg02278c2-flosports-worldwide-9916.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="FUELTV.pt" tvg-logo="https://i.imgur.com/I8mviBy.png" group-title="İdman",FUEL TV (1080p)
@@ -133,12 +130,14 @@ https://kwtspta.cdn.mangomolo.com/sp/smil:sp.stream.smil/chunklist.m3u8
 https://jmp2.uk/plu-65bcc9c8d77d450008b34c6b.m3u8
 #EXTINF:-1 tvg-id="NauticalChannel.it" tvg-logo="https://i.imgur.com/2ByDyzL.png" group-title="İdman",Nautical Channel (720p)
 https://a-cdn.klowdtv.com/live2/nautical_720p/playlist.m3u8
-#EXTINF:-1 tvg-id="OmanSportsTV.om" tvg-logo="https://i.imgur.com/1omi7p8.png" group-title="İdman",Oman Sports TV (1080p)
-https://partneta.cdn.mgmlcdn.com/omsport/smil:omsport.stream.smil/chunklist.m3u8
 #EXTINF:-1 tvg-id="PFLMMA.us" tvg-logo="https://images-3.rakuten.tv/storage/global-live-channel/translation/artwork/f4058a54-67b9-432c-b80e-3bfcf8d2d6d1-width200-quality90.jpeg" group-title="İdman",PFL MMA (720p)
 https://jmp2.uk/plu-64f6180130ab3300083d896b.m3u8
 #EXTINF:-1 tvg-id="SkyRacing1.au" tvg-logo="https://i.imgur.com/Hf0EiaW.png" group-title="İdman",Sky Racing 1 (720p)
 https://636ffd31f0e12.streamlock.net/RacingStream1/RacingStream1/playlist.m3u8
+#EXTINF:-1 tvg-id="SkyRacing2.au" tvg-logo="https://i.imgur.com/TxQvFnQ.png" group-title="İdman",Sky Racing 2 (720p)
+https://636ffd31f0e12.streamlock.net/RacingStream2/RacingStream2/playlist.m3u8
+#EXTINF:-1 tvg-id="Sportivnyy.ru" tvg-logo="https://i.imgur.com/ujS6mMo.png" group-title="İdman",Sportivnyy (1080p)
+https://live-3.otcnet.ru/sportivny/index.m3u8
 #EXTINF:-1 tvg-id="TRTCocuk.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/TRT_%C3%87ocuk_logo_%282021%29.svg/960px-TRT_%C3%87ocuk_logo_%282021%29.svg.png" group-title="Uşaq",TRT Cocuk (1440p)
 https://tv-trtcocuk.medya.trt.com.tr/master.m3u8
 #EXTINF:-1 tvg-id="MinikaCocuk.tr" tvg-logo="https://i.imgur.com/VCywMTv.png" group-title="Uşaq",Minika Cocuk (720p)
