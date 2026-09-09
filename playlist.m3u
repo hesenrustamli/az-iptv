@@ -82,7 +82,7 @@ https://ciner.daioncdn.net/ht-spor/ht-spor.m3u8?app=web
 #EXTINF:-1 tvg-id="beINSPORTSXTRA.us" tvg-logo="https://upload.wikimedia.org/wikipedia/en/f/f2/Cheddar_2019.png" group-title="İdman",beIN SPORTS XTRA (1080p)
 https://bein-xtra-bein.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="Belarus5.by" tvg-logo="https://i.imgur.com/NJsRFud.png" group-title="İdman",Belarus-5 (1080p)
-https://edge59.dc.beltelecom.by/ngtrk/smil:belarus5int.smil/playlist.m3u8
+http://178.124.179.122:8080/BT5/index.m3u8
 #EXTINF:-1 tvg-id="NHLNetwork.us" tvg-logo="https://i.imgur.com/UNZ8bef.png" group-title="İdman",NHL Network (1080p)
 https://nhl-firetv.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="M4Sport.hu" tvg-logo="https://i.imgur.com/TQ4uJZk.png" group-title="İdman",M4 Sport (1080p)
