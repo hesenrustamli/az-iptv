@@ -35,6 +35,7 @@ right now. Every one is re-probed on each run and rejoins
 | Sport1 | İdman | 0 | no candidate URLs |
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
+| SuperTennis | İdman | 1 | 403 forbidden |
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
@@ -73,6 +74,7 @@ the group itself never change.
 | KTV Sport | İdman | 29 | in play - covering a hidden member |
 | Monster Jam | İdman | 30 | in play - covering a hidden member |
 | Nautical Channel | İdman | 31 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 33 | in play - covering a hidden member |
 | PFL MMA | İdman | 35 | in play - covering a hidden member |
 | Sky Racing 1 | İdman | 40 | in play - covering a hidden member |
 | Sky Racing 2 | İdman | 41 | in play - covering a hidden member |
@@ -90,7 +92,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+19 more_ | İdman | | _self-curated tail, not shown_ |
+| _+18 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
