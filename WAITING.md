@@ -74,7 +74,6 @@ the group itself never change.
 | KTV Sport | İdman | 29 | in play - covering a hidden member |
 | Monster Jam | İdman | 30 | in play - covering a hidden member |
 | Nautical Channel | İdman | 31 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 33 | in play - covering a hidden member |
 | PFL MMA | İdman | 35 | in play - covering a hidden member |
 | Sky Racing 1 | İdman | 40 | in play - covering a hidden member |
 | Sky Racing 2 | İdman | 41 | in play - covering a hidden member |
@@ -92,7 +91,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+18 more_ | İdman | | _self-curated tail, not shown_ |
+| _+19 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
