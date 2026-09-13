@@ -39,7 +39,6 @@ right now. Every one is re-probed on each run and rejoins
 | TRT 2 | Türkiyə – Ümumi | 2 | 403 forbidden, 404 not found |
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
-| TVP Sport | İdman | 1 | 403 forbidden |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
 | ZDF | İdman | 1 | 403 forbidden |
 | Zo'r TV | İdman | 0 | no candidate URLs |
