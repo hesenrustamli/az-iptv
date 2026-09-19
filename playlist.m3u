@@ -79,7 +79,7 @@ https://tv-trt3.live.trt.com.tr/master.m3u8
 https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/aspor/aspor.m3u8
 #EXTINF:-1 tvg-id="HTSporTV.tr" tvg-logo="https://www.htspor.com/images/manifest/social-share-logo.png" group-title="İdman",HTSpor TV (1080p)
 https://ciner.daioncdn.net/ht-spor/ht-spor.m3u8?app=web
-#EXTINF:-1 tvg-id="beINSPORTSXTRA.us" tvg-logo="https://upload.wikimedia.org/wikipedia/en/f/f2/Cheddar_2019.png" group-title="İdman",beIN SPORTS XTRA (1080p)
+#EXTINF:-1 tvg-id="beINSPORTSXTRA.us" tvg-logo="https://i.ibb.co/HT49GPmB/XTRA-2.png" group-title="İdman",beIN SPORTS XTRA (1080p)
 https://bein-xtra-bein.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="Belarus5.by" tvg-logo="https://i.imgur.com/NJsRFud.png" group-title="İdman",Belarus-5 (1080p)
 http://178.124.179.122:8080/BT5/index.m3u8
@@ -93,16 +93,11 @@ http://88.212.15.19/live/uatlmvixrr/index.m3u8
 #EXTINF:-1 tvg-id="QazSport.kz" tvg-logo="https://i.imgur.com/UDJ0P5Q.png" group-title="İdman",QazSport (480p)
 https://qazsporttv-stream.qazcdn.com/qazsporttv/qazsporttv/playlist.m3u8
 #EXTINF:-1 tvg-id="TVPSport.pl" tvg-logo="https://i.imgur.com/JUZDOCO.png" group-title="İdman",TVP Sport (1080p)
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36
-#EXTVLCOPT:http-referrer=https://vod.tvp.pl
 https://tvpi.travny.workers.dev/tvpsport.m3u8
 #EXTINF:-1 tvg-id="Sportitalia.it" tvg-logo="https://i.imgur.com/0CJGGgd.png" group-title="İdman",Sportitalia (1080p)
 https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8
 #EXTINF:-1 tvg-id="RedBullTV.at" tvg-logo="https://i.postimg.cc/8c78JM28/image.png" group-title="İdman",Red Bull TV (1080p)
 https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
-#EXTINF:-1 tvg-id="RTP2.pt" tvg-logo="https://cdn-images.rtp.pt/common/img/channels/logos/color/horizontal/rtp2_2026.png" group-title="İdman",RTP 2 (720p)
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0
-https://streaming-live.rtp.pt/liverepeater/rtp2HD.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="ZDF.de" tvg-logo="https://i.imgur.com/rtLb6m9.png" group-title="İdman",ZDF
 https://dash4.antik.sk/live/test_zdf_avc_25p/playlist.m3u8
 #EXTINF:-1 tvg-id="FloHockey.us" tvg-logo="https://images.fubo.tv/channel-config-ui/station-logos/on-dark/flohockey-white.png" group-title="İdman",FloHockey (1080p)
@@ -127,7 +122,7 @@ https://xumo-xumoent-vc-122-sjv70.fast.nbcuni.com/live/master.m3u8
 https://jmp2.uk/plu-63a0e33a45264d000850ed7e.m3u8
 #EXTINF:-1 tvg-id="PlutoTVCompetition.us" tvg-logo="https://images.pluto.tv/channels/603fde9026ecbf0007752c2c/colorLogoPNG.png" group-title="İdman",Pluto TV Competition
 https://jmp2.uk/plu-603fde9026ecbf0007752c2c.m3u8
-#EXTINF:-1 tvg-id="REVNAction.us" tvg-logo="https://i.imgur.com/aMKtA68.png" group-title="İdman",REV'N Action (720p)
+#EXTINF:-1 tvg-id="REVNAction.us" tvg-logo="https://i.imgur.com/xsm8mMd.png" group-title="İdman",REV'N Action (720p)
 https://freecast-lukentvlive.vgcdn.net/out/v1/a4f31f297fc5440f814bd2cffd77e689/index.m3u8
 #EXTINF:-1 tvg-id="InTrouble.nl" tvg-logo="https://cdn.uc.assets.prezly.com/28ebc4a6-cfda-4bb1-9b9c-14e2c3da67a8/InTrouble_portraitOrange.png" group-title="İdman",InTrouble (1080p)
 https://amg00861-amg00861c6-stirr-us-8229.playouts.now.amagi.tv/playlist.m3u8
@@ -139,6 +134,8 @@ https://kwtspta.cdn.mangomolo.com/sp/smil:sp.stream.smil/chunklist.m3u8
 https://jmp2.uk/plu-65bcc9c8d77d450008b34c6b.m3u8
 #EXTINF:-1 tvg-id="NauticalChannel.it" tvg-logo="https://i.imgur.com/2ByDyzL.png" group-title="İdman",Nautical Channel (720p)
 https://a-cdn.klowdtv.com/live2/nautical_720p/playlist.m3u8
+#EXTINF:-1 tvg-id="OmanSportsTV.om" tvg-logo="https://i.imgur.com/1omi7p8.png" group-title="İdman",Oman Sports TV (1080p)
+https://partneta.cdn.mgmlcdn.com/omsport/smil:omsport.stream.smil/chunklist.m3u8
 #EXTINF:-1 tvg-id="PFLMMA.us" tvg-logo="https://images-3.rakuten.tv/storage/global-live-channel/translation/artwork/f4058a54-67b9-432c-b80e-3bfcf8d2d6d1-width200-quality90.jpeg" group-title="İdman",PFL MMA (720p)
 https://jmp2.uk/plu-64f6180130ab3300083d896b.m3u8
 #EXTINF:-1 tvg-id="TRTCocuk.tr" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/TRT_%C3%87ocuk_logo_%282021%29.svg/960px-TRT_%C3%87ocuk_logo_%282021%29.svg.png" group-title="Uşaq",TRT Cocuk (1440p)
