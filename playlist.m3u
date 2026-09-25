@@ -17,8 +17,6 @@ https://str.yodacdn.net/medeniyyettele/index.m3u8
 https://lives.atv.az:5443/KANAL-S/streams/kanals.m3u8
 #EXTINF:-1 tvg-id="Kanal35.az" tvg-logo="https://live.ntv.az/kanal35.png" group-title="Azərbaycan 🇦🇿",Kanal 35 (720p)
 https://str2.yodacdn.net/kanal35/index.m3u8
-#EXTINF:-1 tvg-id="NaxcivanTV.az" tvg-logo="https://i.imgur.com/8yLFkdE.png" group-title="Azərbaycan 🇦🇿",Naxcivan TV (720p)
-https://str2.yodacdn.net/ntv/video.m3u8
 #EXTINF:-1 tvg-id="GunAzTV.us" tvg-logo="https://i.imgur.com/2ZnQazl.png" group-title="Azərbaycan 🇦🇿",GunAz TV
 https://tv.gunaz.tv/hls/live.m3u8
 #EXTINF:-1 tvg-id="AzStarTV.ca" tvg-logo="https://i.imgur.com/di3XX5L.png" group-title="Azərbaycan 🇦🇿",Az Star TV (1080p)
@@ -83,8 +81,6 @@ https://ciner.daioncdn.net/ht-spor/ht-spor.m3u8?app=web
 https://bein-xtra-bein.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="Belarus5.by" tvg-logo="https://i.imgur.com/NJsRFud.png" group-title="İdman",Belarus-5 (1080p)
 http://178.124.179.122:8080/BT5/index.m3u8
-#EXTINF:-1 tvg-id="Football.ru" tvg-logo="https://i.imgur.com/pEuaZVx.png" group-title="İdman",Football (576p)
-http://str2.iptvhd.ru:8080/Futbol/index.m3u8
 #EXTINF:-1 tvg-id="NHLNetwork.us" tvg-logo="https://i.imgur.com/UNZ8bef.png" group-title="İdman",NHL Network (1080p)
 https://nhl-firetv.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="M4Sport.hu" tvg-logo="https://i.imgur.com/TQ4uJZk.png" group-title="İdman",M4 Sport (1080p)
@@ -101,6 +97,8 @@ https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
 https://streaming-live.rtp.pt/liverepeater/rtp2HD.smil/playlist.m3u8
 #EXTINF:-1 tvg-id="ZDF.de" tvg-logo="https://i.imgur.com/rtLb6m9.png" group-title="İdman",ZDF
 https://dash4.antik.sk/live/test_zdf_avc_25p/playlist.m3u8
+#EXTINF:-1 tvg-id="ServusTV.at" tvg-logo="https://i.imgur.com/6W637Gn.png" group-title="İdman",ServusTV (1080p)
+https://stv-live.akamaized.net/hls/live/2031011/lingeoSTVATwebPri/master.m3u8
 #EXTINF:-1 tvg-id="FloHockey.us" tvg-logo="https://images.fubo.tv/channel-config-ui/station-logos/on-dark/flohockey-white.png" group-title="İdman",FloHockey (1080p)
 https://amg02278-amg02278c2-flosports-worldwide-9916.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="FUELTV.pt" tvg-logo="https://i.imgur.com/I8mviBy.png" group-title="İdman",FUEL TV (1080p)

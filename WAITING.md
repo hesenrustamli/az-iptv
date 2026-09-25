@@ -17,17 +17,18 @@ right now. Every one is re-probed on each run and rejoins
 | CNN Turk | Xəbər – Türkiyə | 1 | 403 forbidden |
 | DW Documentary | Sənədli | 0 | no candidate URLs |
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
+| Football | İdman | 2 | 404 not found, unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
+| Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
 | RTSH Sport | İdman | 1 | unreachable |
-| ServusTV | İdman | 1 | 403 forbidden |
 | SIC | İdman | 1 | 403 forbidden |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Sport1 | İdman | 0 | no candidate URLs |
