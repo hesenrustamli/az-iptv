@@ -73,9 +73,9 @@ the group itself never change.
 | KTV Sport | İdman | 32 | in play - covering a hidden member |
 | Monster Jam | İdman | 33 | in play - covering a hidden member |
 | Nautical Channel | İdman | 34 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 36 | in play - covering a hidden member |
 | PFL MMA | İdman | 38 | in play - covering a hidden member |
 | Sky Racing 1 | İdman | 43 | in play - covering a hidden member |
+| Sky Racing 2 | İdman | 44 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
