@@ -14,7 +14,7 @@ right now. Every one is re-probed on each run and rejoins
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
 | CNN International | Beynəlxalq Xəbər | 0 | no candidate URLs |
-| CNN Turk | Xəbər – Türkiyə | 1 | 403 forbidden |
+| CNN Turk | Xəbər – Türkiyə | 0 | no candidate URLs |
 | DW Documentary | Sənədli | 0 | no candidate URLs |
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 2 | 403 forbidden, unreachable |
