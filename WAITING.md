@@ -18,7 +18,6 @@ right now. Every one is re-probed on each run and rejoins
 | DW Documentary | Sənədli | 0 | no candidate URLs |
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 2 | 403 forbidden, unreachable |
-| GunAz TV | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
 | L'Equipe | İdman | 0 | no candidate URLs |
@@ -30,6 +29,7 @@ right now. Every one is re-probed on each run and rejoins
 | RTE2 | İdman | 0 | no candidate URLs |
 | RTP 2 | İdman | 1 | empty response |
 | RTSH Sport | İdman | 1 | unreachable |
+| ServusTV | İdman | 1 | 403 forbidden |
 | SIC | İdman | 1 | 403 forbidden |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Sport1 | İdman | 0 | no candidate URLs |
@@ -70,13 +70,13 @@ the group itself never change.
 | Golazo Network | İdman | 24 | in play - covering a hidden member |
 | Pluto TV Competition | İdman | 25 | in play - covering a hidden member |
 | REV'N Action | İdman | 26 | in play - covering a hidden member |
-| InTrouble | İdman | 29 | in play - covering a hidden member |
-| Kozoom TV | İdman | 30 | in play - covering a hidden member |
-| KTV Sport | İdman | 31 | in play - covering a hidden member |
-| Monster Jam | İdman | 32 | in play - covering a hidden member |
-| Nautical Channel | İdman | 33 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 35 | in play - covering a hidden member |
-| PFL MMA | İdman | 37 | in play - covering a hidden member |
+| InTrouble | İdman | 30 | in play - covering a hidden member |
+| Kozoom TV | İdman | 31 | in play - covering a hidden member |
+| KTV Sport | İdman | 32 | in play - covering a hidden member |
+| Monster Jam | İdman | 34 | in play - covering a hidden member |
+| Nautical Channel | İdman | 35 | in play - covering a hidden member |
+| PFL MMA | İdman | 39 | in play - covering a hidden member |
+| Sky Racing 1 | İdman | 44 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
