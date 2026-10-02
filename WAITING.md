@@ -19,7 +19,7 @@ right now. Every one is re-probed on each run and rejoins
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 2 | 403 forbidden, unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
-| ITV1 | İdman | 0 | no candidate URLs |
+| ITV1 | İdman | 1 | not a manifest |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | ORF 1 | İdman | 1 | server error |
@@ -75,6 +75,7 @@ the group itself never change.
 | KTV Sport | İdman | 32 | in play - covering a hidden member |
 | Monster Jam | İdman | 34 | in play - covering a hidden member |
 | Nautical Channel | İdman | 35 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 37 | in play - covering a hidden member |
 | PFL MMA | İdman | 39 | in play - covering a hidden member |
 | Sky Racing 1 | İdman | 44 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
@@ -90,7 +91,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+20 more_ | İdman | | _self-curated tail, not shown_ |
+| _+19 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
