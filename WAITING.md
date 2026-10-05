@@ -10,7 +10,7 @@ right now. Every one is re-probed on each run and rejoins
 | ARB | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB 24 | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB Gunes | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| BBC One | İdman | 51 | 403 forbidden |
+| BBC One | İdman | 51 | 403 forbidden, 404 not found |
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
 | CNN International | Beynəlxalq Xəbər | 0 | no candidate URLs |
@@ -75,7 +75,6 @@ the group itself never change.
 | KTV Sport | İdman | 33 | in play - covering a hidden member |
 | Monster Jam | İdman | 35 | in play - covering a hidden member |
 | Nautical Channel | İdman | 36 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 38 | in play - covering a hidden member |
 | PFL MMA | İdman | 40 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
@@ -90,7 +89,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+20 more_ | İdman | | _self-curated tail, not shown_ |
+| _+21 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
