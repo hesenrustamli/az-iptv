@@ -19,11 +19,12 @@ right now. Every one is re-probed on each run and rejoins
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 2 | 403 forbidden, unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
-| ITV1 | İdman | 1 | not a manifest |
+| ITV1 | İdman | 1 | 403 forbidden |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
+| Pluto TV Nature | Sənədli | 1 | 403 forbidden |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
@@ -61,35 +62,34 @@ the group itself never change.
 | SKI TV | İdman | 6 | streamless - unreachable |
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
-| Pluto TV Sport | İdman | 9 | streamless - 403 forbidden, 404 not found |
+| Pluto TV Sport | İdman | 9 | streamless - 403 forbidden |
 | USA Network | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
 | DD Sports | İdman | 11 | runner-alive, no Baku pass on record (never measured here) |
 | Extreme Sports Channel | İdman | 12 | runner-alive, no Baku pass on record (never measured here) |
 | Fubo Sports Network | İdman | 15 | in play - covering a hidden member |
 | NBC Sports NOW | İdman | 17 | in play - covering a hidden member |
-| Golazo Network | İdman | 25 | in play - covering a hidden member |
-| Pluto TV Competition | İdman | 26 | in play - covering a hidden member |
 | REV'N Action | İdman | 27 | in play - covering a hidden member |
 | InTrouble | İdman | 31 | in play - covering a hidden member |
 | Kozoom TV | İdman | 32 | in play - covering a hidden member |
 | KTV Sport | İdman | 33 | in play - covering a hidden member |
 | Monster Jam | İdman | 35 | in play - covering a hidden member |
 | Nautical Channel | İdman | 36 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 38 | in play - covering a hidden member |
 | PFL MMA | İdman | 40 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
-| Smithsonian Channel Selects | Sənədli | 4 | in play - covering a hidden member |
+| Smithsonian Channel Selects | Sənədli | 4 | streamless - 403 forbidden |
 | Curiosity NOW | Sənədli | 5 | in play - covering a hidden member |
 | Terra Mater WILD | Sənədli | 6 | in play - covering a hidden member |
-| CNA Originals | Sənədli | 7 | ready - no seat needed this run |
-| NHK World-Japan | Sənədli | 8 | ready - no seat needed this run |
+| CNA Originals | Sənədli | 7 | in play - covering a hidden member |
+| NHK World-Japan | Sənədli | 8 | in play - covering a hidden member |
 | WildEarth | Sənədli | 9 | ready - no seat needed this run |
 | RT Documentary | Sənədli | 10 | ready - no seat needed this run |
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+21 more_ | İdman | | _self-curated tail, not shown_ |
+| _+22 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 

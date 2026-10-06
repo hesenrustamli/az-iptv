@@ -3,13 +3,13 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 14
+        "fails": 15
       }
     }
   },
   "watchlist": {
     "http://145.239.5.177/329/index.m3u8": {
-      "fails": 46
+      "fails": 47
     },
     "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7280/index.m3u8": {
       "fails": 0
@@ -66,10 +66,10 @@
       "fails": 2
     },
     "https://tv-trtbelgesel.live.trt.com.tr/master.m3u8": {
-      "fails": 59
+      "fails": 60
     },
     "https://tvpi.travny.workers.dev/tvpsport.m3u8": {
-      "fails": 15
+      "fails": 16
     }
   }
 }
