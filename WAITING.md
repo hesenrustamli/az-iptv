@@ -19,7 +19,7 @@ right now. Every one is re-probed on each run and rejoins
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 2 | 403 forbidden, unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
-| ITV1 | İdman | 1 | 403 forbidden |
+| ITV1 | İdman | 0 | no candidate URLs |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | ORF 1 | İdman | 1 | server error |
@@ -63,11 +63,12 @@ the group itself never change.
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | streamless - 403 forbidden |
-| USA Network | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
-| DD Sports | İdman | 11 | runner-alive, no Baku pass on record (never measured here) |
-| Extreme Sports Channel | İdman | 12 | runner-alive, no Baku pass on record (never measured here) |
-| Fubo Sports Network | İdman | 15 | in play - covering a hidden member |
-| NBC Sports NOW | İdman | 17 | in play - covering a hidden member |
+| DD Sports | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
+| Extreme Sports Channel | İdman | 11 | runner-alive, no Baku pass on record (never measured here) |
+| F1 Channel | İdman | 12 | runner-alive, no Baku pass on record (failed here) |
+| Fubo Sports Network | İdman | 14 | in play - covering a hidden member |
+| NBC Sports NOW | İdman | 16 | in play - covering a hidden member |
+| UDAR | İdman | 22 | in play - covering a hidden member |
 | REV'N Action | İdman | 27 | in play - covering a hidden member |
 | InTrouble | İdman | 31 | in play - covering a hidden member |
 | Kozoom TV | İdman | 32 | in play - covering a hidden member |
@@ -89,7 +90,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+22 more_ | İdman | | _self-curated tail, not shown_ |
+| _+21 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 

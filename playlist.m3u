@@ -23,7 +23,9 @@ https://str2.yodacdn.net/ntv/video.m3u8
 https://tv.gunaz.tv/hls/live.m3u8
 #EXTINF:-1 tvg-id="AzStarTV.ca" tvg-logo="https://i.imgur.com/di3XX5L.png" group-title="Azərbaycan 🇦🇿",Az Star TV (1080p)
 https://live.livestreamtv.ca/azstar/amlst:azstar/playlist.m3u8
-#EXTINF:-1 tvg-id="AzadTV.az" tvg-logo="https://i.imgur.com/rDYSoRL.png" group-title="Azərbaycan 🇦🇿",Azad TV
+#EXTINF:-1 tvg-id="AzadTV.az" tvg-logo="https://i.imgur.com/rDYSoRL.png" group-title="Azərbaycan 🇦🇿",Azad TV (1080p)
+#EXTVLCOPT:http-user-agent=No response
+#EXTVLCOPT:http-referrer=No response
 https://lives.atv.az:5443/ATV_TV_STREAM/streams/atvcanli.m3u8
 #EXTINF:-1 tvg-id="FREEDOM.ua" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/FreeDOMUAlogo.svg/960px-FreeDOMUAlogo.svg.png" group-title="Ukrayna",FREEDOM (1080p)
 https://dash4.antik.sk/live/test_uatv/playlist.m3u8
@@ -110,6 +112,8 @@ https://d36r8jifhgsk5j.cloudfront.net/Willow_TV1080p.m3u8
 https://dnf08l6u6uxnz.cloudfront.net/master.m3u8
 #EXTINF:-1 tvg-id="NBCSportsNOW.us" tvg-logo="https://i.imgur.com/EzNf2Yx.png" group-title="İdman",NBC Sports NOW (1080p)
 https://xumo-xumoent-vc-122-sjv70.fast.nbcuni.com/live/master.m3u8
+#EXTINF:-1 tvg-id="UDAR.ru" tvg-logo="https://mt.media/upload/iblock/2b3/2b3cf99141bf7f99cda377eec62ec084.png" group-title="İdman",UDAR (1080p)
+http://5.188.159.128:8070/udar/index.m3u8
 #EXTINF:-1 tvg-id="REVNAction.us" tvg-logo="https://i.imgur.com/xsm8mMd.png" group-title="İdman",REV'N Action (720p)
 https://freecast-lukentvlive.vgcdn.net/out/v1/a4f31f297fc5440f814bd2cffd77e689/index.m3u8
 #EXTINF:-1 tvg-id="InTrouble.nl" tvg-logo="https://cdn.uc.assets.prezly.com/28ebc4a6-cfda-4bb1-9b9c-14e2c3da67a8/InTrouble_portraitOrange.png" group-title="İdman",InTrouble (1080p)
@@ -181,7 +185,7 @@ https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3
 #EXTINF:-1 tvg-id="NHKWorldJapan.jp" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/PBS_Kids_logo_%282022%29.svg/960px-PBS_Kids_logo_%282022%29.svg.png" group-title="Sənədli",NHK World-Japan (1080p)
 https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8
 #EXTINF:-1 tvg-id="ChannelOne.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/pervyj-hd.png" group-title="· russia",Channel One (576p)
-http://45.153.24.78/1TV/index.m3u8
+http://178.217.49.7/1/index.m3u8
 #EXTINF:-1 tvg-id="Russia1.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/rossiya-1-hd.png" group-title="· russia",russia 1 (1080p)
 https://stream.smotrim.ru/hls2/russia_hd/playlist_6.m3u8
 #EXTINF:-1 tvg-id="NTV.ru" tvg-logo="https://real.su/wp-content/uploads/2019/12/%D0%9D%D0%A2%D0%92_HD-20220826-123641.png" group-title="· russia",NTV (1080p)
