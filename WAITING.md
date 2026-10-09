@@ -22,6 +22,7 @@ right now. Every one is re-probed on each run and rejoins
 | ITV1 | İdman | 0 | no candidate URLs |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
+| Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Nature | Sənədli | 1 | 403 forbidden |
@@ -70,13 +71,13 @@ the group itself never change.
 | NBC Sports NOW | İdman | 16 | in play - covering a hidden member |
 | UDAR | İdman | 22 | in play - covering a hidden member |
 | REV'N Action | İdman | 27 | in play - covering a hidden member |
-| InTrouble | İdman | 31 | in play - covering a hidden member |
-| Kozoom TV | İdman | 32 | in play - covering a hidden member |
-| KTV Sport | İdman | 33 | in play - covering a hidden member |
-| Monster Jam | İdman | 35 | in play - covering a hidden member |
-| Nautical Channel | İdman | 36 | in play - covering a hidden member |
-| Oman Sports TV | İdman | 38 | in play - covering a hidden member |
-| PFL MMA | İdman | 40 | in play - covering a hidden member |
+| InTrouble | İdman | 32 | in play - covering a hidden member |
+| Kozoom TV | İdman | 33 | in play - covering a hidden member |
+| KTV Sport | İdman | 34 | in play - covering a hidden member |
+| Monster Jam | İdman | 36 | in play - covering a hidden member |
+| Nautical Channel | İdman | 37 | in play - covering a hidden member |
+| Oman Sports TV | İdman | 39 | in play - covering a hidden member |
+| PFL MMA | İdman | 41 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
