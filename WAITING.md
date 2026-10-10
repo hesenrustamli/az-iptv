@@ -19,10 +19,8 @@ right now. Every one is re-probed on each run and rejoins
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 2 | 403 forbidden, unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
-| ITV1 | İdman | 0 | no candidate URLs |
 | L'Equipe | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
-| Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Nature | Sənədli | 1 | 403 forbidden |
