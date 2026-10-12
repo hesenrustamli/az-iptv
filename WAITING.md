@@ -18,8 +18,8 @@ right now. Every one is re-probed on each run and rejoins
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
-| ITV1 | İdman | 1 | 404 not found |
 | L'Equipe | İdman | 0 | no candidate URLs |
+| M4 Sport | İdman | 2 | server error |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
@@ -27,7 +27,6 @@ right now. Every one is re-probed on each run and rejoins
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
-| RTP 2 | İdman | 1 | empty response |
 | RTSH Sport | İdman | 1 | unreachable |
 | ServusTV | İdman | 1 | 403 forbidden |
 | SIC | İdman | 1 | 403 forbidden |
@@ -60,7 +59,7 @@ the group itself never change.
 | SKI TV | İdman | 6 | streamless - unreachable |
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
-| Pluto TV Sport | İdman | 9 | streamless - 403 forbidden |
+| Pluto TV Sport | İdman | 9 | streamless - 403 forbidden, 404 not found |
 | DD Sports | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
 | Extreme Sports Channel | İdman | 11 | runner-alive, no Baku pass on record (never measured here) |
 | F1 Channel | İdman | 12 | runner-alive, no Baku pass on record (failed here) |
