@@ -35,6 +35,7 @@ right now. Every one is re-probed on each run and rejoins
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | SuperTennis | İdman | 1 | 403 forbidden |
+| TRT 2 | Türkiyə – Ümumi | 1 | 403 forbidden |
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | TVNET | Xəbər – Türkiyə | 1 | 404 not found |
@@ -59,7 +60,7 @@ the group itself never change.
 | Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
-| DD Sports | İdman | 10 | streamless - 404 not found |
+| DD Sports | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
 | Extreme Sports Channel | İdman | 11 | streamless - 403 forbidden, unreachable |
 | F1 Channel | İdman | 12 | runner-alive, no Baku pass on record (failed here) |
 | Fubo Sports Network | İdman | 13 | in play - covering a hidden member |
