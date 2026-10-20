@@ -20,7 +20,6 @@ right now. Every one is re-probed on each run and rejoins
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
-| ORF 1 | İdman | 1 | server error |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
@@ -36,6 +35,7 @@ right now. Every one is re-probed on each run and rejoins
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | TVNET | Xəbər – Türkiyə | 1 | 404 not found |
+| TVP Sport | İdman | 2 | 403 forbidden, unreachable |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
 | Zo'r TV | İdman | 0 | no candidate URLs |
 
