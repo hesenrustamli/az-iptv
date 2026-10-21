@@ -1,6 +1,7 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="AzTV.az" tvg-logo="https://i.imgur.com/snBMMeH.png" group-title="Azərbaycan 🇦🇿",Az TV (1080p)
-https://str.yodacdn.net/azertv/index.m3u8
+#EXTINF:-1 tvg-id="AzTV.az" tvg-logo="https://i.imgur.com/snBMMeH.png" group-title="Azərbaycan 🇦🇿",Az TV
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+http://109.205.166.68/server124/aztv/index3.m3u8?e=1676581573&st=AzGSZjk1DpXY1SLc1m4OvA
 #EXTINF:-1 tvg-id="IctimaiTV.az" tvg-logo="https://i.imgur.com/HzY4VMo.png" group-title="Azərbaycan 🇦🇿",Ictimai TV
 https://live.itv.az/itv.m3u8
 #EXTINF:-1 tvg-id="XezerTV.az" tvg-logo="" group-title="Azərbaycan 🇦🇿",Xezer TV (720p)
@@ -11,14 +12,10 @@ https://cbcsports-live.lg.mncdn.com/cbcsports_live/cbcsports/playlist.m3u8
 https://rtmp.baku.tv/hls/bakutv.m3u8
 #EXTINF:-1 tvg-id="APATv.az" tvg-logo="https://i.imgur.com/2CSW4V4.png" group-title="Azərbaycan 🇦🇿",APA Tv (1080p)
 http://stream.apa.tv/apastream/index.m3u8
-#EXTINF:-1 tvg-id="MedeniyyetTV.az" tvg-logo="https://i.imgur.com/PlvaDIa.png" group-title="Azərbaycan 🇦🇿",Medeniyyet TV (1080p)
-https://str.yodacdn.net/medeniyyettele/index.m3u8
 #EXTINF:-1 tvg-id="KanalS.az" tvg-logo="https://raw.githubusercontent.com/songwenhui239/Songwenhui239/refs/heads/main/Kanal%20S.png" group-title="Azərbaycan 🇦🇿",Kanal S
 https://lives.atv.az:5443/KANAL-S/streams/kanals.m3u8
 #EXTINF:-1 tvg-id="Kanal35.az" tvg-logo="https://live.ntv.az/kanal35.png" group-title="Azərbaycan 🇦🇿",Kanal 35 (720p)
 https://str2.yodacdn.net/kanal35/index.m3u8
-#EXTINF:-1 tvg-id="NaxcivanTV.az" tvg-logo="https://i.imgur.com/8yLFkdE.png" group-title="Azərbaycan 🇦🇿",Naxcivan TV (720p)
-https://str2.yodacdn.net/ntv/video.m3u8
 #EXTINF:-1 tvg-id="GunAzTV.us" tvg-logo="https://i.imgur.com/2ZnQazl.png" group-title="Azərbaycan 🇦🇿",GunAz TV
 https://tv.gunaz.tv/hls/live.m3u8
 #EXTINF:-1 tvg-id="AzStarTV.ca" tvg-logo="https://i.imgur.com/di3XX5L.png" group-title="Azərbaycan 🇦🇿",Az Star TV (1080p)
@@ -194,10 +191,10 @@ https://amg00793-amg00793c6-xumo-us-2669.playouts.now.amagi.tv/BBCStudios-BBCEar
 https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8
 #EXTINF:-1 tvg-id="CuriosityNOW.de" tvg-logo="https://i.imgur.com/gJ9eMaG.png" group-title="Sənədli",Curiosity NOW
 https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8
-#EXTINF:-1 tvg-id="TerraMaterWILD.de" tvg-logo="https://d3b6luslimvglo.cloudfront.net/images/79/rlaxximages/channels-rescaled/icon-white/terramaterwild_white.png" group-title="Sənədli",Terra Mater WILD (1080p)
-https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8
+#EXTINF:-1 tvg-id="CNAOriginals.sg" tvg-logo="https://i.imgur.com/hlFQTrB.png" group-title="Sənədli",CNA Originals (1080p)
+https://amg01082-cna-amg01082c1-rlaxx-us-11304.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="ChannelOne.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/pervyj-hd.png" group-title="· russia",Channel One (576p)
-http://178.217.49.7/1/index.m3u8
+http://45.153.24.78/1TV/index.m3u8
 #EXTINF:-1 tvg-id="Russia1.ru" tvg-logo="https://uut-telecom.ru/wp-content/uploads/2021/12/rossiya-1-hd.png" group-title="· russia",russia 1 (1080p)
 https://stream.smotrim.ru/hls2/russia_hd/playlist_6.m3u8
 #EXTINF:-1 tvg-id="NTV.ru" tvg-logo="https://real.su/wp-content/uploads/2019/12/%D0%9D%D0%A2%D0%92_HD-20220826-123641.png" group-title="· russia",NTV (1080p)
