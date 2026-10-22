@@ -19,6 +19,7 @@ right now. Every one is re-probed on each run and rejoins
 | Football | İdman | 1 | unreachable |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
+| Kanal 35 | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
 | Medeniyyet TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
