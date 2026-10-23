@@ -69,11 +69,11 @@ the group itself never change.
 | Golazo Network | İdman | 25 | in play - covering a hidden member |
 | Pluto TV Competition | İdman | 26 | in play - covering a hidden member |
 | REV'N Action | İdman | 27 | in play - covering a hidden member |
-| InTrouble | İdman | 37 | in play - covering a hidden member |
-| Kozoom TV | İdman | 38 | in play - covering a hidden member |
-| KTV Sport | İdman | 39 | in play - covering a hidden member |
-| Monster Jam | İdman | 41 | in play - covering a hidden member |
-| Nautical Channel | İdman | 42 | in play - covering a hidden member |
+| InTrouble | İdman | 35 | in play - covering a hidden member |
+| Kozoom TV | İdman | 36 | in play - covering a hidden member |
+| KTV Sport | İdman | 37 | in play - covering a hidden member |
+| Monster Jam | İdman | 39 | in play - covering a hidden member |
+| Nautical Channel | İdman | 40 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
