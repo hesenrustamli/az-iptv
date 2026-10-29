@@ -17,7 +17,6 @@ right now. Every one is re-probed on each run and rejoins
 | DW Documentary | Sənədli | 0 | no candidate URLs |
 | Earth Touch TV | Sənədli | 0 | no candidate URLs |
 | Football | İdman | 0 | no candidate URLs |
-| GunAz TV | Azərbaycan 🇦🇿 | 1 | 404 not found |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
 | Kanal 35 | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
@@ -28,7 +27,6 @@ right now. Every one is re-probed on each run and rejoins
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
-| RTP 2 | İdman | 1 | not a manifest |
 | RTSH Sport | İdman | 1 | unreachable |
 | SIC | İdman | 1 | 403 forbidden |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
@@ -58,7 +56,7 @@ the group itself never change.
 | FIFA+ | İdman | 4 | in play - covering a hidden member |
 | FIFA+ Women | İdman | 5 | in play - covering a hidden member |
 | SKI TV | İdman | 6 | streamless - unreachable |
-| Sport | İdman | 7 | streamless - 403 forbidden |
+| Sport | İdman | 7 | streamless - unreachable |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
 | American Ninja Warrior | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
@@ -73,8 +71,7 @@ the group itself never change.
 | InTrouble | İdman | 34 | in play - covering a hidden member |
 | Kozoom TV | İdman | 35 | in play - covering a hidden member |
 | KTV Sport | İdman | 36 | in play - covering a hidden member |
-| Monster Jam | İdman | 38 | in play - covering a hidden member |
-| Nautical Channel | İdman | 39 | in play - covering a hidden member |
+| Monster Jam | İdman | 39 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -88,7 +85,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+21 more_ | İdman | | _self-curated tail, not shown_ |
+| _+22 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
