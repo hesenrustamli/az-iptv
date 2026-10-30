@@ -56,7 +56,7 @@ the group itself never change.
 | FIFA+ | İdman | 4 | in play - covering a hidden member |
 | FIFA+ Women | İdman | 5 | in play - covering a hidden member |
 | SKI TV | İdman | 6 | streamless - unreachable |
-| Sport | İdman | 7 | streamless - unreachable |
+| Sport | İdman | 7 | streamless - 403 forbidden |
 | Willow Sports | İdman | 8 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 9 | in play - covering a hidden member |
 | American Ninja Warrior | İdman | 10 | runner-alive, no Baku pass on record (never measured here) |
@@ -77,7 +77,7 @@ the group itself never change.
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
 | Smithsonian Channel Selects | Sənədli | 4 | in play - covering a hidden member |
 | Curiosity NOW | Sənədli | 5 | in play - covering a hidden member |
-| Terra Mater WILD | Sənədli | 6 | runner-alive, no Baku pass on record (failed here) |
+| Terra Mater WILD | Sənədli | 6 | streamless - unreachable |
 | CNA Originals | Sənədli | 7 | in play - covering a hidden member |
 | NHK World-Japan | Sənədli | 8 | ready - no seat needed this run |
 | WildEarth | Sənədli | 9 | ready - no seat needed this run |
