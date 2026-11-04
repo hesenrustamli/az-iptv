@@ -3,7 +3,7 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 43
+        "fails": 44
       }
     }
   },
@@ -69,7 +69,7 @@
       "fails": 60
     },
     "https://tvpi.travny.workers.dev/tvpsport.m3u8": {
-      "fails": 0
+      "fails": 1
     }
   }
 }
