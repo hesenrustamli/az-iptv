@@ -35,6 +35,7 @@ right now. Every one is re-probed on each run and rejoins
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | SuperTennis | İdman | 1 | 403 forbidden |
+| TRT 2 | Türkiyə – Ümumi | 1 | 403 forbidden |
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | TVNET | Xəbər – Türkiyə | 1 | 404 not found |
