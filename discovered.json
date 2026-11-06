@@ -3,7 +3,7 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 45
+        "fails": 46
       }
     }
   },
@@ -30,6 +30,9 @@
       "fails": 0
     },
     "https://jmp2.uk/plu-5be1c3f9851dd5632e2c91b2.m3u8": {
+      "fails": 0
+    },
+    "https://jmp2.uk/plu-5d4af1803e7983b391d73b13.m3u8": {
       "fails": 0
     },
     "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8": {
@@ -69,7 +72,7 @@
       "fails": 60
     },
     "https://tvpi.travny.workers.dev/tvpsport.m3u8": {
-      "fails": 2
+      "fails": 3
     }
   }
 }
