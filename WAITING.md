@@ -38,7 +38,6 @@ right now. Every one is re-probed on each run and rejoins
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | TVNET | Xəbər – Türkiyə | 1 | 404 not found |
-| TVP Sport | İdman | 1 | 403 forbidden |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
 | Zo'r TV | İdman | 0 | no candidate URLs |
 
@@ -68,11 +67,10 @@ the group itself never change.
 | Golazo Network | İdman | 24 | in play - covering a hidden member |
 | Pluto TV Competition | İdman | 25 | in play - covering a hidden member |
 | REV'N Action | İdman | 26 | in play - covering a hidden member |
-| InTrouble | İdman | 34 | in play - covering a hidden member |
-| Kozoom TV | İdman | 35 | in play - covering a hidden member |
-| KTV Sport | İdman | 36 | in play - covering a hidden member |
-| Monster Jam | İdman | 39 | in play - covering a hidden member |
-| Nautical Channel | İdman | 40 | in play - covering a hidden member |
+| InTrouble | İdman | 35 | in play - covering a hidden member |
+| Kozoom TV | İdman | 36 | in play - covering a hidden member |
+| KTV Sport | İdman | 37 | in play - covering a hidden member |
+| Monster Jam | İdman | 40 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -86,7 +84,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+22 more_ | İdman | | _self-curated tail, not shown_ |
+| _+23 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
