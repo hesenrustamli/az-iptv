@@ -25,7 +25,6 @@ right now. Every one is re-probed on each run and rejoins
 | Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
-| Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
 | RTP 2 | İdman | 1 | empty response |
 | RTSH Sport | İdman | 1 | unreachable |
@@ -37,7 +36,6 @@ right now. Every one is re-probed on each run and rejoins
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | TVNET | Xəbər – Türkiyə | 1 | 404 not found |
-| TVP Sport | İdman | 2 | 403 forbidden, unreachable |
 | Wild Nature | Sənədli | 0 | no candidate URLs |
 | Zo'r TV | İdman | 0 | no candidate URLs |
 
@@ -70,8 +68,6 @@ the group itself never change.
 | InTrouble | İdman | 35 | in play - covering a hidden member |
 | Kozoom TV | İdman | 36 | in play - covering a hidden member |
 | KTV Sport | İdman | 37 | in play - covering a hidden member |
-| Monster Jam | İdman | 40 | in play - covering a hidden member |
-| Nautical Channel | İdman | 41 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -85,7 +81,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+22 more_ | İdman | | _self-curated tail, not shown_ |
+| _+24 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
