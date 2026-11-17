@@ -10,7 +10,6 @@ right now. Every one is re-probed on each run and rejoins
 | ARB | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB 24 | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB Gunes | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| BBC One | İdman | 49 | 403 forbidden |
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
 | DHA | Xəbər – Türkiyə | 1 | unreachable |
@@ -25,12 +24,11 @@ right now. Every one is re-probed on each run and rejoins
 | Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
+| Rai Sport | İdman | 1 | server error |
 | RTE2 | İdman | 0 | no candidate URLs |
-| RTP 2 | İdman | 1 | empty response |
 | RTSH Sport | İdman | 1 | unreachable |
 | SIC | İdman | 1 | 403 forbidden |
 | Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| Sport1 | İdman | 0 | no candidate URLs |
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | TRT 2 | Türkiyə – Ümumi | 1 | 403 forbidden |
@@ -69,8 +67,6 @@ the group itself never change.
 | REV'N Action | İdman | 26 | in play - covering a hidden member |
 | InTrouble | İdman | 35 | in play - covering a hidden member |
 | Kozoom TV | İdman | 36 | in play - covering a hidden member |
-| KTV Sport | İdman | 37 | in play - covering a hidden member |
-| Monster Jam | İdman | 40 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -84,7 +80,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+23 more_ | İdman | | _self-curated tail, not shown_ |
+| _+25 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
