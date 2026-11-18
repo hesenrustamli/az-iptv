@@ -6,7 +6,7 @@ right now. Every one is re-probed on each run and rejoins
 
 | Channel | Group | Candidates tried | Result |
 | --- | --- | --- | --- |
-| AnewZ TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
+| AnewZ TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB 24 | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB Gunes | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
@@ -18,13 +18,13 @@ right now. Every one is re-probed on each run and rejoins
 | Football | İdman | 0 | no candidate URLs |
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
-| Kanal 35 | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
-| Medeniyyet TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
+| Kanal 35 | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
+| Medeniyyet TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | MTRK Sport | İdman | 0 | no candidate URLs |
-| Naxcivan TV | Azərbaycan 🇦🇿 | 1 | 403 forbidden |
+| Naxcivan TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
-| Rai Sport | İdman | 1 | server error |
+| Rai Sport | İdman | 1 | 404 not found |
 | RTE2 | İdman | 0 | no candidate URLs |
 | RTSH Sport | İdman | 1 | unreachable |
 | SIC | İdman | 1 | 403 forbidden |
