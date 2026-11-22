@@ -3,7 +3,7 @@
     "VavTV.tr": {
       "https://trkvz-live.ercdn.net/vavtv/vavtv.m3u8": {
         "page": "https://www.vavtv.com.tr/canli-yayin",
-        "fails": 1
+        "fails": 2
       }
     }
   },
@@ -36,7 +36,7 @@
       "fails": 0
     },
     "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8": {
-      "fails": 10
+      "fails": 11
     },
     "https://live.duhnet.tv/S2/HLS_LIVE/cnnturknp/playlist.m3u8": {
       "fails": 60
