@@ -6,9 +6,8 @@ right now. Every one is re-probed on each run and rejoins
 
 | Channel | Group | Candidates tried | Result |
 | --- | --- | --- | --- |
-| AnewZ TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| ARB Gunes | Azərbaycan 🇦🇿 | 1 | unreachable |
+| ARB Gunes | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
 | DHA | Xəbər – Türkiyə | 1 | unreachable |
@@ -18,17 +17,17 @@ right now. Every one is re-probed on each run and rejoins
 | Idman TV | Azərbaycan 🇦🇿; İdman | 0 | no candidate URLs |
 | ITV1 | İdman | 0 | no candidate URLs |
 | Kanal 35 | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| Medeniyyet TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
+| Medeniyyet TV | Azərbaycan 🇦🇿 | 1 | unreachable |
 | MTRK Sport | İdman | 0 | no candidate URLs |
 | Naxcivan TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
+| QazSport | İdman | 1 | not a manifest |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
 | RTP 2 | İdman | 1 | 404 not found |
 | RTSH Sport | İdman | 1 | unreachable |
 | SIC | İdman | 1 | 403 forbidden |
-| Space TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | SuperTennis | İdman | 2 | 403 forbidden, 404 not found |
@@ -67,6 +66,7 @@ the group itself never change.
 | InTrouble | İdman | 35 | in play - covering a hidden member |
 | Kozoom TV | İdman | 36 | in play - covering a hidden member |
 | KTV Sport | İdman | 37 | in play - covering a hidden member |
+| Monster Jam | İdman | 40 | in play - covering a hidden member |
 | TGRT Belgesel | Sənədli | 1 | streamless - all known streams blocklisted |
 | DMAX | Sənədli | 2 | streamless - no candidate URLs |
 | BBC Earth | Sənədli | 3 | in play - covering a hidden member |
@@ -80,7 +80,7 @@ the group itself never change.
 | WaterBear | Sənədli | 11 | ready - no seat needed this run |
 | Love The Planet | Sənədli | 12 | ready - no seat needed this run |
 | _+27 more_ | Sənədli | | _self-curated tail, not shown_ |
-| _+24 more_ | İdman | | _self-curated tail, not shown_ |
+| _+23 more_ | İdman | | _self-curated tail, not shown_ |
 
 ## Alternates found
 
