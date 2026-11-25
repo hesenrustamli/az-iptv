@@ -22,11 +22,11 @@ right now. Every one is re-probed on each run and rejoins
 | Naxcivan TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | Plex Documentary | Sənədli | 0 | no candidate URLs |
 | Pluto TV Sports | İdman | 0 | no candidate URLs |
-| QazSport | İdman | 1 | not a manifest |
 | Rai Sport | İdman | 0 | no candidate URLs |
 | RTE2 | İdman | 0 | no candidate URLs |
 | RTP 2 | İdman | 1 | 404 not found |
 | RTSH Sport | İdman | 1 | unreachable |
+| ServusTV | İdman | 2 | 403 forbidden, 404 not found |
 | SIC | İdman | 1 | 403 forbidden |
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
