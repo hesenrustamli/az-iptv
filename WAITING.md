@@ -8,6 +8,7 @@ right now. Every one is re-probed on each run and rejoins
 | --- | --- | --- | --- |
 | ARB | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB Gunes | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
+| ATV | Türkiyə – Ümumi | 1 | unreachable |
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
 | DHA | Xəbər – Türkiyə | 1 | unreachable |
@@ -31,6 +32,7 @@ right now. Every one is re-probed on each run and rejoins
 | Sportdigital FUSSBALL | İdman | 0 | no candidate URLs |
 | Start TV | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | SuperTennis | İdman | 2 | 403 forbidden, 404 not found |
+| TRT 2 | Türkiyə – Ümumi | 1 | 403 forbidden |
 | TRT Spor | İdman | 1 | unreachable |
 | TV 8.5 | Türkiyə – Ümumi | 0 | no candidate URLs |
 | TVNET | Xəbər – Türkiyə | 1 | 404 not found |
@@ -56,7 +58,7 @@ the group itself never change.
 | Sport | İdman | 8 | streamless - 403 forbidden |
 | Willow Sports | İdman | 9 | in play - covering a hidden member |
 | Pluto TV Sport | İdman | 10 | in play - covering a hidden member |
-| Golf Channel | İdman | 11 | runner-alive, no Baku pass on record (never measured here) |
+| Golf Channel | İdman | 11 | streamless - 404 not found |
 | American Ninja Warrior | İdman | 12 | runner-alive, no Baku pass on record (never measured here) |
 | Fubo Sports Network | İdman | 17 | in play - covering a hidden member |
 | NBC Sports NOW | İdman | 19 | in play - covering a hidden member |
