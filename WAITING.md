@@ -8,7 +8,6 @@ right now. Every one is re-probed on each run and rejoins
 | --- | --- | --- | --- |
 | ARB | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
 | ARB Gunes | Azərbaycan 🇦🇿 | 0 | no candidate URLs |
-| ATV | Türkiyə – Ümumi | 1 | unreachable |
 | Beyaz TV | Türkiyə – Ümumi | 0 | all known streams blocklisted |
 | Canal 11 | İdman | 0 | no candidate URLs |
 | DHA | Xəbər – Türkiyə | 1 | unreachable |
